@@ -76,7 +76,7 @@ switch field
         
     case 'display'
         
-        display_list = {'planar','LG3D','LG3DLR','laptop'};
+        display_list = {'planar','LG3D','LG3DLR','LG3DRB','laptop'};
         
         if ~isstr(dat.display)
             display_num = dat.display;

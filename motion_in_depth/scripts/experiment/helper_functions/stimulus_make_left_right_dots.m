@@ -1,4 +1,4 @@
-function [dotsLE,dotsRE] = stimulus_make_left_right_dots(dat,stm,condition)
+function [dotsLE,dotsRE] = stimulus_make_left_right_dots(dat,scr,stm,condition)
 
 switch condition
     
@@ -11,11 +11,11 @@ switch condition
         
         [dotsLE] = stimulus_make_random_dots(stm.dotSizePix,stm.xmax,stm.ymax,stm.numDots);
         [dotsRE] = stimulus_make_random_dots(stm.dotSizePix,stm.xmax,stm.ymax,stm.numDots);
-
-     case 'Mixed'         % for Mixed, first 1/2 are correlated, 2nd half uncorrelated
+        
+    case 'Mixed'         % for Mixed, first 1/2 are correlated, 2nd half uncorrelated
         
         [dots1]     = stimulus_make_random_dots(stm.dotSizePix,stm.xmax,stm.ymax,round(stm.numDots/2));
-         
+        
         [dotsLE2]   = stimulus_make_random_dots(stm.dotSizePix,stm.xmax,stm.ymax,round(stm.numDots/2));
         [dotsRE2]   = stimulus_make_random_dots(stm.dotSizePix,stm.xmax,stm.ymax,round(stm.numDots/2));
         
@@ -31,6 +31,4 @@ switch condition
         
 end
 
-if strcmp(dat.display,'planar') %planar has mirror reversal
-    dotsRE(1,:) = -dotsRE(1,:);
-end
+dotsRE(1,:) = scr.signRight.*dotsRE(1,:); % deal with mirror reversal

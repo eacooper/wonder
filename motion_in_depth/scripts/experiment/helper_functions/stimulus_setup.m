@@ -5,21 +5,21 @@ function [dat,scr,stm] = setup_stimulus(dat,scr)
 %  STIMULUS - PRIMARY  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % dot field properties
-dat.stimRadDeg      = 17.5;             % stimulus field diameter
+dat.stimRadDeg      = 10;               % stimulus field diameter
 dat.dispArcmin      = 90;               % disparity magnitude
 
 dat.dotSizeDeg      = 0.25;             % diameter of each dot
 dat.dotDensity      = 2;                % dots per degree2
 dat.dotUpdateHz     = 20;               % dot update rate
 
-dat.preludeSec      = 0.5;              % delay before motion onset
+dat.preludeSec      = 0.25;             % delay before motion onset
 dat.cycleSec        = 1;                % duration of one direction, so 2* = full cycle duration for a step-ramp
 dat.numCycles       = 1;                % total cycles, more than 1 for periodic stim
 
 % conditions
 dat.condition_types = {'IOVD','CDOT','FullCue','Mixed','SingleDot'};    % stimulus types
 dat.conditions      = [1 2 3 4 5];
-dat.direction_types = {'towards','away','left','right'};                % initial motion direction
+dat.direction_types = {'away','towards','left','right'};                % initial motion direction
 dat.directions      = [1 2 3 4];
 dat.cond_repeats    = 1;                                                % number of repeats per condition
 
@@ -51,7 +51,7 @@ stm.blevel = 0;         % black
 
 switch scr.display
     
-    case {'planar','laptopRB'}                                 % planar uses blue-left, red-right
+    case {'planar','laptopRB','LG3DRB'}                        % planar uses blue-left, red-right
         
         stm.LEwhite = [stm.glevel stm.glevel stm.wlevel];
         stm.LEblack = [stm.glevel stm.glevel stm.blevel];
@@ -72,13 +72,13 @@ end
 stm.dispPix         = dat.dispArcmin./scr.pix2arcmin;               % step/ramp full disparity in pixels
 stm.stimRadPix      = round((60*dat.stimRadDeg)/scr.pix2arcmin);    % dot field radius in pixels
 stm.stimRadSqPix    = stm.stimRadPix^2;                             % square it now to save time later
-stm.dotSizePix      = (dat.dotSizeDeg/60)/scr.pix2arcmin;           % dot diameter in pixels
+stm.dotSizePix      = (dat.dotSizeDeg*60)/scr.pix2arcmin;           % dot diameter in pixels
 
 stm.xmax            = 4*stm.stimRadPix;                             % full x field of dots before circle crop
 stm.ymax            = 4*stm.stimRadPix;                             % fill y field of dots before circle crop
 
-stm.numDots = dat.dotDensity*(  stm.xmax*(scr.pix2arcmin/60) * ...  % convert dot density to number of dots for PTB
-    stm.ymax*(scr.pix2arcmin/60) );
+stm.numDots = round( dat.dotDensity*(  stm.xmax*(scr.pix2arcmin/60) * ...  % convert dot density to number of dots for PTB
+    stm.ymax*(scr.pix2arcmin/60) ) );
 
 
 %  TIMING  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -91,9 +91,12 @@ stm.dotRepeats		= round(scr.frameRate/dat.dotUpdateHz);             % number of 
 dat.dotUpdateHz     = scr.frameRate/stm.dotRepeats;                     % true dot update rate is even multiple of frame rate
 stm.numUpdates      = 1+round(dat.dotUpdateHz*dat.cycleSec);            % number of times the stimulus is updated in a cycle
 
-stm.dynamics.step       = [0 repmat(stm.dispPix,1,stm.numUpdates-1)];   % set up step disparity updates
-stm.dynamics.ramp       = linspace(0,stm.dispPix,stm.numUpdates);       % set up ramp disparity updates
-stm.dynamics.stepramp   = [ 0 fliplr(stm.dynamics.ramp)];
+stm.preludeUpdates  = round(dat.dotUpdateHz*dat.preludeSec);
+
+
+stm.dynamics.step       = [ zeros(1,stm.preludeUpdates) repmat(stm.dispPix,1,stm.numUpdates)];   % set up step disparity updates
+stm.dynamics.ramp       = [ zeros(1,stm.preludeUpdates) linspace(stm.dispPix/stm.numUpdates,stm.dispPix,stm.numUpdates)];       % set up ramp disparity updates
+stm.dynamics.stepramp   = [ zeros(1,stm.preludeUpdates) fliplr(stm.dynamics.ramp)];
 
 
 %  FIXATION  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -163,5 +166,6 @@ s = (1:n) / sf;             % sound data preparation
 s = sin(2 * pi * cf * s);   % sinusoidal modulation
 stm.sound.sFeedback = s;
 stm.sound.sfFeedback = sf;
+
 
 

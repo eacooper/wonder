@@ -28,21 +28,23 @@ try
     [dat,keys]         = keys_setup(dat);           % key responses
     
     eyelink_init_connection(dat.recording);         % if recording, initialize the connection to Eyelink
-
+    
     
     % SET UP EXPERIMENT STIMULUS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     [dat,scr,stm]          = stimulus_setup(dat,scr);
-
+    
     
     % DRAW INTRO SCREEN %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     screen_draw_intro(el,scr,w)     % static screen
     keys_wait(keys)                 % experimentor starts C/V by hitting space bar
-    WaitSecs(0.25);                 
+    WaitSecs(0.25);
     
-
+    
     % CALIBRATE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Working properly relies on having the correct settings in the
+    % LASTRUN.INI file
     % if this breaks, you may need to open ET computer in Windows, copy the
     % old LASTRUN_XXX.INI file into the main last run file and restart the
     % tracker
@@ -63,150 +65,61 @@ try
         condition       = cell2mat(dat.condition_types(dat.trials.condition(trial)));   % condition
         dynamics        = cell2mat(dat.dynamics_types(dat.trials.dynamics(trial)));     % dynamics
         direction       = cell2mat(dat.direction_types(dat.trials.direction(trial)));   % towards, away, left, right
-        isDown          = 0;                                                            % initialize with no response
         
-        display([condition ' ... direction = ' direction]);
+        display([condition ' ' dynamics ' ... direction = ' direction]);
+        
         
         %pre-generate stimulus frames for this trial
-        [dotsLE,dotsRE] = stimulus_pregenerate_trial(dat,stm,condition,dynamics,direction);
-        
-        % PRETRIAL STIM - FIXATION NONIUS & STATIC DOTS %%%%%%%%%%%%%%%%%%%
-        
-        % nonius
-        stimulus_draw_fixation(w,scr,dat,stm)
-        
-        %Just static, correlated dots so screen lum doesn't suddenly change
-        if condition ~= 4 && condition ~= 8
-            Screen('DrawDots', window, dotsLEcr{1}, dat.dotSizePix, dat.LEwhite, [dat.screenLeftXCenterPix  dat.screenLeftYCenterPix], 0);
-            
-            if strcmp(scr,'Planar')
-                tmpDots = dotsLEcr{1}; tmpDots(1,:) = -tmpDots(1,:);
-                Screen('DrawDots', window, tmpDots, dat.dotSizePix, dat.REwhite, [dat.screenRightXCenterPix dat.screenRightYCenterPix], 0);
-            else
-                Screen('DrawDots', window, dotsLEcr{1}, dat.dotSizePix, dat.REwhite, [dat.screenRightXCenterPix dat.screenRightYCenterPix], 0);
-            end
-            
-        end
+        [dotsLE,dotsRE] = stimulus_pregenerate_trial(dat,scr,stm,condition,dynamics,direction);
         
         
-        Screen('Flip', window);
+        % static fixation pattern before stimuls
+        stimulus_draw_fixation(w,scr,dat,stm)                   % nonius
+        stimulus_draw_correlated_dots(w,scr,dat,stm,condition)  % dots (no dots if this is single dot condition)
+        Screen('Flip', w);
         
-        %subject starts trials
-        %clear KbWait;
-        %KbWait(-3);
-        waitForKeyRamp(keys)
         
-        % add a little random delay
-        delayTime = randi([150 300])./1000;
+        % wait for trial to start
+        keys_wait(keys)                                         % subject starts trials
+        delayTime = randi([150 300])./1000;                     % add a little random delay
         dat.trials.delayTimeSec(trial) = delayTime;
+        eyelink_start_recording(dat,delayTime,...
+                            condition,dynamics,direction,trial) % start recording eye position, record a few samples, send start flag
+        WaitSecs(dat.preludeSec);                               % keep fixation on screen for prelude duration
         
-        % start recording eye position
-        if recording
-            Eyelink('StartRecording');
-            % record a few samples before we actually start displaying
-            WaitSecs(delayTime);
-            % mark zero-plot time in data file
-            Eyelink('Message', ['SYNCTIME ' num2str(condition) ' ' num2str(trial)]);
-        else
-            WaitSecs(delayTime);
+        % show trials
+        stimulus_draw_trial(w,trial,dotsLE,dotsRE,dat,stm,scr)
+        
+        
+        % clear screen at end
+        stimulus_draw_end_screen(w,stm,scr);
+        
+        
+        % get subject responses
+        while keys.isDown == 0
+            [dat,keys] = keys_get_response(keys,dat,stm,trial,direction);
         end
         
-        % keep fixation on screen for prelude duration
-        WaitSecs(dat.preludeSec);
         
-        
-        % SHOW RAMP STIMULUS  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        
-        %if trainingSound
-        %	sound(dat.s, dat.sf);
-        %end
-        
-        frind = 1; %frame index
-        fall = length(dat.allStepsPix); %total number of frames
-        tStart = GetSecs;
-        
-        tic
-        while(frind <= fall)
-            
-            for xr = 1:dat.dotRepeats
-                
-                %grab button press
-                %[dat] = getResponseRamp(keys,dat,frind,trial);
-                
-                % nonius
-                %DrawFixationRamp(window,scr,dat,fixationDisp(frind))
-                
-                % update dots
-                Screen('DrawDots', window, dotsLEcr{frind}, dat.dotSizePix, dat.LEwhite, [dat.screenLeftXCenterPix  dat.screenLeftYCenterPix], 0);
-                Screen('DrawDots', window, dotsREcr{frind}, dat.dotSizePix, dat.REwhite, [dat.screenRightXCenterPix dat.screenRightYCenterPix], 0);
-                
-                %[VBLTimestamp tStart StimulusOffsetTime Missed Beampos] = Screen('Flip', window, tStart+dat.dotUpdateSec);
-                [VBLTimestamp tStart StimulusOffsetTime Missed Beampos] = Screen('Flip',window);
-                
-                
-            end
-            %WaitSecs(dat.dotUpdateSec/2);
-            frind = frind + 1;
-            
-            
-        end
-        toc
-        
-        
-        
-        % STATIC END FRAME %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        
-        % nonius
-        %DrawFixationRamp(window,scr,dat,[0])
-        
-        % update dots
-        Screen('DrawDots', window, dotsLEcr{frind-1}, dat.dotSizePix, dat.LEwhite, [dat.screenLeftXCenterPix  dat.screenLeftYCenterPix], 0);
-        Screen('DrawDots', window, dotsREcr{frind-1}, dat.dotSizePix, dat.REwhite, [dat.screenRightXCenterPix dat.screenRightYCenterPix], 0);
-        
-        Screen('Flip', window);
-        
-        % keep fixation on screen for prelude duration
-        WaitSecs(dat.preludeSec);
-        
-        %clear for next trial
-        
-        % nonius
-        %DrawFixationRamp(window,scr,dat,[0])
-        Screen('Flip', window);
-        WaitSecs(0.2);
-        
-        if recording
-            Eyelink('Message', 'STOPTIME');
-            Eyelink('StopRecording');
-            %Eyelink('CloseFile');
-        end
-        
-        %grab button press - left, right, towards, away
-        [width, height]=Screen('WindowSize', window);
-        Screen('DrawText', window, 'Respond now', width/2 - 25, height/2 - 50, [0 255 255]);
-        Screen('Flip', window);
-        
-        while dat.isDown == 0
-            [dat] = getResponseRamp(keys,dat,trial);
-        end
+        % stop recording
+        eyelink_end_recording(dat,condition,dynamics,direction,trial)
         
     end
     
-    % %aggregaet structures
+    % aggregate data structures
+    dat.keys            = keys;
     dat.display_info    = scr;
     dat.stim_info       = stm;
-        
-    if recording
-        
-        Screen('DrawText', window, 'Done', width/2 - 25, height/2 - 50, [0 255 255]);
-        Screen('Flip', window);
-        
+    
+    Screen('DrawText', w, 'Done', scr.x_center_pix_right - 25, scr.y_center_pix_right - 50, scr.REwhite);
+    Screen('DrawText', w, 'Done', scr.x_center_pix_left - 25, scr.y_center_pix_left - 50, scr.LEwhite);
+    Screen('Flip', w);
+    
+    if dat.recording
         Eyelink('CloseFile');
-        %save data
-        
-        transfer_file(dat,'tmp.edf',['_all_'])
+        transfer_file(dat,'tmp.edf','_all_')
     else
-        transfer_file(dat,[],['_all_'])
+        transfer_file(dat,[],'_all_')
     end
     
     cleanup;
@@ -220,18 +133,14 @@ catch myerr
     myerr.message
     myerr.stack.line
     
-end %try..catch.
+end 
 
 
 % Cleanup routine:
 function cleanup
-% Shutdown Eyelink:
-Eyelink('Shutdown');
 
-% Close window:
-sca;
-
-% Restore keyboard output to Matlab:
-ListenChar(0);
+Eyelink('Shutdown');    % Shutdown Eyelink:
+sca;                    % Close window:
+ListenChar(0);          % Restore keyboard output to Matlab:
 
 

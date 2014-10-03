@@ -20,14 +20,10 @@ while ~keyCode(keys.esc) && ~keyCode(keys.space) && ~goBn
 end
 
 if keyCode(keys.esc)
-	% Shutdown Eyelink:
-	Eyelink('Shutdown');
 	
-	% Close window:
-	sca;
-	
-	% Restore keyboard output to Matlab:
-	ListenChar(0);
+	Eyelink('Shutdown');% Shutdown Eyelink:
+	sca;                % Close window:
+	ListenChar(0);      % Restore keyboard output to Matlab:
 	commandwindow;
 end
 

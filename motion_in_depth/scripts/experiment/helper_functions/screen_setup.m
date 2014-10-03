@@ -1,11 +1,11 @@
-function [scr, w, winRect] = setup_screen(scr)
+function [scr, w, winRect] = screen_setup(scr)
 %
 % open and set up PTB screen window
 
 scr.screenNumber = max(Screen('Screens'));      % Use max screen number
 PsychImaging('PrepareConfiguration');       % Prepare pipeline for configuration.
 
-if strcmp(scr.display,'laptop')
+if scr.skipSync
     Screen('Preference', 'SkipSyncTests', 1);
 else
     Screen('Preference', 'SkipSyncTests', 0);

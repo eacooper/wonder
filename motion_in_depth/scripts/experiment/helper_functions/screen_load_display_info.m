@@ -22,6 +22,9 @@ if strcmp(dat.display,'OLEDhaplo')
     
     scr.topbottom         = 0;                            % does this display take top/bottom stereo format
     
+    scr.skipSync            = 0;
+    scr.signRight = 1;
+    
 elseif strcmp(dat.display,'laptop')
     
     scr.viewDistCm        = 50;
@@ -36,6 +39,9 @@ elseif strcmp(dat.display,'laptop')
     scr.stimCenterYCm     = 0;
     
     scr.topbottom         = 0;
+    
+    scr.skipSync          = 1;
+    scr.signRight = 1;
     
 elseif strcmp(dat.display,'laptopRB')
     
@@ -52,6 +58,9 @@ elseif strcmp(dat.display,'laptopRB')
     
     scr.topbottom         = 0;
     
+    scr.skipSync            = 1;
+    scr.signRight = 1;
+    
 elseif strcmp(dat.display,'planar')
     
     scr.viewDistCm        = 50;
@@ -67,6 +76,9 @@ elseif strcmp(dat.display,'planar')
     scr.stimCenterYCm     = 0;
     
     scr.topbottom         = 0;
+    
+    scr.skipSync            = 0;
+    scr.signRight = -1;             % displays are mirrored so flip the right image
     
     display('Make Sure Planar is in Native Resolution (1600 x 1200 with blue bands)');
     KbWait;
@@ -85,8 +97,29 @@ elseif strcmp(dat.display,'LG3D')
     scr.stimCenterYCm     = 0;
     
     scr.topbottom         = 1;
+    
+    scr.skipSync            = 1;
+    scr.signRight = 1;
 
-    elseif strcmp(dat.display,'LG3DLR')
+elseif strcmp(dat.display,'LG3DRB')
+    
+    scr.viewDistCm        = 80;
+    
+    scr.width_cm     = 50.92;
+    scr.height_cm    = 28.64;
+
+    scr.loadDistortion    = 0; 
+    scr.snellShiftPix     = 0;
+    
+    scr.prismShiftCm      = 0;
+    scr.stimCenterYCm     = 0;
+    
+    scr.topbottom         = 0;
+    
+    scr.skipSync            = 1;
+    scr.signRight = 1;
+    
+elseif strcmp(dat.display,'LG3DLR')
     
     scr.viewDistCm        = 80;
     
@@ -100,6 +133,9 @@ elseif strcmp(dat.display,'LG3D')
     scr.stimCenterYCm     = 0;
     
     scr.topbottom         = 0;
+    
+    scr.skipSync            = 1;
+    scr.signRight = 1;
     
 elseif strcmp(dat.display,'Bravia')
     
@@ -115,4 +151,7 @@ elseif strcmp(dat.display,'Bravia')
     scr.stimCenterYCm     = 0;
     
     scr.topbottom         = 1;
+    
+    scr.skipSync            = 0;
+    scr.signRight = 1;
 end
