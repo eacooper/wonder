@@ -1,4 +1,4 @@
-function dat = default
+function [dat,scr] = default
 %
 % this function stores the settings for motion in depth experiments. copy
 % and rename to design a new experiment, or use the gui opened by
@@ -8,7 +8,7 @@ function dat = default
 dat.subj = 'junk';
 
 % display
-dat.display = 'LG3DRB';
+scr.display = 'LG3DRB';
 
 % using eyelink to record (1) or not (0)
 dat.recording = 0;
