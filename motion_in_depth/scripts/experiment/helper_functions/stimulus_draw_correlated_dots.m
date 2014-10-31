@@ -1,9 +1,11 @@
-function stimulus_draw_correlated_dots(w,scr,dat,stm,condition)  % dots
+function stimulus_draw_correlated_dots(w,scr,dat,stm,condition,dotsLE,dotsRE)  % dots
 
 %Just static, correlated dots so screen lum doesn't suddenly change
 switch condition
     
+    
     case {'IOVD','CDOT','Mixed','FullCue'}
+        
         
         [dotsLE,dotsRE] = stimulus_make_left_right_dots(dat,scr,stm,'FullCue'); % first frame dots
         

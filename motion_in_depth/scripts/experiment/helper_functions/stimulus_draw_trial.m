@@ -7,7 +7,7 @@ if dat.training; sound(stm.sound.s, stm.sound.sf); end
 uind   = 1;                        % stimulus update index
 tStart  = GetSecs;                 % trial start time
 
-while(uind <= stm.numUpdates)
+while(uind <= size(dotsLE,2))
     
     for r = 1:stm.dotRepeats
         
@@ -17,12 +17,13 @@ while(uind <= stm.numUpdates)
         
         Screen('Flip',w);
         
-        
     end
     
     uind = uind + 1;        % increment update counter
     
 end
+
+
 
 % store trial timing info
 dat.trials.durationSec(trial) = GetSecs - tStart;

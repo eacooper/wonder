@@ -1,8 +1,8 @@
 function dat = make_data_dirs(dat)
 
 %make data dirs
-dat.data_track_dir  = ['../../data/tracking/' dat.subj '/'];
-dat.data_stim_dir   = ['../../data/stimulus/' dat.subj '/'];
+dat.data_track_dir  = ['../../data/tracking/' dat.subj '/' dat.exp_name '/'];
+dat.data_stim_dir   = ['../../data/stimulus/' dat.subj '/' dat.exp_name '/'];
 
 if ~exist(dat.data_track_dir, 'dir')
     mkdir(dat.data_track_dir);

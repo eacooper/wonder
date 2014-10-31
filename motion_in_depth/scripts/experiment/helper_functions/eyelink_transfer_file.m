@@ -1,5 +1,8 @@
-function transfer_file(dat,edfFile,fileStr)
+function eyelink_transfer_file(dat,edfFile,fileStr)
 
+
+timeNow = datestr(clock,'mm_dd_yy_HHMMSS');
+    
 if ~isempty(edfFile)
     try
         fprintf('Receiving data file ''%s''\n', edfFile );
@@ -18,7 +21,6 @@ if ~isempty(edfFile)
     end
     
     %move and convert file
-    timeNow = datestr(clock,'mm_dd_yy_HHMMSS');
     filename = [dat.data_track_dir dat.subj fileStr timeNow '.edf'];
     movefile(edfFile,filename)
     command = ['/Applications/EyeLink/edfapi\ universal/edf2asc -sh ' filename];

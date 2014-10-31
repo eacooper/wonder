@@ -21,10 +21,8 @@ end
 
 if keyCode(keys.esc)
 	
-	Eyelink('Shutdown');% Shutdown Eyelink:
-	sca;                % Close window:
-	ListenChar(0);      % Restore keyboard output to Matlab:
-	commandwindow;
+	cleanup;
+    
 end
 
 while keyIsDown || goBn

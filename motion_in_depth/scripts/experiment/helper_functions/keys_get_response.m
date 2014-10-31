@@ -1,5 +1,9 @@
 function [dat,keys] = keys_get_response(keys,dat,stm,trial,direction)
+%
+%
 
+resps = {'away','towards','left','right'};
+    
 if ~isempty(GetGamepadIndices)
     
     resp(1) = Gamepad('GetButton', 1, keys.away);
@@ -20,16 +24,14 @@ end
 
 if sum(resp) == 1 && keys.isDown == 0
     
-    keyboard
-    
-    display(['Response is ... ' dat.direction_types{logical(resp)}]);
+    display(['Response is ... ' resps{logical(resp)}]);
 
-    dat.trials.resp{trial} = dat.direction_types{logical(resp)};
+    dat.trials.resp{trial} = resps{logical(resp)};
     dat.trials.respCode(trial) = find(resp);
     keys.isDown = 1;
     
     %is response correct?
-    if strcmp(dat.trials.resp(trial),direction)
+    if strcmp(dat.trials.resp{trial},direction)
         
         display(['...Correct']);
         
@@ -45,6 +47,11 @@ if sum(resp) == 1 && keys.isDown == 0
         display(['...Wrong']);
     end
     
+elseif keyCode(keys.esc)
+	
+    cleanup;
+    keys.isDown = 1;
+
 elseif sum(resp) == 0
     
     keys.isDown = 0;

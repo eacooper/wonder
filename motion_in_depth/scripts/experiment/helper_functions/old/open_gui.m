@@ -1,4 +1,4 @@
-function [dat,scr] = open_gui
+function dat = open_gui(settings)
 %
 % gui for loading and setting motion in depth experiment
 
@@ -6,15 +6,18 @@ function [dat,scr] = open_gui
 dspl = displays;
 
 % load in experiment settings
-[dat,scr] = default;
+if isempty(settings)
+    dat     = default;
+else
+    %func    = str2func(settings{1});
+    dat     = eval(settings{1});
+end
 
 %  Create and then hide the GUI as it is being constructed.
 sz = [360,500,500,500];
 marg = 30;
 f = figure('Visible','off','Position',sz);
 
-
-%  Construct the components
 
 % subject initials
 stext = uicontrol('Style','text','String','Subject',...
@@ -34,7 +37,7 @@ dpopup = uicontrol('Style','popupmenu',...
     'String',{dspl(:).name},...
     'Position',[marg + 60,sz(2) - marg*2,200,25],...
     'Callback',{@display_Callback},...
-    'Value',find(strcmp({dspl(:).name},scr.display)));
+    'Value',find(strcmp({dspl(:).name},dat.display)));
 
 
 align([dtext,dpopup],'None','Top');
@@ -93,7 +96,7 @@ waitfor(f)
         str = get(source, 'String');
         val = get(source,'Value');
         
-        scr.display = str{val};
+        dat.display = str{val};
     end
 
     function subj_Callback(source,eventdata)

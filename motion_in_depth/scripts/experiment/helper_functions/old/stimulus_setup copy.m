@@ -12,19 +12,19 @@ function [dat,scr,stm] = stimulus_setup(dat,scr)
 % dat.dotDensity      = 2;                % dots per degree2
 dat.dotUpdateHz     = 20;               % dot update rate
 
-% dat.preludeSec      = 0.25;             % delay before motion onset
-% dat.cycleSec        = 1;                % duration of one direction, so 2* = full cycle duration for a step-ramp
+%dat.preludeSec      = 0.25;             % delay before motion onset
+%dat.cycleSec        = 1;                % duration of one direction, so 2* = full cycle duration for a step-ramp
 dat.numCycles       = 1;                % total cycles, more than 1 for periodic stim
 
 % conditions
-% dat.condition_types = {'IOVD','CDOT','FullCue','Mixed','SingleDot'};    % stimulus types
-% dat.conditions      = [1 2 3 4 5];
-% dat.directions = {'away','towards','left','right'};                % initial motion direction
-% dat.directions      = [1 2 3 4];
-% dat.cond_repeats    = 1;                                                % number of repeats per condition
+%dat.condition_types = {'IOVD','CDOT','FullCue','Mixed','SingleDot'};    % stimulus types
+%dat.conditions      = [1 2 3 4 5];
+dat.direction_types = {'away','towards','left','right'};                % initial motion direction
+dat.directions      = [1 2 3 4];
+%dat.cond_repeats    = 1;                                                % number of repeats per condition
 
-% dat.dynamics_types   = {'step','ramp','stepramp'};                       % types of stimulus dyanamics
-% dat.dynamics        = [1 2 3];
+%dat.dynamics_types   = {'step','ramp','stepramp'};                       % types of stimulus dyanamics
+%dat.dynamics        = [1 2 3];
 
 
 %  SCREEN  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -94,10 +94,6 @@ stm.numUpdates      = 1+round(dat.dotUpdateHz*dat.cycleSec);            % number
 stm.preludeUpdates  = round(dat.dotUpdateHz*dat.preludeSec);
 
 
-% stm.dynamics.step       = [ zeros(1,stm.preludeUpdates) repmat(stm.dispPix,1,stm.numUpdates)];   % set up step disparity updates
-% stm.dynamics.ramp       = [ zeros(1,stm.preludeUpdates) linspace(stm.dispPix/stm.numUpdates,stm.dispPix,stm.numUpdates)];       % set up ramp disparity updates
-% stm.dynamics.stepramp   = [ zeros(1,stm.preludeUpdates) fliplr(stm.dynamics.ramp)];
-
 stm.dynamics.step       = [ zeros(1,stm.preludeUpdates) repmat(stm.dispPix,1,stm.numUpdates)];   % set up step disparity updates
 stm.dynamics.ramp       = [ zeros(1,stm.preludeUpdates) linspace(stm.dispPix/stm.numUpdates,stm.dispPix,stm.numUpdates)];       % set up ramp disparity updates
 stm.dynamics.stepramp   = [ zeros(1,stm.preludeUpdates) fliplr(stm.dynamics.ramp)];
@@ -121,9 +117,9 @@ stm.fixationRadiusXPix = stm.fixationRadiusPix;
 
 %  TRIAL STRUCTURE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-dat.trials.condition        = {};
-dat.trials.dynamics         = {};
-dat.trials.direction        = {};
+dat.trials.condition        = [];
+dat.trials.dynamics         = [];
+dat.trials.direction        = [];
 dat.trials.repeat           = [];
 
 for c = 1:length(dat.conditions)
@@ -134,9 +130,9 @@ for c = 1:length(dat.conditions)
             
             for r = 1:dat.cond_repeats
                 
-                dat.trials.condition    = [dat.trials.condition ; dat.conditions{c}];
-                dat.trials.dynamics     = [dat.trials.dynamics ; dat.dynamics{d}];
-                dat.trials.direction    = [dat.trials.direction ; dat.directions{n}];
+                dat.trials.condition    = [dat.trials.condition ; dat.conditions(c)];
+                dat.trials.dynamics     = [dat.trials.dynamics ; dat.dynamics(d)];
+                dat.trials.direction    = [dat.trials.direction ; dat.directions(n)];
                 dat.trials.repeat       = [dat.trials.repeat ; r];
                 
             end
@@ -149,7 +145,7 @@ end
 %randomize trial order
 dat.trials.trialnum = randperm(length(dat.trials.condition));
 
-%dat.trials.mat = [dat.trials.trialnum' dat.trials.condition dat.trials.dynamics dat.trials.repeat dat.trials.direction];
+dat.trials.mat = [dat.trials.trialnum' dat.trials.condition dat.trials.dynamics dat.trials.repeat dat.trials.direction];
 
 %% SOUND %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
