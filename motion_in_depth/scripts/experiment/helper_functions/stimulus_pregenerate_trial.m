@@ -1,10 +1,11 @@
-function [dotsLEcr,dotsREcr] = stimulus_pregenerate_trial(dat,scr,stm,condition,dynamics,direction)
+function [dotsLEcr,dotsREcr] = stimulus_pregenerate_trial(scr,stm,condition,dynamics,direction,delay)
 %
 % pre-generate stimulus frames for this trial
+% if stimType is delay, this is for a radnom delay period with no motion
 
 
 % first frame dots
-[dotsLE,dotsRE] = stimulus_make_left_right_dots(dat,scr,stm,condition);
+[dotsLE,dotsRE] = stimulus_make_left_right_dots(scr,stm,condition);
 
 
 % dynamics of subsequent frames
@@ -25,8 +26,9 @@ switch dynamics
 end
 
 
-% divide disparities by two, half for each eye
-disparities = disparities/2;
+disparities_delay = zeros(1,delay);                     % number of delay frames
+disparities       = [disparities_delay disparities];    % add in delay frames
+disparities       = disparities/2;                      % divide disparities by two, half for each eye
 
 
 % generate all frames
@@ -38,7 +40,7 @@ for x = 1:length(disparities)
         
         case 'CDOT'
             
-            [dotsLE,dotsRE] = stimulus_make_left_right_dots(dat,scr,stm,condition);
+            [dotsLE,dotsRE] = stimulus_make_left_right_dots(scr,stm,condition);
             
         case {'Mixed','MixedIncons','MixedCons'}
             
@@ -53,19 +55,13 @@ for x = 1:length(disparities)
     shiftLE = [repmat(disparities(x),1,size(dotsLE,2)) ; zeros(1,size(dotsLE,2))];
     shiftRE = [scr.signRight*repmat(disparities(x),1,size(dotsRE,2)) ; zeros(1,size(dotsRE,2))];
     
-    
-    %     % new dot pattern at each update for CDOT/ half of Mixed
-    %     if strcmp(condition,'CDOT')
-    %         [dotsLE,dotsRE] = stimulus_make_left_right_dots(dat,scr,stm,condition);
-    %     end
-    %
-    %     if ~isempty(strfind(condition,'Mixed'))
-    %
-    %         [dots] = stimulus_make_random_dots(stm.dotSizePix,stm.xmax,stm.ymax,round(stm.numDots/2));
-    %
-    %         dotsLE(:,1:round(stm.numDots/2))      = dots;
-    %         dotsRE(:,1:round(stm.numDots/2))      = dots;
-    %     end
+    % reverse uncorrelated dots for the Mixed, Inconsistent condition
+    if strcmp(condition,'MixedIncons')
+        
+        shiftLE(:,round(stm.numDots/2)+1:end) = -shiftLE(:,round(stm.numDots/2)+1:end);
+        shiftRE(:,round(stm.numDots/2)+1:end) = -shiftRE(:,round(stm.numDots/2)+1:end);
+        
+    end
     
     switch direction
         

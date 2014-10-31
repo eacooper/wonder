@@ -369,7 +369,7 @@ end
         
         str = get(source, 'String');
         
-        if ~isempty(str2num(str(1)))
+        if ~isempty(str2num(str(1))) && ~strcmp('i',str(1)) && ~strcmp('j',str(1))
             dat.exp_name_new = 'tmpfile';
             warning('Filename cannot start with a number');
         else

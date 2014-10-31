@@ -1,4 +1,4 @@
-function keys_wait(keys)
+function keys_wait(keys,dat)
 
 %check for space bar or A gamepad button
 [keyIsDown, secs, keyCode] = KbCheck();
@@ -21,7 +21,7 @@ end
 
 if keyCode(keys.esc)
 	
-	cleanup;
+	cleanup(1,dat);
     
 end
 

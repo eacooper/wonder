@@ -1,14 +1,13 @@
-function stimulus_draw_trial(w,trial,dotsLE,dotsRE,dat,stm,scr)
+function stimulus_draw_trial(w,trial,dotsLE,dotsRE,dat,stm,scr,delay)
 %
 % draw dynamic part of trial
 
-if dat.training; sound(stm.sound.s, stm.sound.sf); end
+%if dat.training; sound(stm.sound.s, stm.sound.sf); end
 
-uind   = 1;                        % stimulus update index
-tStart  = GetSecs;                 % trial start time
-
-while(uind <= size(dotsLE,2))
+uind   = 1;                         % stimulus step update index
+while(uind <= size(dotsLE,2))       % while there are still updates
     
+    % draw dot updates for each frame
     for r = 1:stm.dotRepeats
         
         % update dots
@@ -19,11 +18,20 @@ while(uind <= size(dotsLE,2))
         
     end
     
+    if uind == delay                    % reached the end of the delay
+        
+        tStart  = GetSecs;                 % trial start time
+        
+        if dat.recording
+            display('Eyelink Recording Started');
+            Eyelink('Message', ['STARTTIME ' condition ' ' ...
+                dynamics ' ' direction ' ' num2str(trial)]); % mark zero-plot time in data file
+        end
+    end
+    
     uind = uind + 1;        % increment update counter
     
 end
-
-
 
 % store trial timing info
 dat.trials.durationSec(trial) = GetSecs - tStart;

@@ -49,8 +49,7 @@ if sum(resp) == 1 && keys.isDown == 0
     
 elseif keyCode(keys.esc)
 	
-    cleanup;
-    keys.isDown = 1;
+    cleanup(1,dat);
 
 elseif sum(resp) == 0
     

@@ -72,6 +72,8 @@ Screen('DrawLine', w, stm.LEwhite, scr.x_center_pix_left - (fixationRadiusXPix2)
     scr.x_center_pix_left + (fixationRadiusXPix2), ...
     scr.y_center_pix_left  - (fixationRadiusYPix2) , 2);
 
+Screen('Flip', w);
+
 
 % % vertical eye alignment lines
 % Screen('DrawLine', w, stm.REwhite, scr.x_center_pix_right - (scr.signRight*stm.stimRadPix), ...

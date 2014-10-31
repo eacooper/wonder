@@ -2,30 +2,6 @@ function [dat,scr,stm] = stimulus_setup(dat,scr)
 %
 % define features of experimental stimulus
 
-%  STIMULUS - PRIMARY  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% dot field properties
-% dat.stimRadDeg      = 10;               % stimulus field diameter
-% dat.dispArcmin      = 90;               % disparity magnitude
-
-% dat.dotSizeDeg      = 0.25;             % diameter of each dot
-% dat.dotDensity      = 2;                % dots per degree2
-dat.dotUpdateHz     = 20;               % dot update rate
-
-% dat.preludeSec      = 0.25;             % delay before motion onset
-% dat.cycleSec        = 1;                % duration of one direction, so 2* = full cycle duration for a step-ramp
-dat.numCycles       = 1;                % total cycles, more than 1 for periodic stim
-
-% conditions
-% dat.condition_types = {'IOVD','CDOT','FullCue','Mixed','SingleDot'};    % stimulus types
-% dat.conditions      = [1 2 3 4 5];
-% dat.directions = {'away','towards','left','right'};                % initial motion direction
-% dat.directions      = [1 2 3 4];
-% dat.cond_repeats    = 1;                                                % number of repeats per condition
-
-% dat.dynamics_types   = {'step','ramp','stepramp'};                       % types of stimulus dyanamics
-% dat.dynamics        = [1 2 3];
-
 
 %  SCREEN  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -43,11 +19,14 @@ scr.x_center_pix_left   = scr.x_center_pix - (scr.prismShiftCm*scr.cm2pix);
 scr.x_center_pix_right  = scr.x_center_pix + (scr.prismShiftCm*scr.cm2pix);
 
 
-%  STIMULUS - SECONDARY  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  STIMULUS  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-stm.wlevel = 255;       % white
-stm.glevel = 0;         % gray
-stm.blevel = 0;         % black
+dat.dotUpdateHz     = 20;        % dot update rate
+dat.numCycles       = 1;         % total cycles, more than 1 for periodic stim
+
+stm.wlevel          = 255;       % white
+stm.glevel          = 0;         % gray
+stm.blevel          = 0;         % black
 
 switch scr.display
     
@@ -92,11 +71,6 @@ dat.dotUpdateHz     = scr.frameRate/stm.dotRepeats;                     % true d
 stm.numUpdates      = 1+round(dat.dotUpdateHz*dat.cycleSec);            % number of times the stimulus is updated in a cycle
 
 stm.preludeUpdates  = round(dat.dotUpdateHz*dat.preludeSec);
-
-
-% stm.dynamics.step       = [ zeros(1,stm.preludeUpdates) repmat(stm.dispPix,1,stm.numUpdates)];   % set up step disparity updates
-% stm.dynamics.ramp       = [ zeros(1,stm.preludeUpdates) linspace(stm.dispPix/stm.numUpdates,stm.dispPix,stm.numUpdates)];       % set up ramp disparity updates
-% stm.dynamics.stepramp   = [ zeros(1,stm.preludeUpdates) fliplr(stm.dynamics.ramp)];
 
 stm.dynamics.step       = [ zeros(1,stm.preludeUpdates) repmat(stm.dispPix,1,stm.numUpdates)];   % set up step disparity updates
 stm.dynamics.ramp       = [ zeros(1,stm.preludeUpdates) linspace(stm.dispPix/stm.numUpdates,stm.dispPix,stm.numUpdates)];       % set up ramp disparity updates
@@ -146,8 +120,17 @@ for c = 1:length(dat.conditions)
     
 end
 
-%randomize trial order
+% randomize trial order
 dat.trials.trialnum = randperm(length(dat.trials.condition));
+
+% emptry response arrays
+dat.trials.resp         = cell(1,length(dat.trials.condition));
+dat.trials.respCode     = NaN*ones(1,length(dat.trials.condition));
+dat.trials.isCorrect    = NaN*ones(1,length(dat.trials.condition));
+
+% generate random delay period for each trial
+dat.trials.delayTimeSec = randi([250 750],1,length(dat.trials.condition))./1000;
+dat.trials.delayUpdates = round(dat.dotUpdateHz*dat.trials.delayTimeSec);
 
 %dat.trials.mat = [dat.trials.trialnum' dat.trials.condition dat.trials.dynamics dat.trials.repeat dat.trials.direction];
 
