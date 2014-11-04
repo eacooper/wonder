@@ -1,8 +1,8 @@
-function eyelink_run_calibration(dat,el)
+function eyelink_run_calibration(dat,scr,el)
 
 if dat.recording
     
-    eyelink_set_targets                     % setup target locations on screen
+    eyelink_set_targets(scr)                     % setup target locations on screen
     
     % open file to record calibation data to
     Eyelink('Openfile', 'tmp.edf');
@@ -14,7 +14,7 @@ if dat.recording
     
     % transfer file
     Eyelink('CloseFile');
-    transfer_file(dat,'tmp.edf','_calibration_')
+    eyelink_transfer_file(dat,'tmp.edf','_calibration_')
     
 else
     WaitSecs(0.25);

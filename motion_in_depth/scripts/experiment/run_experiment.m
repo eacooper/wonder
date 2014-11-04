@@ -9,9 +9,9 @@ function run_experiment(varargin)
 % GET EXPERIMENT VARIABLES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 addpath(genpath('.'));                  % add path to helper functions
-dat = gui_settings(varargin);           % put argument contents into data fields, deal with defaults
+[dat,scr] = gui_settings(varargin);           % put argument contents into data fields, deal with defaults
 dat = make_data_dirs(dat);              % make directories to store session data
-scr = screen_load_display_info(dat);    % handle display-specific stuff, including stereo mode
+%scr = screen_load_display_info(dat);    % handle display-specific stuff, including stereo mode
 
 
 % SET UP SCREEN, STIMULUS, WINDOW, TRACKER, KEYS %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -37,7 +37,7 @@ WaitSecs(0.25);
 % old LASTRUN_XXX.INI file into the main last run file and restart the
 % tracker
 
-eyelink_run_calibration(dat,el)
+eyelink_run_calibration(dat,scr,el)
 
 
 % RUN TRIALS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -67,7 +67,7 @@ for t = 1:length(dat.trials.trialnum)                        % for each trial
 
 
     % show trial (with random delay first)
-    stimulus_draw_trial(w,trial,dotsLE,dotsRE,dat,stm,scr,delay)
+    stimulus_draw_trial(w,trial,dotsLE,dotsRE,dat,stm,scr,condition,dynamics,direction,delay)
     
     
     % clear screen at end
@@ -79,10 +79,6 @@ for t = 1:length(dat.trials.trialnum)                        % for each trial
         [dat,keys] = keys_get_response(keys,dat,stm,trial,direction);
     end
     keys.isDown = 0;
-    
-    
-    % stop recording
-    eyelink_end_recording(dat,condition,dynamics,direction,trial)
     
 end
 

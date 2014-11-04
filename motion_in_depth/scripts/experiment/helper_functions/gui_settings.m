@@ -1,4 +1,4 @@
-function dat = gui_settings(settings)
+function [dat,scr] = gui_settings(settings)
 %
 % gui for loading and setting motion in depth experiment
 
@@ -13,10 +13,12 @@ exp         = gui_load_experiments;
 if isempty(settings)
     dat             = default;
     dat.exp_name    = 'default';
+	scr				= dspl(find(strcmp({dspl(:).name},dat.display)));
 else
     dat             = eval(settings{1});
     dat.exp_name    = settings{1};
     dat.subj        = 'XX';
+	scr				= dspl(find(strcmp({dspl(:).name},dat.display)));
     
     return
 end
@@ -120,7 +122,7 @@ d1text = uicontrol('Style','text','String','Disparity (am)',...
 d1box = uicontrol('Style','edit',...
     'String',dat.dispArcmin,...
     'Position',[marg + 60,sz(2) - marg*7,50,31],...
-    'BackgroundColor',getcol(3), ...
+    'BackgroundColor',get_color(3), ...
     'Callback',{@disp_Callback});
 
 align([d1text,d1box],'None','Center');
@@ -247,24 +249,6 @@ rectangle('Position',[0.65,0.39,0.2,0.365])
 text(0.65,0.34,'Dynamics');
 rectangle('Position',[0.65,0.15,0.2,0.175])
 
-
-%[marg + 60,sz(2) - marg*7,50,31]
-%[marg + 210,sz(2) - marg*10,50,31]
-
-% plot([.005 .005], [.005 0.995], 'r')
-% plot([.005 .27], [.005 0.005], 'r')
-% plot([.27 .27], [.005 0.615], 'r')
-% plot([.005 .495], [.995 0.995], 'r')
-% plot([.495 .495], [.995 0.615], 'r')
-% plot([.27 .495], [.615 0.615], 'r')
-% 
-% plot([.995 .995], [.005 0.995], 'b--')
-% plot([.995 .73], [.005 0.005], 'b--')
-% plot([.73 .73], [.005 0.615], 'b--')
-% plot([.995 .505], [.995 0.995], 'b--')
-% plot([.505 .505], [.995 0.615], 'b--')
-% plot([.73 .505], [.615 0.615], 'b--')
-
 hold off
 
 
@@ -292,6 +276,7 @@ end
         dat             = eval(str{val});
         dat.subj        = subj;
         dat.exp_name    = str{val};
+		scr				= dspl(find(strcmp({dspl(:).name},dat.display)));
         
         %set(sbox,'String',subj);
         set(dpopup,'Value',find(strcmp({dspl(:).name},dat.display)));
@@ -331,9 +316,10 @@ end
 
 
     function display_Callback(source,eventdata)
-        str = get(source, 'String');
-        val = get(source,'Value');
+        str			= get(source, 'String');
+        val			= get(source,'Value');
         dat.display = str{val};
+		scr			= dspl(find(strcmp({dspl(:).name},dat.display)));
         
         set(warn_me,'String','WARNING: Settings changed','BackgroundColor',get_color(1));
     end

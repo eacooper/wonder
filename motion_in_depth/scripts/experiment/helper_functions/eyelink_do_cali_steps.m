@@ -48,7 +48,7 @@ Eyelink( 'WaitForModeReady', el.waitformodereadytime );  % time for mode change
 EyelinkClearCalDisplay(el);	% setup_cal_display()
 key=1;
 while key~= 0
-	key=EyelinkGetKeyRamp(el);		% dump old keys
+	key=eyelink_get_key(el);		% dump old keys
 end
 
 % go directly into a particular mode
@@ -76,7 +76,7 @@ while stop==0 && bitand(Eyelink( 'CurrentMode'), el.IN_SETUP_MODE)
 	if bitand(i, el.IN_TARGET_MODE)			% calibrate, validate, etc: show targets
 		%fprintf ('%s\n', 'dotrackersetup: in targetmodedisplay' );
         
-		EyelinkTargetModeDisplayRamp(el);		
+		eyelink_target_mode_display(el);		
 	elseif bitand(i, el.IN_IMAGE_MODE)		% display image until we're back
 % 		fprintf ('%s\n', 'EyelinkDoTrackerSetup: in ''ImageModeDisplay''' );
 	  	if Eyelink ('ImageModeDisplay')==el.TERMINATE_KEY 
@@ -87,7 +87,7 @@ while stop==0 && bitand(Eyelink( 'CurrentMode'), el.IN_SETUP_MODE)
 		end	
 	end
 
-	[key, el]=EyelinkGetKeyRamp(el);		% getkey() HANDLE LOCAL KEY PRESS
+	[key, el]=eyelink_get_key(el);		% getkey() HANDLE LOCAL KEY PRESS
     if 1 && key~=0 && key~=el.JUNK_KEY    % print pressed key codes and chars
         fprintf('%d\t%s\n', key, char(key) );
     end

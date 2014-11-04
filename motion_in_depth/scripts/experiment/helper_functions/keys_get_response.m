@@ -6,10 +6,12 @@ resps = {'away','towards','left','right'};
     
 if ~isempty(GetGamepadIndices)
     
-    resp(1) = Gamepad('GetButton', 1, keys.away);
-    resp(2) = Gamepad('GetButton', 1, keys.towards);
-    resp(3) = Gamepad('GetButton', 1, keys.left);
-    resp(4) = Gamepad('GetButton', 1, keys.right);
+	[keyIsDown, secs, keyCode] = KbCheck();
+	
+    resp(1) = Gamepad('GetButton', 1, keys.awayGP);
+    resp(2) = Gamepad('GetButton', 1, keys.towardsGP);
+    resp(3) = Gamepad('GetButton', 1, keys.leftGP);
+    resp(4) = Gamepad('GetButton', 1, keys.rightGP);
     
 else
     

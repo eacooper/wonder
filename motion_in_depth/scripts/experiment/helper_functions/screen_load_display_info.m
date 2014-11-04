@@ -79,9 +79,7 @@ elseif strcmp(dat.display,'planar')
     
     scr.skipSync            = 0;
     scr.signRight = -1;             % displays are mirrored so flip the right image
-    
-    display('Make Sure Planar is in Native Resolution (1600 x 1200 with blue bands)');
-    KbWait;
+
     
 elseif strcmp(dat.display,'LG3D')
     

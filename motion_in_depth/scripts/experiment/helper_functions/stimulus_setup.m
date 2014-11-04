@@ -28,7 +28,7 @@ stm.wlevel          = 255;       % white
 stm.glevel          = 0;         % gray
 stm.blevel          = 0;         % black
 
-switch scr.display
+switch scr.name
     
     case {'planar','laptopRB','LG3DRB'}                        % planar uses blue-left, red-right
         

@@ -30,10 +30,11 @@ scr.height_pix  = RectHeight(Screen('Rect', scr.screenNumber));
 % Disable key output to Matlab window:
 ListenChar(2);
 
-if strcmp(scr.display,'planar')
+% if using planar, must be in native resolution for accurate eyetracking
+if strcmp(scr.name,'planar')
     res=Screen('Resolution', scr.screenNumber);
     
-    if res(1) ~= 1600 || res(2) ~= 1200
+    if res.width ~= 1600 || res.height ~= 1200 || res.pixelSize ~= 32 || res.hz ~= 60
         error('Planar not in native resolution');
     end
 end

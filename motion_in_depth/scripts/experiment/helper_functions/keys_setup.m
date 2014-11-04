@@ -1,4 +1,4 @@
-function [dat,keys] = setup_keys(dat)
+function [dat,keys] = keys_setup(dat)
 
 KbName('UnifyKeyNames');
 
@@ -7,22 +7,24 @@ keys.esc = KbName('ESCAPE');
 
 %handle gamepad
 if ~isempty(GetGamepadIndices)
-    buttonState = Gamepad('GetButton', 1, 1); %initialize
-    
-    keys.go         = 14; % A button on gamepad
-    keys.faway      = 8; %away on gamepad
-    keys.towards    = 5; % towards on gamepad
-    keys.left       = 7; %leftward on gamepad
-    keys.right      = 6; %rightward on gamepad
-    
-else
-    
-    keys.go         = KbName('return'); % A button on gamepad
-    keys.away       = KbName('UpArrow'); %away on gamepad
-    keys.towards    = KbName('DownArrow'); % towards on gamepad
-    keys.left       = KbName('LeftArrow'); %leftward on gamepad
-    keys.right      = KbName('RightArrow'); %rightward on gamepad
-    
+	buttonState = Gamepad('GetButton', 1, 1); %initialize
+	
+	keys.goGP1         = 14; % top button on gamepad
+	keys.goGP2         = 15; % top button on gamepad
+	keys.goGP3         = 12; % top button on gamepad
+	keys.goGP4         = 13; % top button on gamepad
+	
+	keys.awayGP       = 8; % (D) away on gamepad
+	keys.towardsGP    = 5; % (A) towards on gamepad
+	keys.leftGP       = 7; % (C) leftward on gamepad
+	keys.rightGP      = 6; % (B) rightward on gamepad
+	
 end
+
+keys.go         = KbName('return'); % A button on gamepad
+keys.away       = KbName('UpArrow'); %away on gamepad
+keys.towards    = KbName('DownArrow'); % towards on gamepad
+keys.left       = KbName('LeftArrow'); %leftward on gamepad
+keys.right      = KbName('RightArrow'); %rightward on gamepad
 
 keys.isDown = 0;

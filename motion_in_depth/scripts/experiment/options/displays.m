@@ -19,10 +19,10 @@ dspl(1).prismD            = 15;                              % prism diopters
 dspl(1).prismShiftCm      = (dspl(1).prismD*...
     dspl(1).viewDistCm)/100;                                 % left/right image shift to center in prisms
 
-dspl(1).dspleenElevationCm = 16.2;                            % height to bottom of dspleen on table
+dspl(1).screenElevationCm = 16.2;                            % height to bottom of dspleen on table
 dspl(1).prismElevationCm  = 29.6;                            % height to pricm centers
 dspl(1).stimCenterYCm     = dspl(1).prismElevationCm - ...
-    (dspl(1).dspleenElevationCm + (dspl(1).height_cm/2));      % height adjustment of stimulus to center in prisms
+    (dspl(1).screenElevationCm + (dspl(1).height_cm/2));      % height adjustment of stimulus to center in prisms
 
 dspl(1).topbottom         = 0;                               % does this display take top/bottom stereo format
 

@@ -11,6 +11,6 @@ Eyelink('Command','calibration_type = HV13')
 Eyelink('Command', 'calibration_targets = 800,600 800,520 800,680 720,600 880,600 720,520 880,520 720,680 880,680 760,560 840,560 760,640 840,640');
 Eyelink('Command', 'validation_targets = 800,600 800,520 800,680 720,600 880,600 720,520 880,520 720,680 880,680 760,560 840,560 760,640 840,640 800,600');
 
-if ~strcmp(scr.display,'planar') || scr.scr.width_pix ~= 1600 || scr.scr.height_pix ~= 1200
+if ~strcmp(scr.name,'planar') || scr.width_pix ~= 1600 || scr.height_pix ~= 1200
     error('Current Eyelink calibration only works for planar in native resolution');
 end
