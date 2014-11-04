@@ -98,7 +98,7 @@ dspl(5).name              = 'LG3D';
 
 dspl(5).viewDistCm        = 80;
 
-dspl(5).width_cm     = 50.92;
+dspl(5).width_cm     = 50.88;
 dspl(5).height_cm    = 28.64;
 
 dspl(5).loadDistortion    = 0;
