@@ -67,13 +67,13 @@ for x = 1:length(disparities)
         
         case 'towards'
             
-            dotsLEall = dotsLE - shiftLE;
-            dotsREall = dotsRE + shiftRE;
+            dotsLEall = dotsLE + shiftLE;
+            dotsREall = dotsRE - shiftRE;
             
         case 'away'
             
-            dotsLEall = dotsLE + shiftLE;
-            dotsREall = dotsRE - shiftRE;
+            dotsLEall = dotsLE - shiftLE;
+            dotsREall = dotsRE + shiftRE;
             
         case 'left'
             

@@ -89,7 +89,7 @@ dat.stim_info       = stm;
 store_results(dat);
 
 % exit
-Screen('DrawText', w, 'Done', scr.x_center_pix_right - 25, scr.y_center_pix_right - 50, dat.stim_info.REwhite);
+%Screen('DrawText', w, 'Done', scr.x_center_pix_right - 25, scr.y_center_pix_right - 50, dat.stim_info.REwhite);
 Screen('DrawText', w, 'Done', scr.x_center_pix_left - 25, scr.y_center_pix_left - 50, dat.stim_info.LEwhite);
 Screen('Flip', w);
 WaitSecs(2);
