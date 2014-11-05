@@ -1,5 +1,19 @@
-function [] = analyze_ramp(filename)
+function run_analysis()
+%
+%
 
+addpath(genpath('.'));
+
+% load in info about eyelink data aquisition
+el = eyelink_load_info;
+
+% preload in all available data
+preload_data;
+
+
+
+
+keyboard
 set(0,'DefaultFigureWindowStyle','docked')
 
 if isempty(filename)                                                            % open GUI to select files
