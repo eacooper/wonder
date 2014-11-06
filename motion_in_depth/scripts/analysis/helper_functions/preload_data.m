@@ -2,6 +2,8 @@ function preload_data
 %
 %
 
-file_list = get_data_file_names;
+res = get_data_file_names;
+
+res = get_trial_data(res);
 
 keyboard

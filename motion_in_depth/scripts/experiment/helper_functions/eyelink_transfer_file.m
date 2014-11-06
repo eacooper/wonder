@@ -1,7 +1,7 @@
 function eyelink_transfer_file(dat,edfFile,fileStr)
 
 
-timeNow = datestr(clock,'mm_dd_yy_HHMMSS');
+%timeNow = datestr(clock,'mm_dd_yy_HHMMSS');
     
 if ~isempty(edfFile)
     try
@@ -21,7 +21,7 @@ if ~isempty(edfFile)
     end
     
     %move and convert file
-    filename = [dat.data_track_dir dat.subj fileStr timeNow '.edf'];
+    filename = [dat.data_track_dir dat.subj fileStr dat.timeNow '.edf'];
     movefile(edfFile,filename)
     command = ['/Applications/EyeLink/edfapi\ universal/edf2asc -sh ' filename];
     [status,cmdout] = system(command);
@@ -29,5 +29,5 @@ if ~isempty(edfFile)
 end
 
 if ~strcmp(fileStr,'_calibration_')
-    save([dat.data_stim_dir dat.subj fileStr timeNow '.mat'],'dat');
+    save([dat.data_stim_dir dat.subj fileStr dat.timeNow '.mat'],'dat');
 end

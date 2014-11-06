@@ -43,9 +43,9 @@ eyelink_run_calibration(dat,scr,el)
 % RUN TRIALS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 if dat.recording; Eyelink('Openfile', 'tmp.edf'); end   % open file to record data to
+dat.timeNow = datestr(clock,'mm_dd_yy_HHMMSS');         % get start time for file names
 
-
-for t = 1:length(dat.trials.trialnum)                        % for each trial
+for t = 1:length(dat.trials.trialnum)                   % for each trial
     
     % trial info
     trial           = dat.trials.trialnum(t);           % which stimulus index to take
@@ -67,7 +67,7 @@ for t = 1:length(dat.trials.trialnum)                        % for each trial
 
 
     % show trial (with random delay first)
-    stimulus_draw_trial(w,trial,dotsLE,dotsRE,dat,stm,scr,condition,dynamics,direction,delay)
+    dat = stimulus_draw_trial(w,trial,dotsLE,dotsRE,dat,stm,scr,condition,dynamics,direction,delay)
     
     
     % clear screen at end
