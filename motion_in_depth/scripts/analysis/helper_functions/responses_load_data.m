@@ -1,4 +1,4 @@
-function [res,dcnt] = responses_load_data(dcnt,dat,res)
+function [res,dcnt] = responses_load_data(dcnt,dat,res,file)
 %
 % fill in response data
 
@@ -36,8 +36,35 @@ for f = 1:length(fields_trial)
 end
 
 % stimulus predictions
+
+v_half_angle = atand(((res.ipd/2))./res.el.href_dist); % half the vergence angle
+
 for t = 1:num_trials
-    res.trials.prediction(dcnt-1+t,:) = dat.stim_info.dynamics.(res.trials.dynamicsR{t});
+
+    switch res.trials.directionR{t}
+        
+        case 'left'
+            
+            res.trials.predictionLE(dcnt-1+t,:) = v_half_angle - res.predictions(file).(res.trials.dynamicsR{t});
+            res.trials.predictionRE(dcnt-1+t,:) = -v_half_angle - res.predictions(file).(res.trials.dynamicsR{t});
+            
+        case 'right'
+            
+            res.trials.predictionLE(dcnt-1+t,:) = v_half_angle + res.predictions(file).(res.trials.dynamicsR{t});
+            res.trials.predictionRE(dcnt-1+t,:) = -v_half_angle + res.predictions(file).(res.trials.dynamicsR{t});
+            
+        case 'towards'
+            
+            res.trials.predictionLE(dcnt-1+t,:) = v_half_angle + res.predictions(file).(res.trials.dynamicsR{t});
+            res.trials.predictionRE(dcnt-1+t,:) = -v_half_angle - res.predictions(file).(res.trials.dynamicsR{t});
+            
+        case 'away'
+            
+            res.trials.predictionLE(dcnt-1+t,:) = v_half_angle - res.predictions(file).(res.trials.dynamicsR{t});
+            res.trials.predictionRE(dcnt-1+t,:) = -v_half_angle + res.predictions(file).(res.trials.dynamicsR{t});
+            
+    end
+
 end
 
 

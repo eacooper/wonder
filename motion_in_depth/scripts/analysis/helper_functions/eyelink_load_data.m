@@ -30,7 +30,7 @@ for s = 1:length(starts)
         data_clean{d} = data_clean{d}...                                        % omit a few extra measurements
             (1:round(el.sampleRate*(res.preludeSec(f)+res.cycleSec(f))));
         
-        data_nums = cellfun(@str2num,data_clean{d});                            % convert data to numbers             
+        data_nums = cellfun(@str2double,data_clean{d});                            % convert data to numbers             
         data_nums(data_nums == 1e100) = NaN;                                    % replace bad values with NaNs
         
         res.trials.(vals{d})(tcnt,:) = data_nums;                               % store cleaned eye position href data
@@ -47,7 +47,7 @@ for s = 1:length(starts)
     res.trials.trialnum(tcnt)   = trialnum;
     res.trials.isGood(tcnt)     = isGood;
     
-    res.trials.extra_time(tcnt) = num2str(length(data_clean{1})) - ...          % number of extra EL samples for diagnostics
+    res.trials.extra_time(tcnt) = length(data{1}(Datalines)) - ...          % number of extra EL samples for diagnostics
             round(el.sampleRate*(res.preludeSec(f)+res.cycleSec(f)));
     
     tcnt = tcnt + 1;
