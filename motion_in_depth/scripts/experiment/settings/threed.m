@@ -1,4 +1,4 @@
-function dat = default
+function dat = threed
 %
 % this function stores the settings for motion in depth experiments. copy
 % and rename to design a new experiment, or use the gui opened by

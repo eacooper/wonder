@@ -67,7 +67,7 @@ for t = 1:length(dat.trials.trialnum)                   % for each trial
 
 
     % show trial (with random delay first)
-    dat = stimulus_draw_trial(w,trial,dotsLE,dotsRE,dat,stm,scr,condition,dynamics,direction,delay)
+    dat = stimulus_draw_trial(w,trial,dotsLE,dotsRE,dat,stm,scr,condition,dynamics,direction,delay);
     
     
     % clear screen at end

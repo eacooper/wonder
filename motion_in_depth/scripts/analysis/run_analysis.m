@@ -4,11 +4,13 @@ function run_analysis()
 
 addpath(genpath('.'));
 
-% load in info about eyelink data aquisition
-el = eyelink_load_info;
 
 % preload in all available data
-preload_data;
+%rerun = 1;
+%res = preload_data(el,rerun);
+
+% open analysis GUI
+gui_analysis;
 
 
 

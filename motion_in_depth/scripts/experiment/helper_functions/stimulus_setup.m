@@ -68,13 +68,13 @@ stm.numDots = round( dat.dotDensity*(  stm.xmax*(scr.pix2arcmin/60) * ...  % con
 stm.dotUpdateSec    = 1/dat.dotUpdateHz;                                % duration to hold dots on screen
 stm.dotRepeats		= round(scr.frameRate/dat.dotUpdateHz);             % number of frames to hold dots on screen
 dat.dotUpdateHz     = scr.frameRate/stm.dotRepeats;                     % true dot update rate is even multiple of frame rate
-stm.numUpdates      = 1+round(dat.dotUpdateHz*dat.cycleSec);            % number of times the stimulus is updated in a cycle
+stm.numUpdates      = round(dat.dotUpdateHz*dat.cycleSec);              % number of times the stimulus is updated in a cycle
 
 stm.preludeUpdates  = round(dat.dotUpdateHz*dat.preludeSec);
 
 stm.dynamics.step       = [ zeros(1,stm.preludeUpdates) repmat(stm.dispPix,1,stm.numUpdates)];   % set up step disparity updates
 stm.dynamics.ramp       = [ zeros(1,stm.preludeUpdates) linspace(stm.dispPix/stm.numUpdates,stm.dispPix,stm.numUpdates)];       % set up ramp disparity updates
-stm.dynamics.stepramp   = [ zeros(1,stm.preludeUpdates) fliplr(stm.dynamics.ramp)];
+stm.dynamics.stepramp   = [ zeros(1,stm.preludeUpdates) fliplr(linspace(stm.dispPix/stm.numUpdates,stm.dispPix,stm.numUpdates))];
 
 
 %  FIXATION  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -1,4 +1,4 @@
-function dat = default
+function dat = test2
 %
 % this function stores the settings for motion in depth experiments. copy
 % and rename to design a new experiment, or use the gui opened by
@@ -11,7 +11,7 @@ dat.training        = 1;      % providing training feedback noises (1) or not(0)
 
 % dot field properties
 dat.stimRadDeg      = 10;      % stimulus field radius
-dat.dispArcmin      = 90;      % disparity magnitude
+dat.dispArcmin      = 10;      % disparity magnitude
 dat.dotSizeDeg      = 0.25;      % diameter of each dot
 dat.dotDensity      = 2;      % dots per degree2
 

@@ -1,4 +1,4 @@
-function dat = default
+function dat = Exp5
 %
 % this function stores the settings for motion in depth experiments. copy
 % and rename to design a new experiment, or use the gui opened by
@@ -20,9 +20,9 @@ dat.preludeSec      = 0.25;      % delay before motion onset
 dat.cycleSec        = 1;      % duration of one direction, so 2* = full cycle duration for a step-ramp
 
 % conditions
-dat.conditions      = {'IOVD','CDOT','FullCue','SingleDot'};      % dot conditions, IOVD, CDOT, etc
+dat.conditions      = {'IOVD','CDOT','FullCue','SingleDot','MixedCons'};      % dot conditions, IOVD, CDOT, etc
 dat.cond_repeats    = 1;      % number of repeats per condition
 dat.dynamics        = {'step','ramp','stepramp'};      % steps, ramps, etc
-dat.directions      = {'away','towards','left','right'};      % initial motion direction
+dat.directions      = C_d;      % initial motion direction
 
 
