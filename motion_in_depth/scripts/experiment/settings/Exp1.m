@@ -10,7 +10,7 @@ dat.recording       = 1;      % using eyelink to record (1) or not (0)
 dat.training        = 0;      % providing training feedback noises (1) or not(0)
 
 % dot field properties
-dat.stimRadDeg      = 10;      % stimulus field radius
+dat.stimRadDeg      = 25;      % stimulus field radius
 dat.dispArcmin      = 60;      % disparity magnitude
 dat.dotSizeDeg      = 0.25;      % diameter of each dot
 dat.dotDensity      = 2;      % dots per degree2
