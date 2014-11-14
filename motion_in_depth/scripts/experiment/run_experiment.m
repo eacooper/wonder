@@ -11,7 +11,7 @@ function run_experiment(varargin)
 addpath(genpath('.'));                  % add path to helper functions
 [dat,scr] = gui_settings(varargin);           % put argument contents into data fields, deal with defaults
 dat = make_data_dirs(dat);              % make directories to store session data
-%scr = screen_load_display_info(dat);    % handle display-specific stuff, including stereo mode
+dat.timeNow = datestr(clock,'mm_dd_yy_HHMMSS');         % get start time for file names
 
 
 % SET UP SCREEN, STIMULUS, WINDOW, TRACKER, KEYS %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -43,7 +43,6 @@ eyelink_run_calibration(dat,scr,el)
 % RUN TRIALS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 if dat.recording; Eyelink('Openfile', 'tmp.edf'); end   % open file to record data to
-dat.timeNow = datestr(clock,'mm_dd_yy_HHMMSS');         % get start time for file names
 
 for t = 1:length(dat.trials.trialnum)                   % for each trial
     

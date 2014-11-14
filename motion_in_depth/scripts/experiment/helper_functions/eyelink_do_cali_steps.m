@@ -109,6 +109,9 @@ while stop==0 && bitand(Eyelink( 'CurrentMode'), el.IN_SETUP_MODE)
 	       		Eyelink('SendKeyButton', double(key), 0, el.KB_PRESS );
 			end
 	end
+	
+	WaitSec(0.1);
+	
 end % while IN_SETUP_MODE
 
 % exit:
