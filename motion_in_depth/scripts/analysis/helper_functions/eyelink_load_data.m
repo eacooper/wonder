@@ -17,7 +17,9 @@ for s = 1:length(starts)
     end
     
     % indices to keep
-    Datalines       = ~cellfun(@isempty,cellfun(@str2num,data{5},'un',0));      % these are the data sample lines (others are meta lines)
+    %Datalines       = ~cellfun(@isempty,cellfun(@str2num,data{5},'un',0));      % these are the data sample lines (others are meta lines)
+    Datalines       = ~isnan(str2double(data{5}));
+    
     GoodQuallines   = strcmp(data{6},'.....') & ~strcmp(data{1},'.') & ~strcmp(data{2},'.') & ~strcmp(data{3},'.') & ~strcmp(data{4},'.');
     
     isGood = 1;
@@ -30,7 +32,9 @@ for s = 1:length(starts)
         data_clean{d} = data_clean{d}...                                        % omit a few extra measurements
             (1:round(el.sampleRate*(res.preludeSec(f)+res.cycleSec(f))));
         
-        data_nums = cellfun(@str2double,data_clean{d});                            % convert data to numbers             
+        %data_nums = cellfun(@str2double,data_clean{d});                            % convert data to numbers
+        data_nums = sscanf(sprintf('%s ',data_clean{d}{:}),'%f');
+        
         data_nums(data_nums == 1e100) = NaN;                                    % replace bad values with NaNs
         
         res.trials.(vals{d})(tcnt,:) = data_nums;                               % store cleaned eye position href data

@@ -37,45 +37,67 @@ for s = 1:length(subjs)
                     strcmp(res.trials.exp_name,exp_name) & ...
                     res.trials.isGood == 1);
                 
-                dp = res.trials.vergenceH(inds,:);
-                
                 for t = 1:length(inds)
                     
                     figure(f(d)); hold on; subplot(3,3,cnt); hold on;
                     
-                    [ax,h1,h2] = plotyy(1:length(res.trials.LExAng(inds(t),:)),res.trials.LExAng(inds(t),:),...
-                        1:length(res.trials.RExAng(inds(t),:)),res.trials.RExAng(inds(t),:));
+                    if(0)
+                        [ax,h1,h2] = plotyy(1:length(res.trials.LExAng(inds(t),:)),res.trials.LExAng(inds(t),:),...
+                            1:length(res.trials.RExAng(inds(t),:)),res.trials.RExAng(inds(t),:));
+                        color_yy(ax,h1,h2,0,1);
+                        
+                    else
+                        %[ax,h1,h2] = plotyy(1:length(res.trials.vergenceH(inds(t),:)),res.trials.vergenceH(inds(t),:),...
+                        %    1:length(res.trials.versionH(inds(t),:)),res.trials.versionH(inds(t),:));
+                        plot(1:length(res.trials.vergenceH(inds(t),:)),res.trials.vergenceH(inds(t),:),'color',ColorIt(3).^0.1);
+                        
+                    %color_yy(ax,h1,h2,0,0);
                     
-                    set(h1,'color',ColorIt(2).^(0.1))
-                    set(h2,'color',ColorIt(1).^(0.1))
-                    set(ax(1),'YLim',[0 5],'Ycolor',ColorIt(2))
-                    set(ax(2),'YLim',[-5 0],'Ycolor',ColorIt(1))
+                    end
+
+                    
+                    
                     
                 end
                 
                 figure(f(d)); hold on; subplot(3,3,cnt); hold on;
                 
-                [ax2,h1,h2] = plotyy(1:length(mean(res.trials.LExAng(inds,:),1)),mean(res.trials.LExAng(inds,:),1),...
-                    1:length(mean(res.trials.LExAng(inds,:),1)),mean(res.trials.RExAng(inds,:),1));
-                
-                set(h1,'color',ColorIt(2))
-                set(h2,'color',ColorIt(1))
-                set(ax2(1),'YLim',[0 5],'Ycolor',ColorIt(2))
-                set(ax2(2),'YLim',[-5 0],'Ycolor',ColorIt(1))
-                
-                if length(inds) > 0
-                    [ax,h1,h2] = plotyy(1:length(res.trials.predictionLE(inds(1),:)),res.trials.predictionLE(inds(1),:),...
-                        1:length(res.trials.predictionRE(inds(1),:)),res.trials.predictionRE(inds(1),:));
+                if(0)
+                    [ax,h1,h2] = plotyy(1:length(mean(res.trials.LExAng(inds,:),1)),mean(res.trials.LExAng(inds,:),1),...
+                        1:length(mean(res.trials.LExAng(inds,:),1)),mean(res.trials.RExAng(inds,:),1));
+                    color_yy(ax,h1,h2,1,1);
+                else
                     
-                    set(h1,'color',ColorIt(2))
-                    set(h2,'color',ColorIt(1))
-                    set(ax(1),'YLim',[0 5],'Ycolor',ColorIt(2))
-                    set(ax(2),'YLim',[-5 0],'Ycolor',ColorIt(1))
-                    
-                    keyboard
+                    %[ax,h1,h2] = plotyy(1:length(mean(res.trials.vergenceH(inds,:),1)),mean(res.trials.vergenceH(inds,:),1),...
+                    %    1:length(mean(res.trials.versionH(inds,:),1)),mean(res.trials.versionH(inds,:),1));
+                    %color_yy(ax,h1,h2,1,0);
+                    plot(1:length(mean(res.trials.vergenceH(inds,:),1)),mean(res.trials.vergenceH(inds,:),1),'color',ColorIt(3));
                 end
                 
-                
+                if length(inds) > 0
+                    
+                    if(0)
+                        [ax,h1,h2] = plotyy(1:length(res.trials.predictionLE(inds(1),:)),res.trials.predictionLE(inds(1),:),...
+                            1:length(res.trials.predictionRE(inds(1),:)),res.trials.predictionRE(inds(1),:));
+                        
+                        color_yy(ax,h1,h2,1,1);
+                        
+                    else
+                        
+%                         [ax,h1,h2] = plotyy(1:length(res.trials.predictionLE(inds(1),:)),res.trials.predictionLE(inds(1),:)...
+%                             -res.trials.predictionRE(inds(1),:),...
+%                             1:length(res.trials.predictionLE(inds(1),:)),mean([res.trials.predictionLE(inds(1),:) 
+%                             res.trials.predictionRE(inds(1),:)]));
+%                         
+%                         color_yy(ax,h1,h2,1,0);
+%                         
+                        plot(1:length(res.trials.predictionLE(inds(1),:)),res.trials.predictionLE(inds(1),:)...
+                            -res.trials.predictionRE(inds(1),:),'color',ColorIt(3));
+                        
+                    end
+                    
+                    
+                end
                 
                 ylabel('LE(+)/RE(-)');
                 cnt = cnt + 1;
@@ -88,3 +110,28 @@ for s = 1:length(subjs)
     
 end
 
+
+function color_yy(ax,h1,h2,flag,flag2)
+
+if(flag)
+    
+    set(h1,'color',ColorIt(2))
+    set(h2,'color',ColorIt(1))
+else
+    
+    set(h1,'color',ColorIt(2).^(0.1))
+    set(h2,'color',ColorIt(1).^(0.1))
+end
+
+
+set(ax(1),'Ycolor',ColorIt(2))
+set(ax(2),'Ycolor',ColorIt(1))
+
+if(flag2)
+    
+    set(ax(1),'YLim',[0 5],'Ytick',0:5)
+    set(ax(2),'YLim',[-5 0],'Ytick',-5:0)
+                        
+else
+    
+end
