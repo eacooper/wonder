@@ -2,16 +2,20 @@ function [] = gui_analysis
 %
 % gui for loading and setting motion in depth experiment
 
-% load in pre-processed data
-res = load_data(0);
+% load in pre-processed data if available
+if exist('../../data/all_data.mat')
+    res         = load_data(0);
+else
+    res         = load_data(1);
+end
 
-% options
+% initialize options
 exp_names   = unique(res.trials.exp_name);
 exp_name    = exp_names{1};
-subj = [];
-cond = [];
-dir = [];
-dyn = [];
+subj        = [];
+cond        = [];
+dir         = [];
+dyn         = [];
 set_experiment;
 
 %  Create and then hide the GUI as it is being constructed
@@ -21,20 +25,25 @@ f       = figure('Visible','off','Position',sz);
 
 
 % experiment options
-etext = uicontrol('Style','text','String','Experiment',...
-    'Position',[marg,sz(2) - marg,60,25]);
-epopup = uicontrol('Style','popupmenu',...
-    'String',exp_names,...
-    'Position',[marg + 60,sz(2) - marg,200,26],...
-    'Callback',{@exp_Callback},...
-    'Value',1);
+
+etext = uicontrol('Style',  'text', ...
+    'String',   'Experiment',...
+    'Position', [marg,sz(2) - marg,60,25]);
+
+epopup = uicontrol('Style', 'popupmenu',...
+    'String',   exp_names,...
+    'Position', [marg + 60,sz(2) - marg,200,26],...
+    'Callback', {@exp_Callback},...
+    'Value',    1);
+
 
 % reload data
+
 loadit = uicontrol('Style', 'pushbutton', ...
-    'String',   'Reprocess', ...
-    'Callback', @load_Callback, ...
-    'BackgroundColor',ColorIt(4), ...
-    'Position',[marg + 300,sz(2) - marg,100,25]);
+    'String',           'Reprocess', ...
+    'Callback',         @load_Callback, ...
+    'BackgroundColor',  ColorIt(4), ...
+    'Position',         [marg + 300,sz(2) - marg,100,25]);
 
 align([etext,epopup,loadit],'None','Top');
 
@@ -148,29 +157,6 @@ end
 
 
 
-% draw boxes
-%
-% a = axes;
-% set(a, 'Visible', 'off');
-% %# Stretch the axes over the whole figure.
-% set(a, 'Position', [0, 0, 1, 1]);
-% %# Switch off autoscaling.
-% set(a, 'Xlim', [0, 1], 'YLim', [0, 1]);
-%
-% % %# Draw!
-% hold on;
-% text(0.05,0.66,'Stimulus Properties');
-% rectangle('Position',[0.05,0.39,0.53,0.25])
-% text(0.23,0.345,'Motion Directions');
-% rectangle('Position',[0.23,0.22,0.29,0.11])
-% text(0.65,0.77,'Cue Properties');
-% rectangle('Position',[0.65,0.39,0.2,0.365])
-% text(0.65,0.34,'Dynamics');
-% rectangle('Position',[0.65,0.15,0.2,0.175])
-
-% hold off
-
-
 
 % Run the GUI
 
@@ -179,11 +165,7 @@ movegui(f,'center');                % Move the GUI to the center of the screen
 set(f,'Visible','on');              % Make the GUI visible
 waitfor(f);                         % Exit if Gui is closed
 
-% if(~go)
-%     error('GUI exited without pressing Start');
-% end
-
-%  Callbacks for simple_gui. These callbacks automatically
+%  Callbacks for gui. These callbacks automatically
 %  have access to component handles and initialized data
 %  because they are nested at a lower level.
 
@@ -212,30 +194,13 @@ waitfor(f);                         % Exit if Gui is closed
         
     end
 
-    function exp_Callback(source,eventdata)
+    function exp_Callback(source,~)
         
         str = get(source, 'String');
         val = get(source,'Value');
-        %dat             = eval(str{val});
-        %dat.subj        = subj;
         exp_name    = str{val};
         set_experiment;
-        %scr				= dspl(find(strcmp({dspl(:).name},dat.display)));
-        
-        %         %set(sbox,'String',subj);
-        %         %set(dpopup,'Value',find(strcmp({dspl(:).name},dat.display)));
-        %         set(rradio,'Value',dat.recording);
-        %         set(fradio,'Value',dat.training);
-        %
-        %         set(d1box,'String',num2str(dat.dispArcmin));
-        %         set(d2box,'String',num2str(dat.stimRadDeg));
-        %         set(d3box,'String',num2str(dat.dotSizeDeg));
-        %         set(d4box,'String',num2str(dat.dotDensity));
-        %
-        %         set(d5box,'String',num2str(dat.preludeSec));
-        %         set(d6box,'String',num2str(dat.cycleSec));
-        %         set(d7box,'String',num2str(dat.cond_repeats));
-        %
+
         for x = 1:length(cradio)
             set(cradio(x),'Value',ismember(get(cradio(x),'String'),conds));
         end
@@ -252,14 +217,14 @@ waitfor(f);                         % Exit if Gui is closed
     end
 
 
-    function subj_Callback(source,eventdata)
+    function subj_Callback(source,~)
         
         str = get(source, 'String');
         subj = str;
     end
 
 
-    function feedback_Callback(source,eventdata)
+    function feedback_Callback(source,~)
         
         val = get(source,'Value');
         dat.training = val;
@@ -269,20 +234,14 @@ waitfor(f);                         % Exit if Gui is closed
 
     function plotit_Callback(source,eventdata)
         
-        %go = 1;
-        %dat.subj = subj;
-        %close all;
-        
         plot_results(subj,cond,dir,dyn,exp_name,res)
+        
     end
 
-    function load_Callback(source,eventdata)
-        
-        %go = 1;
-        %dat.subj = subj;
-        %close all;
-        
+    function load_Callback(source,~)
+
         res = load_data(1);
+        set(source, 'String', 'Done','BackgroundColor',ColorIt(1));
         
     end
 
@@ -309,66 +268,6 @@ waitfor(f);                         % Exit if Gui is closed
             'Value',find(strcmp({exp(:).name},dat.exp_name_new)));
         
     end
-
-
-    function disp_Callback(source,eventdata)
-        
-        str = get(source, 'String');
-        dat.dispArcmin = str2num(str);
-        
-        set(warn_me,'String','WARNING: Settings changed','BackgroundColor',ColorIt(1));
-    end
-
-
-    function radius_Callback(source,eventdata)
-        
-        str = get(source, 'String');
-        dat.stimRadDeg = str2num(str);
-        
-        set(warn_me,'String','WARNING: Settings changed','BackgroundColor',ColorIt(1));
-    end
-
-    function size_Callback(source,eventdata)
-        
-        str = get(source, 'String');
-        dat.dotSizeDeg = str2num(str);
-        
-        set(warn_me,'String','WARNING: Settings changed','BackgroundColor',ColorIt(1));
-    end
-
-    function density_Callback(source,eventdata)
-        
-        str = get(source, 'String');
-        dat.dotDensity = str2num(str);
-        
-        set(warn_me,'String','WARNING: Settings changed','BackgroundColor',ColorIt(1));
-    end
-
-    function prelude_Callback(source,eventdata)
-        
-        str = get(source, 'String');
-        dat.preludeSec = str2num(str);
-        
-        set(warn_me,'String','WARNING: Settings changed','BackgroundColor',ColorIt(1));
-    end
-
-    function cycle_Callback(source,eventdata)
-        
-        str = get(source, 'String');
-        dat.cycleSec = str2num(str);
-        
-        set(warn_me,'String','WARNING: Settings changed','BackgroundColor',ColorIt(1));
-    end
-
-    function repeat_Callback(source,eventdata)
-        
-        str = get(source, 'String');
-        dat.cond_repeats = str2num(str);
-        
-    end
-
-
-
 
 
     function condition_Callback(source,eventdata)

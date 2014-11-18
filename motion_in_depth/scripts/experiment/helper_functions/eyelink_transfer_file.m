@@ -29,5 +29,11 @@ if ~isempty(edfFile)
 end
 
 if ~strcmp(fileStr,'_calibration_')
-    save([dat.data_stim_dir dat.subj fileStr dat.timeNow '.mat'],'dat');
+    
+    if dat.training
+        save([dat.data_train_dir dat.subj fileStr dat.timeNow '.mat'],'dat');
+    else
+        save([dat.data_stim_dir dat.subj fileStr dat.timeNow '.mat'],'dat');
+    end
+    
 end
