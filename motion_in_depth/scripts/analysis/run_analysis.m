@@ -3,7 +3,7 @@ function run_analysis()
 %
 
 addpath(genpath('.'));
-
+addpath(genpath('../experiment'));
 
 % preload in all available data
 %rerun = 1;

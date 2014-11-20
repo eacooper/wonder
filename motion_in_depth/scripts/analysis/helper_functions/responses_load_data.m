@@ -4,7 +4,7 @@ function [res,dcnt] = responses_load_data(dcnt,dat,res,file)
 
 % data fields to fill in are two types, experiment-specific and
 % trial-specific
-fields_exp    = {'subj','exp_name','training','dispArcmin',...
+fields_exp    = {'subj','exp_name','ipd','training','dispArcmin',...
     'stimRadDeg','dotSizeDeg','dotDensity',...
     'preludeSec','cycleSec'};
 fields_trial     = {'condition','dynamics','direction','repeat',...
@@ -36,7 +36,7 @@ for f = 1:length(fields_trial)
 end
 
 % stimulus predictions
-v_half_angle = atand(((res.ipd/2))./res.el.href_dist); % half the vergence angle
+v_half_angle = atand(((dat.ipd/2))./res.el.href_dist); % half the vergence angle
 
 cntr = 1;
 for t = dcnt:dcnt-1+num_trials

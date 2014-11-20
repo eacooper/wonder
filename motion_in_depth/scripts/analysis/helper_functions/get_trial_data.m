@@ -7,7 +7,7 @@ fieldsSame = {'display','recording','training','stimRadDeg','dispArcmin',...
     'dotSizeDeg','dotDensity','preludeSec','cycleSec','dotUpdateHz','numCycles'};
 
 % fields that can differ
-fieldsDiffer = {'subj','exp_name'};
+fieldsDiffer = {'subj','exp_name','ipd'};
 
 fields = [fieldsSame fieldsDiffer];
 

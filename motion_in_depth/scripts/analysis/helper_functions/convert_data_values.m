@@ -7,10 +7,10 @@ res.trials.LEyCm = res.trials.LEy.*res.el.href2cm;
 res.trials.RExCm = res.trials.REx.*res.el.href2cm;
 res.trials.REyCm = res.trials.REy.*res.el.href2cm;
 
-res.trials.LExAng = convert_screen_to_deg(res.trials.LExCm,res.el,res.ipd);
-res.trials.LEyAng = convert_screen_to_deg(res.trials.LEyCm,res.el,res.ipd);
-res.trials.RExAng = convert_screen_to_deg(res.trials.RExCm,res.el,-res.ipd);
-res.trials.REyAng = convert_screen_to_deg(res.trials.REyCm,res.el,-res.ipd);
+res.trials.LExAng = convert_screen_to_deg(res.trials.LExCm,res.el,res.trials.ipd);
+res.trials.LEyAng = convert_screen_to_deg(res.trials.LEyCm,res.el,res.trials.ipd);
+res.trials.RExAng = convert_screen_to_deg(res.trials.RExCm,res.el,-res.trials.ipd);
+res.trials.REyAng = convert_screen_to_deg(res.trials.REyCm,res.el,-res.trials.ipd);
 
 res.trials.vergenceH    = res.trials.LExAng - res.trials.RExAng;
 res.trials.vergenceV    = res.trials.LEyAng - res.trials.REyAng;
