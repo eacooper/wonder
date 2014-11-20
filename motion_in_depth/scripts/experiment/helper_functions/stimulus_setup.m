@@ -18,6 +18,9 @@ scr.y_center_pix_right  = scr.y_center_pix;
 scr.x_center_pix_left   = scr.x_center_pix - (scr.prismShiftCm*scr.cm2pix);
 scr.x_center_pix_right  = scr.x_center_pix + (scr.prismShiftCm*scr.cm2pix);
 
+if ~strcmp(cell2mat(dat.conditions),'SingleDot')                                % if there are multidot conditions included...      
+   scr.calicolor = [52 52 52];                                                 % make the calibration screen a little brighter
+end
 
 %  STIMULUS  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

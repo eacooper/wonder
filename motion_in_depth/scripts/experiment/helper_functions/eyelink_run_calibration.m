@@ -1,5 +1,6 @@
 function eyelink_run_calibration(dat,scr,el)
 
+keyboard
 if dat.recording
     
     eyelink_set_targets(scr)                     % setup target locations on screen
