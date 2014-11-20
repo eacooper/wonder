@@ -51,7 +51,10 @@ while stop==0 && bitand(Eyelink('CurrentMode'), el.IN_TARGET_MODE)
 		case el.SPACE_BAR,	         		% 32: accept fixation
 			if el.allowlocaltrigger==1
 				Eyelink( 'AcceptTrigger');
-			end
+            end
+            
+            WaitSec(0.1);
+            
 			break;
 		case { 0,  el.JUNK_KEY	}	% No key
 		case el.ESC_KEY,

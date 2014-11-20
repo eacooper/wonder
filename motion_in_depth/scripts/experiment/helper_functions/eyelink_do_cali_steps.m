@@ -1,4 +1,4 @@
-function result=EyelinkDoTrackerSetup(el, sendkey)
+function result=eyelink_do_cali_steps(el, sendkey)
 
 % USAGE: result=EyelinkDoTrackerSetup(el [, sendkey])
 %
@@ -16,74 +16,60 @@ function result=EyelinkDoTrackerSetup(el, sendkey)
 % 15-10-02	fwc	added sendkey variable that allows to go directly into a particular mode
 % 22-06-06	fwc OSX-ed
 % 15-06-10	fwc added code for new callback version
+%
+% Emily renamed and cleaned up this PTB code
 
 
-result=-1;
+result  =   -1;
 if nargin < 1
 	error( 'USAGE: result=EyelinkDoTrackerSetup(el [,sendkey])' );
 end
 
-% if we have the new callback code, we call it.
-% if ~isempty(el.callback)
-%     if Eyelink('IsConnected') ~= el.notconnected
-%         if ~isempty(el.window)            
-%             rect=Screen(el.window,'Rect');
-%             % make sure we use the correct screen coordinates
-%             Eyelink('Command', 'screen_pixel_coords = %d %d %d %d',rect(1),rect(2),rect(3)-1,rect(4)-1);
-%         end
-%     else
-%         return
-%     end
-%     result = Eyelink( 'StartSetup', 1 );
-%     
-%     return;
-% end
-% else we continue with the old version
+
+Eyelink( 'StartSetup' );                                    % start setup mode
+Eyelink( 'WaitForModeReady', el.waitformodereadytime );     % time for mode change
+EyelinkClearCalDisplay(el);                                 % setup_cal_display()
 
 
-% Eyelink('Command', 'heuristic_filter = ON');
-Eyelink( 'StartSetup' );		% start setup mode
-Eyelink( 'WaitForModeReady', el.waitformodereadytime );  % time for mode change
-
-EyelinkClearCalDisplay(el);	% setup_cal_display()
-key=1;
-while key~= 0
-	key=eyelink_get_key(el);		% dump old keys
+key = 1;
+while key ~= 0
+	key = eyelink_get_key(el);                              % dump old keys
 end
 
-% go directly into a particular mode
 
-if nargin==2
-	if el.allowlocalcontrol==1
-		switch lower(sendkey)
-			case{ 'c', 'v', 'd', el.ENTER_KEY}
-                %forcedkey=BITAND(sendkey(1,1),255);
-				forcedkey=double(sendkey(1,1));
-				Eyelink('SendKeyButton', forcedkey, 0, el.KB_PRESS );
-		end
-	end
-end
-
-tstart=GetSecs;
-stop=0;
-
-while stop==0 && bitand(Eyelink( 'CurrentMode'), el.IN_SETUP_MODE)
-
-	i=Eyelink( 'CurrentMode');
+if nargin == 2                                              % go directly into a particular mode if given
 	
-	if ~Eyelink( 'IsConnected' ) stop=1; break; end;
+    if el.allowlocalcontrol == 1
+		
+        switch lower(sendkey)
+			case{ 'c', 'v', 'd', el.ENTER_KEY}
+				forcedkey = double(sendkey(1,1));
+				Eyelink('SendKeyButton', forcedkey, 0, el.KB_PRESS );
+        end
+        
+    end
+    
+end
+
+tstart  = GetSecs;
+stop    = 0;
+
+while stop == 0 && bitand(Eyelink( 'CurrentMode'), el.IN_SETUP_MODE)
+
+	i = Eyelink( 'CurrentMode');
+	if ~Eyelink( 'IsConnected' ); stop=1; break; end;
 
 	if bitand(i, el.IN_TARGET_MODE)			% calibrate, validate, etc: show targets
-		%fprintf ('%s\n', 'dotrackersetup: in targetmodedisplay' );
+
+		eyelink_target_mode_display(el);	
         
-		eyelink_target_mode_display(el);		
 	elseif bitand(i, el.IN_IMAGE_MODE)		% display image until we're back
-% 		fprintf ('%s\n', 'EyelinkDoTrackerSetup: in ''ImageModeDisplay''' );
+% 		
 	  	if Eyelink ('ImageModeDisplay')==el.TERMINATE_KEY 
 			result=el.TERMINATE_KEY;
-	    	return;    % breakout key pressed
+	    	return;                         % breakout key pressed
 	  	else
-			EyelinkClearCalDisplay(el);	% setup_cal_display()
+			EyelinkClearCalDisplay(el);     % setup_cal_display()
 		end	
 	end
 

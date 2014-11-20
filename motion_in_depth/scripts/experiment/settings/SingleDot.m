@@ -1,11 +1,11 @@
-function dat = test
+function dat = SingleDot
 %
 % this function stores the settings for motion in depth experiments. copy
 % and rename to design a new experiment, or use the gui opened by
 % run_experiment without arguments
 
 % set up properties
-dat.display         = 'LG3DRB';      % display
+dat.display         = 'planar';      % display
 dat.recording       = 0;      % using eyelink to record (1) or not (0)
 dat.training        = 1;      % providing training feedback noises (1) or not(0)
 
@@ -22,7 +22,7 @@ dat.cycleSec        = 1;      % duration of one direction, so 2* = full cycle du
 % conditions
 dat.conditions      = {'SingleDot'};      % dot conditions, IOVD, CDOT, etc
 dat.cond_repeats    = 1;      % number of repeats per condition
-dat.dynamics        = {'ramp'};      % steps, ramps, etc
-dat.directions      = C_d;      % initial motion direction
+dat.dynamics        = {'step','ramp','stepramp'};      % steps, ramps, etc
+dat.directions      = {'away','towards','left','right'};      % initial motion direction
 
 
