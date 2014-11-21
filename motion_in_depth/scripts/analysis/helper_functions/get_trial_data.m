@@ -30,7 +30,7 @@ for f = 1:length(res.fullpath)
         
     end
     
-    res.allinfo(f)      = dat;                                  % copy over all stimulus data
+    res.allinfo(f).dat   = dat;                                  % copy over all stimulus data
     res                 = generate_preditions(dat,res,f);       % generate eye predictions for each dynamics
     res.display_info(f) = dat.display_info;                     % grab display info 
     [res,dcnt]          = responses_load_data(dcnt,dat,res,f);  % fill in response and trial data

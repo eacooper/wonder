@@ -35,10 +35,10 @@ for p = 1:length(plt)
                         strcmp(res.trials.exp_name,exp_name) & ...
                         res.trials.isGood == 1);
                     
+                    figure(f(d)); hold on; subplot(2,2,cnt); hold on;
+                    
                     for t = 1:length(inds)
-                        
-                        figure(f(d)); hold on; subplot(2,2,cnt); hold on;
-                        
+                                              
                         switch plt{p}
                             
                             case 'monocular'
@@ -46,7 +46,7 @@ for p = 1:length(plt)
                                 [ax,h1,h2] = plotyy(1:length(res.trials.LExAng(inds(t),:)),res.trials.LExAng(inds(t),:),...
                                     1:length(res.trials.RExAng(inds(t),:)),res.trials.RExAng(inds(t),:));
                                 color_yy(ax,h1,h2,0,1);
-                                
+
                             case 'binocular'
                                 
                                 [ax,h1,h2] = plotyy(1:length(res.trials.vergenceH(inds(t),:)),res.trials.vergenceH(inds(t),:),...
@@ -65,7 +65,9 @@ for p = 1:length(plt)
                         
                     end
                     
-                    figure(f(d)); hold on; subplot(2,2,cnt); hold on;
+                    
+                    
+                    %figure(f(d)); hold on; subplot(2,2,cnt); hold on;
                     
                     switch plt{p}
                         
@@ -115,7 +117,7 @@ for p = 1:length(plt)
                         
                     end
                     
-                    ylabel('LE(+)/RE(-)');
+                    %ylabel('LE(+)/RE(-)');
                     cnt = cnt + 1;
                     
                 end
@@ -149,6 +151,9 @@ if(flag2)
     
     set(ax(1),'YLim',[0 5],'Ytick',0:5)
     set(ax(2),'YLim',[-5 0],'Ytick',-5:0)
+    
+    set(get(ax(1),'Ylabel'),'String','Left Eye Position')
+    set(get(ax(2),'Ylabel'),'String','Right Eye Position')
     
 else
     
