@@ -65,10 +65,6 @@ for p = 1:length(plt)
                         
                     end
                     
-                    
-                    
-                    %figure(f(d)); hold on; subplot(2,2,cnt); hold on;
-                    
                     switch plt{p}
                         
                         case 'monocular'
@@ -152,12 +148,15 @@ if(flag2)
     set(ax(1),'YLim',[0 5],'Ytick',0:5)
     set(ax(2),'YLim',[-5 0],'Ytick',-5:0)
     
-    set(get(ax(1),'Ylabel'),'String','Left Eye Position')
-    set(get(ax(2),'Ylabel'),'String','Right Eye Position')
+    set(get(ax(1),'Ylabel'),'String','Left Eye Position (deg)')
+    set(get(ax(2),'Ylabel'),'String','Right Eye Position (deg)')
     
 else
     
     set(ax(1),'YLim',[6 8],'Ytick',6:8)
     set(ax(2),'YLim',[-1 1],'Ytick',-1:1)
+    
+    set(get(ax(1),'Ylabel'),'String','Vergence (deg)')
+    set(get(ax(2),'Ylabel'),'String','Version (deg)')
     
 end

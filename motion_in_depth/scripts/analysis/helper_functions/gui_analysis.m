@@ -18,7 +18,7 @@ dir         = [];
 dyn         = [];
 renable     = {'off','on'};
 plts        = {'monocular','binocular','vergence','version'};
-plt = plts;
+plt         = plts(1);
 set_experiment;
 
 %  Create and then hide the GUI as it is being constructed
@@ -136,7 +136,7 @@ for d = 1:length(dyns)
         'String',   dyns{d}, ...
         'Callback', @dynamics_Callback, ...
         'Position',[sz(1) - marg,sz(2) - marg*(11 + d),200,25],...
-        'Value',    1, ...
+        'Value',    ismember(dyns{d},dyn), ...
         'Enable', renable{ismember(dyns{d},dyn) + 1});
 end
 
@@ -150,7 +150,7 @@ for t = 1:length(dirs)
         'String',   dirs{t}, ...
         'Callback', @directions_Callback, ...
         'Position',[marg + 90*locx,sz(2) - marg*(11 + locy),100,25],...
-        'Value',    1, ...
+        'Value',    ismember(dirs{t},dir), ...
         'Enable', renable{ismember(dirs{t},dir) + 1});
 end
 
@@ -165,7 +165,7 @@ for p = 1:length(plts)
         'String',   plts{p}, ...
         'Callback', @plots_Callback, ...
         'Position',[marg + 90*locx,sz(2) - marg*(3 + locy),100,25],...
-        'Value',    1);
+        'Value',    ismember(plts{p},plt));
 end
 
 
@@ -210,37 +210,31 @@ waitfor(f);                         % Exit if Gui is closed
         subjs       = unique(res.trials.subj(exp_inds));
         subjs{end+1} = 'All';
         
-        %conds       = unique(res.trials.condition(exp_inds));
-        %dyns        = unique(res.trials.dynamics(exp_inds));
-        %dirs        = unique(res.trials.direction(exp_inds));
-        
         conds = conditions;
         dyns = dynamics;
         dirs = {'left','right','towards','away'};
         
-        
-        dispArcmin = unique(res.trials.dispArcmin(exp_inds));
-        stimRadDeg = unique(res.trials.stimRadDeg(exp_inds & ~strcmp(res.trials.condition,'SingleDot')));
-        dotSizeDeg = unique(res.trials.dotSizeDeg(exp_inds));
-        dotDensity = unique(res.trials.dotDensity(exp_inds));
-        preludeSec = unique(res.trials.preludeSec(exp_inds));
-        cycleSec = unique(res.trials.cycleSec(exp_inds));
+        dispArcmin  = unique(res.trials.dispArcmin(exp_inds));
+        stimRadDeg  = unique(res.trials.stimRadDeg(exp_inds & ~strcmp(res.trials.condition,'SingleDot')));
+        dotSizeDeg  = unique(res.trials.dotSizeDeg(exp_inds));
+        dotDensity  = unique(res.trials.dotDensity(exp_inds));
+        preludeSec  = unique(res.trials.preludeSec(exp_inds));
+        cycleSec    = unique(res.trials.cycleSec(exp_inds));
         
         subj       = subjs(end);
         cond       = unique(res.trials.condition(exp_inds));
         dyn        = unique(res.trials.dynamics(exp_inds));
         dir        = unique(res.trials.direction(exp_inds));
-        %cond = conds;
-        %dir = dirs;
-        %dyn = dyns;
         
     end
+
 
     function exp_Callback(source,~)
         
         str = get(source, 'String');
         val = get(source,'Value');
-        exp_name    = str{val};
+        
+        exp_name = str{val};
         set_experiment;
         
         for x = 1:length(cradio)
@@ -249,14 +243,16 @@ waitfor(f);                         % Exit if Gui is closed
         end
         
         for y = 1:length(dradio)
-            set(dradio(y),'Value',ismember(get(dradio(y),'String'),dyns));
+            set(dradio(y),'Value',ismember(get(dradio(y),'String'),dyn));
             set(dradio(y),'Enable', renable{ismember(get(dradio(y),'String'),dyn) + 1});
         end
         
         for z = 1:length(tradio)
-            set(tradio(z),'Value',ismember(get(tradio(z),'String'),dirs));
+            set(tradio(z),'Value',ismember(get(tradio(z),'String'),dir));
             set(tradio(z),'Enable', renable{ismember(get(tradio(z),'String'),dir) + 1});
         end
+        
+        set(spopup,'String',subjs,'Value',numel(subjs));
         
         set(d1text,'String',['Disparity (am): ' num2str(dispArcmin)]);
         set(d2text,'String',['Stim Radius (deg): ' num2str(stimRadDeg)]);
@@ -270,16 +266,8 @@ waitfor(f);                         % Exit if Gui is closed
 
     function subj_Callback(source,~)
         
-        str = get(source, 'String');
-        subj = str;
-    end
-
-
-    function feedback_Callback(source,~)
-        
         val = get(source,'Value');
-        dat.training = val;
-        
+        subj = subjs(val);
     end
 
 
@@ -288,6 +276,7 @@ waitfor(f);                         % Exit if Gui is closed
         plot_results(subj,cond,dir,dyn,exp_name,res,plt)
         
     end
+
 
     function load_Callback(source,~)
         
