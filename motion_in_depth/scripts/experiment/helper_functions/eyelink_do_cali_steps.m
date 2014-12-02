@@ -96,7 +96,7 @@ while stop == 0 && bitand(Eyelink( 'CurrentMode'), el.IN_SETUP_MODE)
 			end
 	end
 	
-	WaitSec(0.1);
+	WaitSecs(0.1);
 	
 end % while IN_SETUP_MODE
 
