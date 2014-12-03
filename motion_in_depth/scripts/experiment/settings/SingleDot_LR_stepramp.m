@@ -11,17 +11,17 @@ dat.training        = 1;      % providing training feedback noises (1) or not(0)
 
 % dot field properties
 dat.stimRadDeg      = 10;      % stimulus field radius
-dat.dispArcmin      = 120;      % disparity magnitude
+dat.dispArcmin      = 240;      % disparity magnitude
 dat.dotSizeDeg      = 0.25;      % diameter of each dot
 dat.dotDensity      = 2;      % dots per degree2
 
 % timing
 dat.preludeSec      = 0.25;      % delay before motion onset
-dat.cycleSec        = 0.5;      % duration of one direction, so 2* = full cycle duration for a step-ramp
+dat.cycleSec        = 1;      % duration of one direction, so 2* = full cycle duration for a step-ramp
 
 % conditions
 dat.conditions      = {'SingleDot'};      % dot conditions, IOVD, CDOT, etc
-dat.cond_repeats    = 1;      % number of repeats per condition
+dat.cond_repeats    = 2;      % number of repeats per condition
 dat.dynamics        = {'stepramp'};      % steps, ramps, etc
 dat.directions      = {'left','right'};      % initial motion direction
 

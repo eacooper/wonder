@@ -53,7 +53,7 @@ while stop==0 && bitand(Eyelink('CurrentMode'), el.IN_TARGET_MODE)
 				Eyelink( 'AcceptTrigger');
             end
             
-            WaitSec(0.1);
+            WaitSecs(0.1);
             
 			break;
 		case { 0,  el.JUNK_KEY	}	% No key
