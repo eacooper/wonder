@@ -1,33 +1,45 @@
 function plot_results(subjs,conds,dirs,dyn,exp_name,res,plt)
 %
-%
+% use settings from analysis GUI to generate results plots
 
 
+% for each requested plot type
 for p = 1:length(plt)
     
+    
+    % for each subject (should really only be one ever)
     for s = 1:length(subjs)
         
+        
+        % get data indices (use all indices if 'All' subject selected)
         if strcmp(subjs(s),'All')
             subj_inds = ones(1,length(res.trials.subj));
         else
             subj_inds = strcmp(res.trials.subj,subjs{s});
-            
         end
         
+        
+        % for each condition dynamics type (e.g., step, stepramp...)
         for d = 1:length(dyn);
             
+            
+            % for each stimulus condition (e.g., Single Dot, Full Cue...)
             for c = 1:length(conds)
                 
-                            f(d) = figure; hold on; setupfig(10,10,10);
-            suptitle([subjs{s} ' ' dyn{d} ' L eye R eye']);
-            
-            cnt = 1;
+                % open a new figure
+                f(d) = figure; hold on; setupfig(10,10,10);
+                suptitle([subjs{s} ' ' dyn{d} ' ' plt{p}]);
+                cnt = 1;     % subplot counter
                 
+                
+                % for each motion direction
                 for r = 1:length(dirs);
                     
+                    % open a subplot
                     subplot(2,2,cnt); hold on; title([conds{c} ' ' dirs{r}]); box on;
                     
-                    
+                    % get the indices in the data matrix for this
+                    % combination
                     inds = find(subj_inds & ...
                         strcmp(res.trials.condition,conds{c}) & ...
                         strcmp(res.trials.dynamics,dyn{d})  & ...
@@ -35,10 +47,13 @@ for p = 1:length(plt)
                         strcmp(res.trials.exp_name,exp_name) & ...
                         res.trials.isGood == 1);
                     
-                    figure(f(d)); hold on; subplot(2,2,cnt); hold on;
+                    %figure(f(d)); hold on; subplot(2,2,cnt); hold on;
                     
+                    
+                    % for each trials
                     for t = 1:length(inds)
-                                              
+                        
+                        % plot requested result type
                         switch plt{p}
                             
                             case 'monocular'
@@ -46,7 +61,7 @@ for p = 1:length(plt)
                                 [ax,h1,h2] = plotyy(1:length(res.trials.LExAng(inds(t),:)),res.trials.LExAng(inds(t),:),...
                                     1:length(res.trials.RExAng(inds(t),:)),res.trials.RExAng(inds(t),:));
                                 color_yy(ax,h1,h2,0,1);
-
+                                
                             case 'binocular'
                                 
                                 [ax,h1,h2] = plotyy(1:length(res.trials.vergenceH(inds(t),:)),res.trials.vergenceH(inds(t),:),...
@@ -59,12 +74,10 @@ for p = 1:length(plt)
                                 
                                 
                         end
-                        
-                        
-                        
-                        
+  
                     end
                     
+                    % now plot average of all trials
                     switch plt{p}
                         
                         case 'monocular'
@@ -84,6 +97,7 @@ for p = 1:length(plt)
                             plot(1:length(mean(res.trials.vergenceH(inds,:),1)),mean(res.trials.vergenceH(inds,:),1),'color',ColorIt(3));
                     end
                     
+                    % ...and prediction
                     if length(inds) > 0
                         
                         switch plt{p}
@@ -112,9 +126,8 @@ for p = 1:length(plt)
                         
                         
                     end
-                    
-                    %ylabel('LE(+)/RE(-)');
-                    cnt = cnt + 1;
+
+                    cnt = cnt + 1;      % increment subplot counter
                     
                 end
                 
@@ -127,14 +140,14 @@ for p = 1:length(plt)
 end
 
 
-function color_yy(ax,h1,h2,flag,flag2)
+function color_yy(ax,h1,h2,flag1,flag2)
+%
+% adjust plotting colors
 
-if(flag)
-    
+if(flag1)
     set(h1,'color',ColorIt(2))
     set(h2,'color',ColorIt(1))
 else
-    
     set(h1,'color',ColorIt(2).^(0.1))
     set(h2,'color',ColorIt(1).^(0.1))
 end
