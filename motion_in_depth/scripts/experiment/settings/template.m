@@ -12,12 +12,13 @@ dat.training        = X_t;      % providing training feedback noises (1) or not(
 % dot field properties
 dat.stimRadDeg      = N_r;      % stimulus field radius
 dat.dispArcmin      = N_d;      % disparity magnitude
+dat.rampSpeedDegSec = N_m;      % ramp speed in degrees per second
 dat.dotSizeDeg      = N_s;      % diameter of each dot
 dat.dotDensity      = N_n;      % dots per degree2
 
 % timing
 dat.preludeSec      = T_p;      % delay before motion onset
-dat.cycleSec        = T_c;      % duration of one direction, so 2* = full cycle duration for a step-ramp
+dat.cycleSec        = T_c;      % duration of stimulus after prelude
 
 % conditions
 dat.conditions      = C_l;      % dot conditions, IOVD, CDOT, etc

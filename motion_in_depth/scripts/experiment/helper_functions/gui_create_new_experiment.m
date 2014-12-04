@@ -14,6 +14,7 @@ replaceinfile('X_t',num2str(dat.training),['./settings/' dat.exp_name '.m']);
 % dot properties
 replaceinfile('N_r',num2str(dat.stimRadDeg),['./settings/' dat.exp_name '.m']);
 replaceinfile('N_d',num2str(dat.dispArcmin),['./settings/' dat.exp_name '.m']);
+replaceinfile('N_m',num2str(dat.rampSpeedDegSec),['./settings/' dat.exp_name '.m']);
 replaceinfile('N_s',num2str(dat.dotSizeDeg),['./settings/' dat.exp_name '.m']);
 replaceinfile('N_n',num2str(dat.dotDensity),['./settings/' dat.exp_name '.m']);
 

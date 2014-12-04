@@ -51,7 +51,10 @@ switch scr.name
         
 end
 
-stm.dispPix         = dat.dispArcmin./scr.pix2arcmin;               % step/ramp full disparity in pixels
+stm.dispPix             = dat.dispArcmin/scr.pix2arcmin;            % step full disparity in pixels
+stm.rampEndDispDeg      = 2*(dat.rampSpeedDegSec/dat.cycleSec);     % end full disparity of ramp in degrees relative to start position
+stm.rampEndDispPix      = (60*stm.rampEndDispDeg)/scr.pix2arcmin;   % end full disparity of ramp in pixels relative to start position
+
 stm.stimRadPix      = round((60*dat.stimRadDeg)/scr.pix2arcmin);    % dot field radius in pixels
 stm.stimRadSqPix    = stm.stimRadPix^2;                             % square it now to save time later
 stm.dotSizePix      = (dat.dotSizeDeg*60)/scr.pix2arcmin;           % dot diameter in pixels
@@ -71,13 +74,13 @@ stm.numDots = round( dat.dotDensity*(  stm.xmax*(scr.pix2arcmin/60) * ...  % con
 stm.dotUpdateSec    = 1/dat.dotUpdateHz;                                % duration to hold dots on screen
 stm.dotRepeats		= round(scr.frameRate/dat.dotUpdateHz);             % number of frames to hold dots on screen
 dat.dotUpdateHz     = scr.frameRate/stm.dotRepeats;                     % true dot update rate is even multiple of frame rate
-stm.numUpdates      = round(dat.dotUpdateHz*dat.cycleSec);              % number of times the stimulus is updated in a cycle
-
-stm.preludeUpdates  = round(dat.dotUpdateHz*dat.preludeSec);
+stm.numUpdates      = round(dat.dotUpdateHz*dat.cycleSec);              % number of times the stimulus is updated in a rap cycle
+stm.preludeUpdates  = round(dat.dotUpdateHz*dat.preludeSec);            % number of times the stimulus is updated in a preclue
 
 stm.dynamics.step       = [ zeros(1,stm.preludeUpdates) repmat(stm.dispPix,1,stm.numUpdates)];   % set up step disparity updates
-stm.dynamics.ramp       = [ zeros(1,stm.preludeUpdates) linspace(stm.dispPix/stm.numUpdates,stm.dispPix,stm.numUpdates)];       % set up ramp disparity updates
-stm.dynamics.stepramp   = [ zeros(1,stm.preludeUpdates) fliplr(linspace(stm.dispPix/stm.numUpdates,stm.dispPix,stm.numUpdates))];
+stm.dynamics.ramp       = [ zeros(1,stm.preludeUpdates) linspace(stm.rampEndDispPix/stm.numUpdates,stm.rampEndDispPix,stm.numUpdates)];       % set up ramp disparity updates
+stm.dynamics.stepramp   = [ zeros(1,stm.preludeUpdates) stm.dispPix - linspace(0,stm.rampEndDispPix - stm.rampEndDispPix/stm.numUpdates,stm.numUpdates)];
+%stm.dynamics.stepramp   = [ zeros(1,stm.preludeUpdates) fliplr(linspace(stm.dispPix/stm.numUpdates,stm.dispPix,stm.numUpdates))];
 
 
 %  FIXATION  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

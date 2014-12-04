@@ -8,10 +8,10 @@ function run_experiment(varargin)
 
 % GET EXPERIMENT VARIABLES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-addpath(genpath('.'));                  % add path to helper functions
-[dat,scr] = gui_settings(varargin);           % put argument contents into data fields, deal with defaults
-dat = make_data_dirs(dat);              % make directories to store session data
-dat.timeNow = datestr(clock,'mm_dd_yy_HHMMSS');         % get start time for file names
+addpath(genpath('.'));                          % add path to helper functions
+[dat,scr]   = gui_settings(varargin);           % put argument contents into data fields, deal with defaults
+dat         = make_data_dirs(dat);              % make directories to store session data
+dat.timeNow = datestr(clock,'mm_dd_yy_HHMMSS'); % get start time for file names
 
 
 % SET UP SCREEN, STIMULUS, WINDOW, TRACKER, KEYS %%%%%%%%%%%%%%%%%%%%%%%%%%
