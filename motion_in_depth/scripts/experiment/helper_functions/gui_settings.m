@@ -6,6 +6,7 @@ function [dat,scr] = gui_settings(settings)
 dspl        = displays;
 conds       = conditions;
 dyn         = dynamics;
+ipdmat      = ipds;
 dirs        = {'away','towards','left','right'};
 exp         = gui_load_experiments;
 
@@ -296,6 +297,8 @@ movegui(f,'center');             % Move the GUI to the center of the screen
 set(f,'Visible','on');              % Make the GUI visible
 waitfor(f);                         % Exit if Gui is closed
 
+gui_store_ipd(dat,ipds)                  % store initials/IPD pair for this session
+
 if(~go)
     error('GUI exited without pressing Start');
 end
@@ -351,6 +354,11 @@ end
         
         str = get(source, 'String');
         subj = str;
+        
+        if sum(ismember(ipdmat.subj,subj)) > 0
+            ipd = ipdmat.ipd(ismember(ipdmat.subj,subj));
+            set(pbox,'String',ipd);
+        end
     end
 
     function ipd_Callback(source,eventdata)

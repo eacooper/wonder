@@ -86,8 +86,11 @@ stm.dynamics.stepramp   = [ zeros(1,stm.preludeUpdates) stm.dispPix - linspace(0
 %  FIXATION  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 stm.fixationRadiusDeg = 1;
-stm.fixationRadiusPix = (60*stm.fixationRadiusDeg)./scr.pix2arcmin;
+stm.fixationRadiusPix = (60*stm.fixationRadiusDeg)/scr.pix2arcmin;
 stm.fixationRadiusSqPix = stm.fixationRadiusPix^2;
+
+stm.fixationDotRadiusDeg = 0.125;
+stm.fixationDotRadiusPix = (60*stm.fixationDotRadiusDeg)/scr.pix2arcmin;
 
 if scr.topbottom == 1
     scr.Yscale = 0.5;
