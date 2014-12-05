@@ -37,7 +37,7 @@ for s = 1:length(starts)
         
         data_nums(data_nums == 1e100) = NaN;                                    % replace bad values with NaNs
         
-        res.trials.(vals{d})(tcnt,:) = data_nums;                               % store cleaned eye position href data
+        res.trials.(vals{d}){tcnt} = data_nums;                               % store cleaned eye position href data
 
         if sum(isnan(data_nums)) > 0                                            % flag this trial is there's bad data
             isGood = 0;

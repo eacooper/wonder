@@ -58,19 +58,19 @@ for p = 1:length(plt)
                             
                             case 'monocular'
                                 
-                                [ax,h1,h2] = plotyy(1:length(res.trials.LExAng(inds(t),:)),res.trials.LExAng(inds(t),:),...
-                                    1:length(res.trials.RExAng(inds(t),:)),res.trials.RExAng(inds(t),:));
+                                [ax,h1,h2] = plotyy(1:length(res.trials.LExAng{inds(t)}),res.trials.LExAng{inds(t)},...
+                                    1:length(res.trials.RExAng{inds(t)}),res.trials.RExAng{inds(t)});
                                 color_yy(ax,h1,h2,0,1);
                                 
                             case 'binocular'
                                 
-                                [ax,h1,h2] = plotyy(1:length(res.trials.vergenceH(inds(t),:)),res.trials.vergenceH(inds(t),:),...
-                                    1:length(res.trials.versionH(inds,:)),res.trials.versionH(inds,:));
+                                [ax,h1,h2] = plotyy(1:length(res.trials.vergenceH{inds(t)}),res.trials.vergenceH{inds(t)},...
+                                    1:length(res.trials.versionH{inds(t)}),res.trials.versionH{inds(t)});
                                 color_yy(ax,h1,h2,0,0);
                                 
                             case 'vergence'
                                 
-                                plot(1:length(res.trials.vergenceH(inds(t),:)),res.trials.vergenceH(inds(t),:),'color',ColorIt(3).^0.1);
+                                plot(1:length(res.trials.vergenceH{inds(t)}),res.trials.vergenceH{inds(t)},'color',ColorIt(3).^0.1);
                                 
                                 
                         end
@@ -82,19 +82,19 @@ for p = 1:length(plt)
                         
                         case 'monocular'
                             
-                            [ax,h1,h2] = plotyy(1:length(mean(res.trials.LExAng(inds,:),1)),mean(res.trials.LExAng(inds,:),1),...
-                                1:length(mean(res.trials.LExAng(inds,:),1)),mean(res.trials.RExAng(inds,:),1));
+                            [ax,h1,h2] = plotyy(1:length(mean(cell2mat(res.trials.LExAng(inds)),2)),mean(cell2mat(res.trials.LExAng(inds)),2),...
+                                1:length(mean(cell2mat(res.trials.RExAng(inds)),2)),mean(cell2mat(res.trials.RExAng(inds)),2));
                             color_yy(ax,h1,h2,1,1);
                             
                         case 'binocular'
                             
-                            [ax,h1,h2] = plotyy(1:length(mean(res.trials.vergenceH(inds,:),1)),mean(res.trials.vergenceH(inds,:),1),...
-                                1:length(mean(res.trials.versionH(inds,:),1)),mean(res.trials.versionH(inds,:),1));
+                            [ax,h1,h2] = plotyy(1:length(mean(cell2mat(res.trials.vergenceH(inds)),2)),mean(cell2mat(res.trials.vergenceH(inds)),2),...
+                                1:length(mean(cell2mat(res.trials.versionH(inds)),2)),mean(cell2mat(res.trials.versionH(inds)),2));
                             color_yy(ax,h1,h2,1,0);
                             
                         case 'vergence'
                             
-                            plot(1:length(mean(res.trials.vergenceH(inds,:),1)),mean(res.trials.vergenceH(inds,:),1),'color',ColorIt(3));
+                            plot(1:length(mean(cell2mat(res.trials.vergenceH(inds)),2)),mean(cell2mat(res.trials.vergenceH(inds)),2),'color',ColorIt(3));
                     end
                     
                     % ...and prediction
@@ -104,23 +104,23 @@ for p = 1:length(plt)
                             
                             case 'monocular'
                                 
-                                [ax,h1,h2] = plotyy(1:length(res.trials.predictionLE(inds(1),:)),res.trials.predictionLE(inds(1),:),...
-                                    1:length(res.trials.predictionRE(inds(1),:)),res.trials.predictionRE(inds(1),:));
+                                [ax,h1,h2] = plotyy(1:length(res.trials.predictionLE{inds(1)}),res.trials.predictionLE{inds(1)},...
+                                    1:length(res.trials.predictionRE{inds(1)}),res.trials.predictionRE{inds(1)});
                                 
                                 color_yy(ax,h1,h2,1,1);
                                 
                             case 'binocular'
                                 
-                                [ax,h1,h2] = plotyy(1:length(res.trials.predictionLE(inds(1),:)),res.trials.predictionLE(inds(1),:)...
-                                    -res.trials.predictionRE(inds(1),:),...
-                                    1:length(res.trials.predictionLE(inds(1),:)),mean([res.trials.predictionLE(inds(1),:) ; res.trials.predictionRE(inds(1),:)]));
+                                [ax,h1,h2] = plotyy(1:length(res.trials.predictionLE{inds(1)}),res.trials.predictionLE{inds(1)}...
+                                    -res.trials.predictionRE{inds(1)},...
+                                    1:length(res.trials.predictionLE{inds(1)}),mean([res.trials.predictionLE{inds(1)} ; res.trials.predictionRE{inds(1)}]));
                                 
                                 color_yy(ax,h1,h2,1,0);
                                 
                             case 'vergence'
                                 
-                                plot(1:length(res.trials.predictionLE(inds(1),:)),res.trials.predictionLE(inds(1),:)...
-                                    -res.trials.predictionRE(inds(1),:),'color',ColorIt(3));
+                                plot(1:length(res.trials.predictionLE{inds(1)}),res.trials.predictionLE{inds(1)}...
+                                    -res.trials.predictionRE{inds(1)},'color',ColorIt(3));
                                 
                         end
                         

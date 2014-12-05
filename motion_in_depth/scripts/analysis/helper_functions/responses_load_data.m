@@ -45,23 +45,23 @@ for t = dcnt:dcnt-1+num_trials
         
         case 'left'
             
-            res.trials.predictionLE(dcnt-1+cntr,:) = v_half_angle - res.predictions(file).(res.trials.dynamicsR{t});
-            res.trials.predictionRE(dcnt-1+cntr,:) = -v_half_angle - res.predictions(file).(res.trials.dynamicsR{t});
+            res.trials.predictionLE{dcnt-1+cntr} = v_half_angle - res.predictions(file).(res.trials.dynamicsR{t});
+            res.trials.predictionRE{dcnt-1+cntr} = -v_half_angle - res.predictions(file).(res.trials.dynamicsR{t});
             
         case 'right'
             
-            res.trials.predictionLE(dcnt-1+cntr,:) = v_half_angle + res.predictions(file).(res.trials.dynamicsR{t});
-            res.trials.predictionRE(dcnt-1+cntr,:) = -v_half_angle + res.predictions(file).(res.trials.dynamicsR{t});
+            res.trials.predictionLE{dcnt-1+cntr} = v_half_angle + res.predictions(file).(res.trials.dynamicsR{t});
+            res.trials.predictionRE{dcnt-1+cntr} = -v_half_angle + res.predictions(file).(res.trials.dynamicsR{t});
             
         case 'towards'
             
-            res.trials.predictionLE(dcnt-1+cntr,:) = v_half_angle + res.predictions(file).(res.trials.dynamicsR{t});
-            res.trials.predictionRE(dcnt-1+cntr,:) = -v_half_angle - res.predictions(file).(res.trials.dynamicsR{t});
+            res.trials.predictionLE{dcnt-1+cntr} = v_half_angle + res.predictions(file).(res.trials.dynamicsR{t});
+            res.trials.predictionRE{dcnt-1+cntr} = -v_half_angle - res.predictions(file).(res.trials.dynamicsR{t});
             
         case 'away'
             
-            res.trials.predictionLE(dcnt-1+cntr,:) = v_half_angle - res.predictions(file).(res.trials.dynamicsR{t});
-            res.trials.predictionRE(dcnt-1+cntr,:) = -v_half_angle + res.predictions(file).(res.trials.dynamicsR{t});
+            res.trials.predictionLE{dcnt-1+cntr} = v_half_angle - res.predictions(file).(res.trials.dynamicsR{t});
+            res.trials.predictionRE{dcnt-1+cntr} = -v_half_angle + res.predictions(file).(res.trials.dynamicsR{t});
             
     end
     

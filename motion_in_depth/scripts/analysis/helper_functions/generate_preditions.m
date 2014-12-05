@@ -11,9 +11,12 @@ samples = res.el.sampleRate/dat.dotUpdateHz;
 
 for d = 1:length(dat.dynamics)
     
+    %res.predictions(f).(dat.dynamics{d}) = (1/60)*...
+    %            rude(repmat(samples,1,length(dat.stim_info.dynamics.(dat.dynamics{d}))),...
+    %            dat.stim_info.dynamics.(dat.dynamics{d}));
+            
     res.predictions(f).(dat.dynamics{d}) = (1/60)*...
-                rude(repmat(samples,1,length(dat.stim_info.dynamics.(dat.dynamics{d}))),...
-                dat.stim_info.dynamics.(dat.dynamics{d}));
+                resample(dat.stim_info.dynamics.(dat.dynamics{d}),res.el.sampleRate,dat.dotUpdateHz,0);
             
 %     switch dat.dynamics{d}
 %         
