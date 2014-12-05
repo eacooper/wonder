@@ -1,4 +1,4 @@
-function dat = default
+function dat = test3
 %
 % this function stores the settings for motion in depth experiments. copy
 % and rename to design a new experiment, or use the gui opened by
@@ -18,7 +18,7 @@ dat.dotDensity      = 2;      % dots per degree2
 
 % timing
 dat.preludeSec      = 0.25;      % delay before motion onset
-dat.cycleSec        = 2;      % duration of stimulus after prelude
+dat.cycleSec        = 1;      % duration of stimulus after prelude
 
 % conditions
 dat.conditions      = {'SingleDot'};      % dot conditions, IOVD, CDOT, etc

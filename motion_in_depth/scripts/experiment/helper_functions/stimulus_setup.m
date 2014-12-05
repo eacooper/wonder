@@ -24,7 +24,7 @@ end
 
 %  STIMULUS  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-dat.dotUpdateHz     = 20;        % dot update rate
+dat.dotUpdateHz     = 60;        % dot update rate
 dat.numCycles       = 1;         % total cycles, more than 1 for periodic stim
 
 stm.wlevel          = 255;       % white

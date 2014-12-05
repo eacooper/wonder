@@ -1,4 +1,4 @@
-function dat = default
+function dat = FastTest
 %
 % this function stores the settings for motion in depth experiments. copy
 % and rename to design a new experiment, or use the gui opened by
@@ -24,6 +24,6 @@ dat.cycleSec        = 2;      % duration of stimulus after prelude
 dat.conditions      = {'SingleDot'};      % dot conditions, IOVD, CDOT, etc
 dat.cond_repeats    = 5;      % number of repeats per condition
 dat.dynamics        = {'stepramp'};      % steps, ramps, etc
-dat.directions      = {'left'};      % initial motion direction
+dat.directions      = C_d;      % initial motion direction
 
 
