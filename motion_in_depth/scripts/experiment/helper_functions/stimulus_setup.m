@@ -79,7 +79,7 @@ stm.preludeUpdates  = round(dat.dotUpdateHz*dat.preludeSec);            % number
 
 stm.dynamics.step       = [ zeros(1,stm.preludeUpdates) repmat(stm.dispPix,1,stm.numUpdates)];   % set up step disparity updates
 stm.dynamics.ramp       = [ zeros(1,stm.preludeUpdates) linspace(stm.rampEndDispPix/stm.numUpdates,stm.rampEndDispPix,stm.numUpdates)];       % set up ramp disparity updates
-stm.dynamics.stepramp   = [ zeros(1,stm.preludeUpdates) stm.dispPix - linspace(0,stm.rampEndDispPix - stm.rampEndDispPix/stm.numUpdates,stm.numUpdates)];
+stm.dynamics.stepramp   = [ zeros(1,stm.preludeUpdates) stm.dispPix - linspace(0,stm.rampEndDispPix - (stm.rampEndDispPix/stm.numUpdates),stm.numUpdates)];
 %stm.dynamics.stepramp   = [ zeros(1,stm.preludeUpdates) fliplr(linspace(stm.dispPix/stm.numUpdates,stm.dispPix,stm.numUpdates))];
 
 
