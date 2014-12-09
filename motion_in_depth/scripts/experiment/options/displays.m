@@ -74,7 +74,7 @@ dspl(3).signRight         = 1;
 
 dspl(4).name              = 'planar';
 
-dspl(4).viewDistCm        = 57;
+dspl(4).viewDistCm        = 50;
 
 %fixed dspleen width to handle native resolution
 dspl(4).width_cm     = 45.8399; % *True* width is 55.008

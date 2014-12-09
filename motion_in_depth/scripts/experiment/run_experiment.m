@@ -64,7 +64,6 @@ for t = 1:length(dat.trials.trialnum)                   % for each trial
     keys_wait(keys,dat)                                     % subject starts trials
     if dat.recording; Eyelink('StartRecording');  end       % start recording eye position
 
-
     % show trial (with random delay first)
     dat = stimulus_draw_trial(w,trial,dotsLE,dotsRE,dat,stm,scr,condition,dynamics,direction,delay);
     

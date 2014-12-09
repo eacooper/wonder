@@ -7,3 +7,6 @@ ipd.ipd(1)  = 0;
 
 ipd.subj{2} = 'EC'; 
 ipd.ipd(2)  = 5.8;
+
+ipd.subj{2} = 'ASC'; 
+ipd.ipd(2)  = 6.2;
