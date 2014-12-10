@@ -1,4 +1,4 @@
-function dat = ASCfullcue_lateral
+function dat = ASCfullcue_3dramps
 %
 % this function stores the settings for motion in depth experiments. copy
 % and rename to design a new experiment, or use the gui opened by
@@ -14,7 +14,7 @@ dat.stimRadDeg      = 18;      % stimulus field radius
 dat.dispArcmin      = 360;      % disparity magnitude
 dat.rampSpeedDegSec = 8;      % ramp speed in degrees per second
 dat.dotSizeDeg      = 1;      % diameter of each dot
-dat.dotDensity      = 0.5;      % dots per degree2
+dat.dotDensity      = 0.4;      % dots per degree2
 
 % timing
 dat.preludeSec      = 0.25;      % delay before motion onset
@@ -22,8 +22,8 @@ dat.cycleSec        = 1;      % duration of stimulus after prelude
 
 % conditions
 dat.conditions      = {'FullCue'};      % dot conditions, IOVD, CDOT, etc
-dat.cond_repeats    = 5;      % number of repeats per condition
-dat.dynamics        = {'stepramp'};      % steps, ramps, etc
-dat.directions      = C_d;      % initial motion direction
+dat.cond_repeats    = 10;      % number of repeats per condition
+dat.dynamics        = {'ramp'};      % steps, ramps, etc
+dat.directions      = {'towards','away'};      % initial motion direction
 
 

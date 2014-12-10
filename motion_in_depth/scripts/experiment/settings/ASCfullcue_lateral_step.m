@@ -1,4 +1,4 @@
-function dat = ASCfullcue_lateral
+function dat = ASCfullcue_lateral_step
 %
 % this function stores the settings for motion in depth experiments. copy
 % and rename to design a new experiment, or use the gui opened by
@@ -22,8 +22,8 @@ dat.cycleSec        = 1;      % duration of stimulus after prelude
 
 % conditions
 dat.conditions      = {'FullCue'};      % dot conditions, IOVD, CDOT, etc
-dat.cond_repeats    = 5;      % number of repeats per condition
-dat.dynamics        = {'stepramp'};      % steps, ramps, etc
-dat.directions      = C_d;      % initial motion direction
+dat.cond_repeats    = 10;      % number of repeats per condition
+dat.dynamics        = {'step'};      % steps, ramps, etc
+dat.directions      = {'left','right'};      % initial motion direction
 
 
