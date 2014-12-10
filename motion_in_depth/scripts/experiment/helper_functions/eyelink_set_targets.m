@@ -2,12 +2,16 @@ function eyelink_set_targets(scr)
 %
 % set target locations and adjust screen size for planar
 
-% target locations
+% screen resolution (native for planar)
 Eyelink('Command','screen_pixel_coords = 0,0,1600,1200');
+
 %effective screen size is reduced for native resolution on planar
 Eyelink('Command','screen_phys_coords = -229.2, 171.9, 229.2, -171.9');
+
+% 13 point calibration
 Eyelink('Command','calibration_type = HV13')
 
+% target locations
 Eyelink('Command', 'calibration_targets = 800,600 800,520 800,680 720,600 880,600 720,520 880,520 720,680 880,680 760,560 840,560 760,640 840,640');
 Eyelink('Command', 'validation_targets = 800,600 800,520 800,680 720,600 880,600 720,520 880,520 720,680 880,680 760,560 840,560 760,640 840,640 800,600');
 
