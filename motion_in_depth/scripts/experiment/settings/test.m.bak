@@ -5,9 +5,9 @@ function dat = test
 % run_experiment without arguments
 
 % set up properties
-dat.display         = 'planar';      % display
-dat.recording       = 1;      % using eyelink to record (1) or not (0)
-dat.training        = 0;      % providing training feedback noises (1) or not(0)
+dat.display         = 'LG3DRB';      % display
+dat.recording       = 0;      % using eyelink to record (1) or not (0)
+dat.training        = 1;      % providing training feedback noises (1) or not(0)
 
 % dot field properties
 dat.stimRadDeg      = 10;      % stimulus field radius
@@ -22,8 +22,8 @@ dat.cycleSec        = 2;      % duration of stimulus after prelude
 
 % conditions
 dat.conditions      = {'SingleDot'};      % dot conditions, IOVD, CDOT, etc
-dat.cond_repeats    = 5;      % number of repeats per condition
-dat.dynamics        = {'stepramp'};      % steps, ramps, etc
+dat.cond_repeats    = 1;      % number of repeats per condition
+dat.dynamics        = {'ramp'};      % steps, ramps, etc
 dat.directions      = C_d;      % initial motion direction
 
 
