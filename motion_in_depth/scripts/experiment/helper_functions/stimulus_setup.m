@@ -20,7 +20,13 @@ scr.x_center_pix_right  = scr.x_center_pix + (scr.prismShiftCm*scr.cm2pix);
 
 if ~strcmp(cell2mat(dat.conditions),'SingleDot')                                % if there are multidot conditions included...      
    scr.calicolor = [52 52 52];                                                 % make the calibration screen a little brighter
+else
+	scr.calicolor = [0 0 0];
 end
+
+scr.caliRadiusDeg		= 8;			% this is the region of the screen that will be covered by calibration dots
+scr.caliRadiusPixX       = ceil(scr.caliRadiusDeg*60*(1/scr.pix2arcmin)); % converted to pixels
+scr.caliRadiusPixY       = scr.caliRadiusPixX/2; % y radius is half the size
 
 %  STIMULUS  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -80,8 +86,36 @@ stm.preludeUpdates  = round(dat.dotUpdateHz*dat.preludeSec);            % number
 stm.dynamics.step       = [ zeros(1,stm.preludeUpdates) repmat(stm.dispPix,1,stm.numUpdates)];   % set up step disparity updates
 stm.dynamics.ramp       = [ zeros(1,stm.preludeUpdates) linspace(stm.rampEndDispPix/stm.numUpdates,stm.rampEndDispPix,stm.numUpdates)];       % set up ramp disparity updates
 stm.dynamics.stepramp   = [ zeros(1,stm.preludeUpdates) stm.dispPix - linspace(0,stm.rampEndDispPix - (stm.rampEndDispPix/stm.numUpdates),stm.numUpdates)];
-%stm.dynamics.stepramp   = [ zeros(1,stm.preludeUpdates)
-%fliplr(linspace(stm.dispPix/stm.numUpdates,stm.dispPix,stm.numUpdates))];
+
+
+% cycle through conditions and make sure they don't exceed calibration area
+isTooBigForRamp = 0;
+isTooBigForStep = 0;
+isTooBigForStepRamp = 0;
+
+for d = 1:length(dat.dynamics)
+	
+	switch dat.dynamics{d}
+		
+		case 'ramp'
+			
+			isTooBigForRamp = max(stm.dynamics.ramp/2) > scr.caliRadiusPixX;
+			
+		case 'step'
+			
+			isTooBigForStep = max(stm.dynamics.step/2) > scr.caliRadiusPixX;
+			
+		case 'stepramp'
+			
+			isTooBigForStepRamp = max(stm.dynamics.stepramp/2) > scr.caliRadiusPixX;
+			
+	end
+	
+end
+
+if(isTooBigForRamp || isTooBigForStep || isTooBigForStepRamp)
+	error('need to increase calibration area in order to run this condition');
+end
 
 %  FIXATION  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

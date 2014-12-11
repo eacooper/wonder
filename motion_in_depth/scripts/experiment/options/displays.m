@@ -88,7 +88,7 @@ dspl(4).stimCenterYCm     = 0;
 
 dspl(4).topbottom         = 0;
 
-dspl(4).skipSync            = 0;
+dspl(4).skipSync            = 1;
 dspl(4).signRight = -1;             % displays are mirrored so flip the right image
 
 

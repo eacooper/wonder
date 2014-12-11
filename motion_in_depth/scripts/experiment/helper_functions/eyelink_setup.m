@@ -1,4 +1,4 @@
-function el = setup_eyelink(window)
+function el = eyelink_setup(window,scr)
 % Initialize eyelink defaults and control code structure
 %
 % USAGE: el=EyelinkInitDefaults([window])
@@ -57,8 +57,8 @@ end
 
 if ~isempty(window)
 	el.window=window;
-	el.backgroundcolour = BlackIndex(el.window);
-	el.backgroundcolour = BlackIndex(el.window);
+	%el.backgroundcolour = BlackIndex(el.window);
+	el.backgroundcolour = scr.calicolor;
     
 	el.foregroundcolour = WhiteIndex(el.window);
     el.msgfontcolour    = WhiteIndex(el.window);
@@ -98,8 +98,8 @@ el.quitkey=KbName('ESCAPE'); % when pressed in combination with modifier key
 el.modifierkey=KbName('LeftGUI');
 
 el.waitformodereadytime=500;
-el.calibrationtargetsize=1;  % size of calibration target as percentage of screen
-el.calibrationtargetwidth=1; % width of calibration target's border as percentage of screen
+el.calibrationtargetsize=0.5;  % size of calibration target as percentage of screen
+el.calibrationtargetwidth=0.5; % width of calibration target's border as percentage of screen
 el.calibrationtargetcolour=[0 0 0];
 
 el.devicenumber = []; %see KbCheck for details of this value

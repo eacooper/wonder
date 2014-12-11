@@ -17,17 +17,18 @@ dat.timeNow = datestr(clock,'mm_dd_yy_HHMMSS'); % get start time for file names
 % SET UP SCREEN, STIMULUS, WINDOW, TRACKER, KEYS %%%%%%%%%%%%%%%%%%%%%%%%%%
 
 [scr, w, winRect]  = screen_setup(scr);         % PTB window
-el                 = eyelink_setup(w);          % give Eyelink details about graphics, perform some initializations
 [dat,keys]         = keys_setup(dat);           % key responses
 [dat,scr,stm]      = stimulus_setup(dat,scr);   % stimulus properties
+el                 = eyelink_setup(w,scr);      % give Eyelink details about graphics, perform some initializations
 eyelink_init_connection(dat.recording);         % if recording, initialize the connection to Eyelink
 
 
 % DRAW INTRO SCREEN %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 screen_draw_intro(el,scr,w)     % static screen
-keys_wait(keys,[])              % experimentor starts C/V by hitting space bar
-WaitSecs(0.25);
+display('Experimenter press Space when cameras are ready');	% experimentor starts C/V by hitting space bar
+KbWait;							
+WaitSecs(0.25);			% slight delay before starting
 
 
 % CALIBRATE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

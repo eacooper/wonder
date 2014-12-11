@@ -5,6 +5,7 @@ function dat = stimulus_draw_trial(w,trial,dotsLE,dotsRE,dat,stm,scr,condition,d
 t = GetSecs;
 
 uind   = 1;                         % stimulus step update index
+fidx   = 1;							% frame index
 while(uind <= size(dotsLE,2))       % while there are still updates
 	
 	% draw dot updates for each frame
@@ -16,11 +17,15 @@ while(uind <= size(dotsLE,2))       % while there are still updates
 		
 		%Screen('Flip',w);
         
-        % flip screen and store timing info (negative Missed values mean
-        % frame was drawn on time)
-        [dat.trials.VBLTimestamp(trial,uind) dat.trials.StimulusOnsetTime(trial,uind) ...
-         dat.trials.FlipTimestamp(trial,uind) dat.trials.Missed(trial,uind) dat.trials.Beampos(trial,uind)] = ...
-            Screen('Flip', w,t+(0.0167*(uind-1)));
+		% determine time for screen flip
+		dat.trials.StimulusReqTime{trial}(fidx) = t+((1/scr.frameRate)*(fidx-1)); 
+		
+        % flip screen and store timing info for this frame(negative Missed values mean frame was drawn on time)
+        [dat.trials.VBLTimestamp{trial}(fidx) dat.trials.StimulusOnsetTime{trial}(fidx) ...
+         dat.trials.FlipTimestamp{trial}(fidx) dat.trials.Missed{trial}(fidx) dat.trials.Beampos{trial}(fidx)] = ...
+            Screen('Flip', w,dat.trials.StimulusReqTime{trial}(fidx));
+		
+		fidx = fidx + 1;		% increment frame counter
 		
 	end
 	
@@ -41,3 +46,4 @@ eyelink_end_recording(dat,condition,dynamics,direction,trial)
 
 % store trial timing info
 dat.trials.durationSec(trial) = GetSecs - tStart;
+
