@@ -74,7 +74,7 @@ for p = 1:length(plt)
                                 
                                 
                         end
-  
+                        
                     end
                     
                     % now plot average of all trials
@@ -126,7 +126,7 @@ for p = 1:length(plt)
                         
                         
                     end
-
+                    
                     cnt = cnt + 1;      % increment subplot counter
                     
                 end
@@ -158,10 +158,10 @@ set(ax(2),'Ycolor',ColorIt(1))
 
 if(flag2)
     
-   % set(ax(1),'YLim',[0 5],'Ytick',0:5)
-   % set(ax(2),'YLim',[-5 0],'Ytick',-5:0)
+    % set(ax(1),'YLim',[0 5],'Ytick',0:5)
+    % set(ax(2),'YLim',[-5 0],'Ytick',-5:0)
     
-     set(ax(1),'YLim',[0 9],'Ytick',0:9)
+    set(ax(1),'YLim',[0 9],'Ytick',0:9)
     set(ax(2),'YLim',[-7 2],'Ytick',-7:2)
     
     set(get(ax(1),'Ylabel'),'String','Left Eye Position (deg)')
