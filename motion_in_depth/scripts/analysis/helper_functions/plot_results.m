@@ -1,6 +1,25 @@
-function plot_results(subjs,conds,dirs,dyn,exp_name,res,plt)
+function plot_results(subjs,conds,dirs,dyn,exp_name,res,plt,datatype)
 %
 % use settings from analysis GUI to generate results plots
+
+% deal with two possible data types
+switch datatype
+    
+    case 'position'
+        
+        LE = 'LExAng';
+        RE = 'RExAng';
+        Verg = 'vergenceH';
+        Vers = 'versionH';
+        
+    case 'velocity'
+        
+        LE = 'LExAngVelo';
+        RE = 'RExAngVelo';
+        Verg = 'vergenceH';
+        Vers = 'versionH';
+        
+end
 
 
 % for each requested plot type
@@ -13,11 +32,17 @@ for p = 1:length(plt)
         
         % get data indices (use all indices if 'All' subject selected)
         if strcmp(subjs(s),'All')
-            subj_inds = ones(1,length(res.trials.subj));
+            subj_trial_inds = ones(1,length(res.trials.subj));
+            subj_session_inds = ones(1,length(res.subj));
         else
-            subj_inds = strcmp(res.trials.subj,subjs{s});
+            subj_trial_inds = strcmp(res.trials.subj,subjs{s});
+            subj_session_inds = strcmp(res.subj,subjs{s});
         end
         
+        % get calibration quality numbers
+        cali_inds = subj_session_inds & strcmp(res.exp_name,exp_name);
+        cali_LE_mean = mean(res.calibrationAvgLeftError(cali_inds));
+        cali_RE_mean = mean(res.calibrationAvgRightError(cali_inds));
         
         % for each condition dynamics type (e.g., step, stepramp...)
         for d = 1:length(dyn);
@@ -28,7 +53,7 @@ for p = 1:length(plt)
                 
                 % open a new figure
                 f(d) = figure; hold on; setupfig(10,10,10);
-                suptitle([subjs{s} ' ' dyn{d} ' ' plt{p}]);
+                suptitle([subjs{s} ' ' dyn{d} ' ' plt{p} ' ( L err ' num2str(cali_LE_mean) ' R err ' num2str(cali_RE_mean) ' )']);
                 cnt = 1;     % subplot counter
                 
                 
@@ -40,15 +65,12 @@ for p = 1:length(plt)
                     
                     % get the indices in the data matrix for this
                     % combination
-                    inds = find(subj_inds & ...
+                    inds = find(subj_trial_inds & ...
                         strcmp(res.trials.condition,conds{c}) & ...
                         strcmp(res.trials.dynamics,dyn{d})  & ...
                         strcmp(res.trials.direction,dirs{r})  & ...
                         strcmp(res.trials.exp_name,exp_name) & ...
                         res.trials.isGood == 1);
-                    
-                    %figure(f(d)); hold on; subplot(2,2,cnt); hold on;
-                    
                     
                     % for each trials
                     for t = 1:length(inds)
@@ -58,8 +80,8 @@ for p = 1:length(plt)
                             
                             case 'monocular'
                                 
-                                [ax,h1,h2] = plotyy(1:length(res.trials.LExAng{inds(t)}),res.trials.LExAng{inds(t)},...
-                                    1:length(res.trials.RExAng{inds(t)}),res.trials.RExAng{inds(t)});
+                                [ax,h1,h2] = plotyy(1:length(res.trials.(LE){inds(t)}),res.trials.(LE){inds(t)},...
+                                    1:length(res.trials.(RE){inds(t)}),res.trials.(RE){inds(t)});
                                 color_yy(ax,h1,h2,0,1);
                                 
                             case 'binocular'
@@ -72,6 +94,9 @@ for p = 1:length(plt)
                                 
                                 plot(1:length(res.trials.vergenceH{inds(t)}),res.trials.vergenceH{inds(t)},'color',ColorIt(3).^0.1);
                                 
+                            case 'version'
+                                
+                                plot(1:length(res.trials.versionH{inds(t)}),res.trials.versionH{inds(t)},'color',ColorIt(4).^0.1);
                                 
                         end
                         
@@ -95,6 +120,10 @@ for p = 1:length(plt)
                         case 'vergence'
                             
                             plot(1:length(mean(cell2mat(res.trials.vergenceH(inds)),2)),mean(cell2mat(res.trials.vergenceH(inds)),2),'color',ColorIt(3));
+                            
+                        case 'version'
+                            
+                            plot(1:length(mean(cell2mat(res.trials.versionH(inds)),2)),mean(cell2mat(res.trials.versionH(inds)),2),'color',ColorIt(4));
                     end
                     
                     % ...and prediction
@@ -121,6 +150,11 @@ for p = 1:length(plt)
                                 
                                 plot(1:length(res.trials.predictionLE{inds(1)}),res.trials.predictionLE{inds(1)}...
                                     -res.trials.predictionRE{inds(1)},'color',ColorIt(3));
+                                
+                            case 'version'
+                                
+                                plot(1:length(res.trials.predictionLE{inds(1)}),...
+                                    mean([res.trials.predictionLE{inds(1)} ; res.trials.predictionRE{inds(1)}]),'color',ColorIt(4));    
                                 
                         end
                         

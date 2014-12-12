@@ -1,6 +1,6 @@
 function res = get_trial_data(res)
 %
-% ge the stimulus and response data for each trial
+% ge the stimulus, response, and eyetracking data for each trial
 
 % fields that must be the same to combine data
 fieldsSame = {'display','recording','training','stimRadDeg','dispArcmin',...
@@ -11,8 +11,8 @@ fieldsDiffer = {'subj','exp_name','ipd'};
 
 fields = [fieldsSame fieldsDiffer];
 
-tcnt = 1;
-dcnt = 1;
+dcnt = 1;   % trial counter for responses
+tcnt = 1;   % trial counter for eyelink data
 
 for f = 1:length(res.fullpath)
     
@@ -49,9 +49,11 @@ for f = 1:length(res.fullpath)
     res.display_info(f) = dat.display_info;                     % grab display info
     [res,dcnt]          = responses_load_data(dcnt,dat,res,f);  % fill in response and trial data
     
-    % load and store calibration info
+    res                 = eyelink_load_calibration_quality(res,f,res.fullpath{f});  % load and store calibration info
     
     [res,tcnt]          = eyelink_load_data...                  % fill in eyetracking data
         (tcnt,res,f,res.fullpath{f},res.el);
     
 end
+
+if tcnt ~= dcnt; error('trial numbers differ between data types'); end

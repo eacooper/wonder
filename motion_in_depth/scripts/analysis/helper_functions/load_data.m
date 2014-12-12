@@ -8,6 +8,7 @@ if(rerun)
     res.el  = eyelink_load_info;         % load in info about eyelink data aquisition
     res     = get_trial_data(res);       % parse files into data from each trial
     res     = convert_data_values(res);  % convert screen coords to eye movements
+    res     = compute_velocity(res);     % compute velocity from position data
     
     save('../../data/all_data.mat','res');
     

@@ -19,6 +19,8 @@ dyn         = [];
 renable     = {'off','on'};
 plts        = {'monocular','binocular','vergence','version'};
 plt         = plts(1);
+datatypes   = {'position','velocity'};
+datatype    = datatypes{1};
 set_experiment;
 
 %  Create and then hide the GUI as it is being constructed
@@ -61,6 +63,18 @@ spopup = uicontrol('Style','popupmenu',...
     'Value',numel(subjs));
 
 align([stext,spopup],'None','Top');
+
+
+% data type (position or velocity)
+dttext = uicontrol('Style','text','String','Data Type',...
+    'Position',[marg,sz(2) - marg*3,60,25]);
+dtpopup = uicontrol('Style','popupmenu',...
+    'String',datatypes,...
+    'Position',[marg + 60,sz(2) - marg*3,100,26],...
+    'Callback',{@datatype_Callback},...
+    'Value',1);
+
+align([dttext,dtpopup],'None','Top');
 
 
 
@@ -208,7 +222,9 @@ waitfor(f);                         % Exit if Gui is closed
         exp_inds    = strcmp(res.trials.exp_name,exp_name);
         
         subjs       = unique(res.trials.subj(exp_inds));
-        subjs{end+1} = 'All';
+        if length(subjs) > 1
+            subjs{end+1} = 'All';
+        end
         
         conds = conditions;
         dyns = dynamics;
@@ -225,6 +241,8 @@ waitfor(f);                         % Exit if Gui is closed
         cond       = unique(res.trials.condition(exp_inds));
         dyn        = unique(res.trials.dynamics(exp_inds));
         dir        = unique(res.trials.direction(exp_inds));
+        
+        datatype   = datatypes{1};
         
     end
 
@@ -270,10 +288,15 @@ waitfor(f);                         % Exit if Gui is closed
         subj = subjs(val);
     end
 
+    function datatype_Callback(source,~)
+        
+        val = get(source,'Value');
+        datatype = datatypes{val};
+    end
 
     function plotit_Callback(source,eventdata)
         
-        plot_results(subj,cond,dir,dyn,exp_name,res,plt)
+        plot_results(subj,cond,dir,dyn,exp_name,res,plt,datatype)
         
     end
 
@@ -282,6 +305,8 @@ waitfor(f);                         % Exit if Gui is closed
         
         res = load_data(1);
         set(source, 'String', 'Done','BackgroundColor',ColorIt(1));
+        exp_names   = unique(res.trials.exp_name);
+        set_experiment;
         
     end
 

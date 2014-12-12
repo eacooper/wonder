@@ -2,8 +2,6 @@ function res = convert_data_values(res)
 %
 % convert href to vergence, etc
 
-%cellfun(@(x) x*,res.trials.LEx,'un',0);
-
 for x = 1:length(res.trials.subj)
     res.trials.LExCm{x} = res.trials.LEx{x}.*res.el.href2cm;
     res.trials.LEyCm{x} = res.trials.LEy{x}.*res.el.href2cm;
