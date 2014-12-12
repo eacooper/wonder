@@ -13,3 +13,6 @@ ipd.ipd(3)  = 6.2;
 
 ipd.subj{4} = 'PHD'; 
 ipd.ipd(4)  = 6.7;
+
+ipd.subj{5} = 'KYD'; 
+ipd.ipd(5)  = 6.2;
