@@ -32,7 +32,7 @@ function el = eyelink_setup(dat,window,scr)
 el=[];
 el.calibrationtargetsize=0.5;  % size of calibration target as percentage of screen
 el.backgroundcolour = scr.calicolor;
-el.foregroundcolour = WhiteIndex(el.window);
+el.foregroundcolour = WhiteIndex(window);
 
 if dat.recording
     
