@@ -30,6 +30,9 @@ function el = eyelink_setup(dat,window,scr)
 %				input devices
 
 el=[];
+el.calibrationtargetsize=0.5;  % size of calibration target as percentage of screen
+el.backgroundcolour = scr.calicolor;
+el.foregroundcolour = WhiteIndex(el.window);
 
 if dat.recording
     
@@ -60,9 +63,7 @@ if dat.recording
     if ~isempty(window)
         el.window=window;
         %el.backgroundcolour = BlackIndex(el.window);
-        el.backgroundcolour = scr.calicolor;
         
-        el.foregroundcolour = WhiteIndex(el.window);
         el.msgfontcolour    = WhiteIndex(el.window);
         el.imgtitlecolour   = WhiteIndex(el.window);
         
@@ -100,7 +101,7 @@ if dat.recording
     el.modifierkey=KbName('LeftGUI');
     
     el.waitformodereadytime=500;
-    el.calibrationtargetsize=0.5;  % size of calibration target as percentage of screen
+    
     el.calibrationtargetwidth=0.5; % width of calibration target's border as percentage of screen
     el.calibrationtargetcolour=[0 0 0];
     
