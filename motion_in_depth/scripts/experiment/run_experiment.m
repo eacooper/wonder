@@ -92,7 +92,7 @@ store_results(dat);
 Screen('DrawText', w, 'Done', scr.x_center_pix_left - 25, scr.y_center_pix_left - 50, dat.stim_info.LEwhite);
 Screen('Flip', w);
 WaitSecs(2);
-cleanup(0,[]);
+cleanup(0,dat);
 
 
 
