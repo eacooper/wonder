@@ -1,7 +1,9 @@
 % Cleanup routine:
 function cleanup(early,dat)
 
-Eyelink('Shutdown');    % Shutdown Eyelink:
+if dat.recording
+    Eyelink('Shutdown');    % Shutdown Eyelink:
+end
 sca;                    % Close window:
 ListenChar(0);          % Restore keyboard output to Matlab:
 if(early)
