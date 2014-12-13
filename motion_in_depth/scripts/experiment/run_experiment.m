@@ -19,7 +19,7 @@ dat.timeNow = datestr(clock,'mm_dd_yy_HHMMSS'); % get start time for file names
 [scr, w, winRect]  = screen_setup(scr);         % PTB window
 [dat,keys]         = keys_setup(dat);           % key responses
 [dat,scr,stm]      = stimulus_setup(dat,scr);   % stimulus properties
-el                 = eyelink_setup(w,scr);      % give Eyelink details about graphics, perform some initializations
+el                 = eyelink_setup(dat,w,scr);  % give Eyelink details about graphics, perform some initializations
 eyelink_init_connection(dat.recording);         % if recording, initialize the connection to Eyelink
 
 
