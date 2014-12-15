@@ -36,7 +36,7 @@ for f = 1:length(res.fullpath)
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % hack to enable loading of data pre-calibration rescaling:
-    dat = eyelink_fake_calibration_info(dat);
+    dat = eyelink_fake_calibration_info(dat,res,f);
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     res.display_info(f) = dat.display_info;                     % grab display info

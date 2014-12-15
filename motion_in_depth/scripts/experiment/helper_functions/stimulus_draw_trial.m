@@ -20,7 +20,7 @@ while(uind <= size(dotsLE,2))       % while there are still updates
 		% determine time for screen flip
 		dat.trials.StimulusReqTime{trial}(fidx) = t+((1/scr.frameRate)*(fidx-1)); 
 		
-        % flip screen and store timing info for this frame(negative Missed values mean frame was drawn on time)
+        % flip screen and store timing info for this frame (negative Missed values mean frame was drawn on time)
         [dat.trials.VBLTimestamp{trial}(fidx) dat.trials.StimulusOnsetTime{trial}(fidx) ...
          dat.trials.FlipTimestamp{trial}(fidx) dat.trials.Missed{trial}(fidx) dat.trials.Beampos{trial}(fidx)] = ...
             Screen('Flip', w,dat.trials.StimulusReqTime{trial}(fidx));

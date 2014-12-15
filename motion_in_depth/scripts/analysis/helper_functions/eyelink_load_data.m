@@ -51,9 +51,11 @@ for s = 1:length(starts)
     res.trials.trialnum(tcnt)   = trialnum;
     res.trials.isGood(tcnt)     = isGood;
     
-    res.trials.extra_time(tcnt) = length(data{1}(Datalines)) - ...          % number of extra EL samples for diagnostics
-            round(el.sampleRate*(res.preludeSec(f)+res.cycleSec(f)));
+    %res.trials.extra_time(tcnt) = length(data{1}(Datalines)) - ...          % number of extra EL samples for diagnostics
+    %        round(el.sampleRate*(res.preludeSec(f)+res.cycleSec(f)));
     
+    res.trials.recordingDurationSec(tcnt) = length(data{1}(Datalines))./el.sampleRate;  % duration of recording for this trial
+        
     tcnt = tcnt + 1;
     
 end

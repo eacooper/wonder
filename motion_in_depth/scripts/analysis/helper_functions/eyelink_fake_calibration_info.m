@@ -1,4 +1,4 @@
-function dat = eyelink_fake_calibration_info(dat)
+function dat = eyelink_fake_calibration_info(dat,res,f)
 %
 % hack to enable loading of data pre-calibration rescaling:
 
