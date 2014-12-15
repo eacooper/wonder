@@ -1,6 +1,6 @@
 function res = get_trial_data(res)
 %
-% ge the stimulus, response, and eyetracking data for each trial
+% get the stimulus, response, and eyetracking data for each trial
 
 % fields that must be the same to combine data
 fieldsSame = {'display','recording','training','stimRadDeg','dispArcmin',...
@@ -36,14 +36,7 @@ for f = 1:length(res.fullpath)
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % hack to enable loading of data pre-calibration rescaling:
-    if ~isfield(dat.display_info,'caliRadiusDeg');
-        dat.display_info.caliRadiusDeg = 2;
-        dat.display_info.caliRadiusPixX = 0;
-        dat.display_info.caliRadiusPixY = 0;
-    end
-    if f > 1
-        dat.display_info = orderfields(dat.display_info,res.display_info(1));
-    end
+    dat = eyelink_fake_calibration_info(dat);
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     res.display_info(f) = dat.display_info;                     % grab display info

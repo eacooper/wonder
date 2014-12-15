@@ -7,7 +7,9 @@ function [dat,scr,stm] = stimulus_setup(dat,scr)
 
 scr.cm2pix              = scr.width_pix/scr.width_cm;                           % conversion for cm to pixels
 scr.pix2arcmin          = 2*60*atand(0.5/(scr.viewDistCm*scr.cm2pix));          % conversion from pixels to arcminutes
+
 display(['1 pixel = ' num2str(scr.pix2arcmin,2) ' arcmin']);
+if dat.dispArcmin < scr.pix2arcmin; error('disparity requested is less than 1 pixel'); end
 
 scr.x_center_pix        = scr.width_pix/2;                                      % l/r screen center
 scr.y_center_pix        = scr.height_pix/2 - (scr.stimCenterYCm*scr.cm2pix);    % u/d screen center
