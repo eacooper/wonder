@@ -34,11 +34,11 @@ update_num_trials(0);
 
 
 %  Create and then hide the GUI as it is being constructed
-sz      = [0,0,0.5,0.6];
+sz      = [0,0,800,800];
 marg    = 0.02;
 text_sz = 0.1;
 text_ht = 0.05;
-f       = figure('Visible','off','units','norm','Position',sz);
+f       = figure('Visible','off','Position',sz);
 a       = axes;
 set(a, 'Visible', 'off');
 set(a, 'Position', [0, 0, 1, 1]);   % Stretch the axes over the whole figure.
