@@ -253,10 +253,10 @@ end
         str = get(source, 'String');
         dat.(get(source,'tag')) = str2num(str);
         
+        update_num_trials(1)
+        
         if ~strcmp(get(source,'tag'),'cond_repeats')
             exp_mod     = 1;
-        else
-            update_num_trials(1)
         end
         
         if ~strcmp(get(source,'tag'),'cond_repeats')
@@ -334,7 +334,7 @@ end
         
         if(flag)
             set(numtext,'String',['Num Trials: ' num2str(num_trials)]);
-            set(durtext,'String',['Duration: ' num2str((num_trials*(5+dat.preludeSec+dat.cycleSec))/60) ' Min']);
+            set(durtext,'String',['Duration: ' num2str((num_trials*(5+dat.preludeSec+dat.cycleSec))/60,2) ' Min']);
         end
         
     end
@@ -551,7 +551,7 @@ end
             'Position',[box(1)+text_sz*3,box(2)-text_ht-marg,text_sz,text_ht]);
         
         durtext = uicontrol('Style','text','String',...
-            ['Duration: ' num2str((num_trials*(5+dat.preludeSec+dat.cycleSec))/60) ' Min'],...
+            ['Duration: ' num2str((num_trials*(5+dat.preludeSec+dat.cycleSec))/60,2) ' Min'],...
             'Units','normalized', ...
             'BackgroundColor',ColorIt(3),...
             'Position',[box(1)+text_sz*3,box(2)-text_ht*2-marg,text_sz,text_ht]);

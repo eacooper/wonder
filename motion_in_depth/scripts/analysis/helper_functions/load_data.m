@@ -2,7 +2,7 @@ function res = load_data(rerun)
 %
 % process EL data or load pre-processed
 
-if(rerun)
+if rerun == 1                           % load and process data
 
     res     = get_data_file_names;       % get a list of all current data files
     res.el  = eyelink_load_info;         % load in info about eyelink data aquisition
@@ -13,6 +13,8 @@ if(rerun)
     
     save('../../data/all_data.mat','res');
     
-else
+elseif rerun == 0                           % load already processed data
+    
     load('../../data/all_data.mat');
+    
 end

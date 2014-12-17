@@ -42,15 +42,24 @@ epopup = uicontrol('Style', 'popupmenu',...
     'Value',    1);
 
 
-% reload data
+% reload all data
 
 loadit = uicontrol('Style', 'pushbutton', ...
     'String',           'Reprocess', ...
     'Callback',         @load_Callback, ...
-    'BackgroundColor',  ColorIt(4), ...
+    'BackgroundColor',  ColorIt('g'), ...
     'Position',         [marg + 300,sz(2) - marg,100,25]);
 
 align([etext,epopup,loadit],'None','Top');
+
+% reload specific data
+
+loadit = uicontrol('Style', 'pushbutton', ...
+    'String',           'Process New Session', ...
+    'Callback',         @loadSingle_Callback, ...
+    'BackgroundColor',  ColorIt('y'), ...
+    'Position',         [marg + 300,sz(2) - marg*2,100,25]);
+
 
 
 % subject initials
@@ -86,18 +95,18 @@ plotit = uicontrol('Style', 'pushbutton', ...
     'Position',[marg + 60,sz(2) - marg*14.5,200,25]);
 
 
-% save as new experiment
-zbox = uicontrol('Style','edit',...
-    'String','NewName',...
-    'Position',[marg + 60,marg,200,25],...
-    'Callback',{@newName_Callback});
-
-store = uicontrol('Style', 'pushbutton', ...
-    'String',   'Store Settings', ...
-    'Callback', @storeExp_Callback, ...
-    'Position',[marg + 275,marg,100,25]);
-
-align([store,zbox],'None','Top');
+% % save as new experiment
+% zbox = uicontrol('Style','edit',...
+%     'String','NewName',...
+%     'Position',[marg + 60,marg,200,25],...
+%     'Callback',{@newName_Callback});
+%
+% store = uicontrol('Style', 'pushbutton', ...
+%     'String',   'Store Settings', ...
+%     'Callback', @storeExp_Callback, ...
+%     'Position',[marg + 275,marg,100,25]);
+%
+% align([store,zbox],'None','Top');
 
 
 
@@ -114,11 +123,15 @@ d2text = uicontrol('Style','text','String',['Stim Radius (deg): ' num2str(stimRa
 
 % dot diameter
 d3text = uicontrol('Style','text','String',['Dot Diam (deg): ' num2str(dotSizeDeg)],...
-    'Position',[marg,sz(2) - marg*8,90,30]);
+    'Position',[marg + 150,sz(2) - marg*9,90,30]);
 
 % dot density
 d4text = uicontrol('Style','text','String',['Density (d/deg2): ' num2str(dotDensity)],...
     'Position',[marg + 150,sz(2) - marg*8,90,30]);
+
+% prelude time
+d7text = uicontrol('Style','text','String',['Mono Velo (deg/sec):' num2str(rampSpeedDegSec)],...
+    'Position',[marg,sz(2) - marg*8,90,30]);
 
 % timing
 
@@ -128,8 +141,7 @@ d5text = uicontrol('Style','text','String',['Prelude (sec):' num2str(preludeSec)
 
 % stim time
 d6text = uicontrol('Style','text','String',['Stim (sec) (one ramp): ' num2str(cycleSec)],...
-    'Position',[marg + 150,sz(2) - marg*9,90,30]);
-
+    'Position',[marg,sz(2) - marg*10,90,30]);
 
 
 
@@ -195,7 +207,7 @@ set(a, 'Xlim', [0, 1], 'YLim', [0, 1]);
 %# Draw!
 hold on;
 text(0.05,0.66,'Stimulus Properties');
-rectangle('Position',[0.05,0.45,0.49,0.2])
+%rectangle('Position',[0.05,0.45,0.49,0.2])
 text(0.05,0.345,'Motion Directions');
 rectangle('Position',[0.05,0.22,0.33,0.11])
 text(0.65,0.77,'Cue Properties');
@@ -237,12 +249,23 @@ waitfor(f);                         % Exit if Gui is closed
         preludeSec  = unique(res.trials.preludeSec(exp_inds));
         cycleSec    = unique(res.trials.cycleSec(exp_inds));
         
+        if isfield(res.trials,'rampSpeedDegSec')
+            rampSpeedDegSec = unique(res.trials.rampSpeedDegSec(exp_inds));
+        else
+            rampSpeedDegSec = NaN;
+        end
+        
         subj       = subjs(end);
         cond       = unique(res.trials.condition(exp_inds));
         dyn        = unique(res.trials.dynamics(exp_inds));
         dir        = unique(res.trials.direction(exp_inds));
         
         datatype   = datatypes{1};
+        
+        if numel(dispArcmin) > 1 || numel(stimRadDeg) > 1 || numel(dotSizeDeg) > 1 ||...
+                numel(dotDensity) > 1 || numel(preludeSec) > 1 || numel(cycleSec) > 1 || numel(rampSpeedDegSec) > 1
+            error('Experiment has multiple protocols, need to manually delete conflicting data sets')
+        end
         
     end
 
@@ -304,7 +327,17 @@ waitfor(f);                         % Exit if Gui is closed
     function load_Callback(source,~)
         
         res = load_data(1);
-        set(source, 'String', 'Done','BackgroundColor',ColorIt(1));
+        set(source, 'String', 'Done','BackgroundColor',ColorIt('b'));
+        exp_names   = unique(res.trials.exp_name);
+        set_experiment;
+        
+    end
+
+
+    function loadSingle_Callback(source,~)
+        
+        res = load_data(1);
+        set(source, 'String', 'Done','BackgroundColor',ColorIt('r'));
         exp_names   = unique(res.trials.exp_name);
         set_experiment;
         
