@@ -16,9 +16,6 @@ end
                                         0, [], [], [], [], 4);      % Open PTB graphics window, should be upscaled by a factor of 4 for antialiasing
 Screen(w,'BlendFunction',GL_ONE, GL_ONE);                      % Enable alpha blending - these are the settings that are needed for Planar
 
-%scr.calicolor = [52 52 52];                                         % bg color during calbration - not black so that itapprox matches mean screen luminance during stim
-%scr.calicolor = [0 0 0];
-
 %fill screen
 Screen('FillRect', w, [0 0 0], InsetRect(Screen('Rect', w), -1, -1));
 Screen('Flip', w);

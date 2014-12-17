@@ -12,7 +12,7 @@ dat.training        = 1;      % providing training feedback noises (1) or not(0)
 % dot field properties
 dat.stimRadDeg      = 10;      % stimulus field radius
 dat.dispArcmin      = 120;      % disparity magnitude
-dat.rampSpeedDegSec = 4;      % ramp speed in degrees per second
+dat.rampSpeedDegSec = 8;      % ramp speed in degrees per second
 dat.dotSizeDeg      = 0.25;      % diameter of each dot
 dat.dotDensity      = 2;      % dots per degree2
 

@@ -67,8 +67,8 @@ stm.stimRadPix      = round((60*dat.stimRadDeg)/scr.pix2arcmin);    % dot field 
 stm.stimRadSqPix    = stm.stimRadPix^2;                             % square it now to save time later
 stm.dotSizePix      = (dat.dotSizeDeg*60)/scr.pix2arcmin;           % dot diameter in pixels
 
-stm.xmax            = 4*stm.stimRadPix;                             % full x field of dots before circle crop
-stm.ymax            = 4*stm.stimRadPix;                             % fill y field of dots before circle crop
+stm.xmax            = 4*max([stm.stimRadPix stm.rampEndDispPix]);   % full x field of dots before circle crop
+stm.ymax            = stm.xmax;                                         % fill y field of dots before circle crop
 
 stm.numDots = round( dat.dotDensity*(  stm.xmax*(scr.pix2arcmin/60) * ...  % convert dot density to number of dots for PTB
     stm.ymax*(scr.pix2arcmin/60) ) );
