@@ -43,22 +43,21 @@ epopup = uicontrol('Style', 'popupmenu',...
 
 
 % reload all data
-
 loadit = uicontrol('Style', 'pushbutton', ...
-    'String',           'Reprocess', ...
+    'String',           'Reprocess All', ...
     'Callback',         @load_Callback, ...
     'BackgroundColor',  ColorIt('g'), ...
-    'Position',         [marg + 300,sz(2) - marg,100,25]);
+    'Position',         [marg + 300,sz(2) - marg,120,25]);
 
 align([etext,epopup,loadit],'None','Top');
 
-% reload specific data
 
+% reload specific data
 loadit = uicontrol('Style', 'pushbutton', ...
     'String',           'Process New Session', ...
     'Callback',         @loadSingle_Callback, ...
     'BackgroundColor',  ColorIt('y'), ...
-    'Position',         [marg + 300,sz(2) - marg*2,100,25]);
+    'Position',         [marg + 300,sz(2) - marg*2,120,25]);
 
 
 
@@ -87,27 +86,12 @@ align([dttext,dtpopup],'None','Top');
 
 
 
-% start experiment
+% start plotting
 plotit = uicontrol('Style', 'pushbutton', ...
     'String',   'Plot It', ...
     'Callback', @plotit_Callback, ...
-    'BackgroundColor',ColorIt(4), ...
+    'BackgroundColor',ColorIt('b'), ...
     'Position',[marg + 60,sz(2) - marg*14.5,200,25]);
-
-
-% % save as new experiment
-% zbox = uicontrol('Style','edit',...
-%     'String','NewName',...
-%     'Position',[marg + 60,marg,200,25],...
-%     'Callback',{@newName_Callback});
-%
-% store = uicontrol('Style', 'pushbutton', ...
-%     'String',   'Store Settings', ...
-%     'Callback', @storeExp_Callback, ...
-%     'Position',[marg + 275,marg,100,25]);
-%
-% align([store,zbox],'None','Top');
-
 
 
 
@@ -326,20 +310,28 @@ waitfor(f);                         % Exit if Gui is closed
 
     function load_Callback(source,~)
         
+        set(source, 'String', 'Working...','BackgroundColor',ColorIt('r'));
         res = load_data(1);
-        set(source, 'String', 'Done','BackgroundColor',ColorIt('b'));
         exp_names   = unique(res.trials.exp_name);
         set_experiment;
+        
+        set(epopup,'String',exp_names,'Value',1);
+        
+        set(source, 'String', 'Reprocess All','BackgroundColor',ColorIt('g'));
         
     end
 
 
     function loadSingle_Callback(source,~)
         
-        res = load_data(1);
-        set(source, 'String', 'Done','BackgroundColor',ColorIt('r'));
+        set(source, 'String', 'Working...','BackgroundColor',ColorIt('r'));
+        res = load_data(2);
         exp_names   = unique(res.trials.exp_name);
         set_experiment;
+        
+        set(epopup,'String',exp_names,'Value',1);
+        
+        set(source, 'String', 'Process New Session','BackgroundColor',ColorIt('y'));
         
     end
 
