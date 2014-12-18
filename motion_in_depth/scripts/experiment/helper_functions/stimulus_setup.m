@@ -20,10 +20,17 @@ scr.y_center_pix_right  = scr.y_center_pix;
 scr.x_center_pix_left   = scr.x_center_pix - (scr.prismShiftCm*scr.cm2pix);
 scr.x_center_pix_right  = scr.x_center_pix + (scr.prismShiftCm*scr.cm2pix);
 
-if ~strcmp(cell2mat(dat.conditions),'SingleDot')                                % if there are multidot conditions included...      
-   scr.calicolor = [52 52 52];                                                 % make the calibration screen a little brighter
-else
-	scr.calicolor = [0 0 0];
+% handle calibration screen brightness
+if sum(ismember(dat.conditions,'SingleDot')) > 0        % if there is a single dot condition      
+   
+    if numel(dat.conditions) == 1                       % if this is the only condition
+        scr.calicolor = [0 0 0];                        % make the calibration screen black
+    else
+        scr.calicolor = [26 26 26];                     % otherwise just a little brighter as a compromise
+    end
+    
+else                                                    % if there is no single dot condition
+	scr.calicolor = [52 52 52];                         % brighten the screen to try to match multidot display
 end
 
 scr.caliRadiusDeg		= 8;			% this is the region of the screen that will be covered by calibration dots
