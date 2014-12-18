@@ -184,7 +184,9 @@ end
         val = get(source,'Value');
         dat.recording = val;
         
-        set(warn_me,'String','Conditions changed, but Okay to run','BackgroundColor',ColorIt(5));
+        if ~exp_mod
+            set(warn_me,'String','Conditions changed, but Okay to run','BackgroundColor',ColorIt('p'));
+        end
     end
 
 
@@ -193,7 +195,9 @@ end
         val = get(source,'Value');
         dat.training = val;
         
-        set(warn_me,'String','Conditions changed, but Okay to run','BackgroundColor',ColorIt(5));
+        if ~exp_mod
+            set(warn_me,'String','Conditions changed, but Okay to run','BackgroundColor',ColorIt('p'));
+        end
     end
 
     function nonius_Callback(source,eventdata)
@@ -213,12 +217,12 @@ end
         dat.ipd     = ipd;
         
         if ipd == 0
-            set(warn_me,'String','WARNING: IPD cannot be zero','BackgroundColor',ColorIt(1));
+            set(warn_me,'String','WARNING: IPD cannot be zero','BackgroundColor',ColorIt('r'));
             error('cannot run experiment without IPD filled in')
         end
         
         if exp_mod == 1
-            set(warn_me,'String','WARNING: Exp modified, rename it','BackgroundColor',ColorIt(1));
+            set(warn_me,'String','WARNING: Exp modified, rename it','BackgroundColor',ColorIt('r'));
             error('cannot run experiment without changing name')
         end
         
@@ -241,7 +245,7 @@ end
     function storeExp_Callback(source,eventdata)
         
         if strcmp(dat.exp_name,'tmpfile')
-            set(warn_me,'String','WARNING: Filename cannot start with a number','BackgroundColor',ColorIt(1));
+            set(warn_me,'String','WARNING: Filename cannot start with a number','BackgroundColor',ColorIt('r'));
             error('Filename cannot start with a number');
         else
             gui_create_new_experiment(dat)
@@ -252,6 +256,8 @@ end
             set(warn_me,'String','','BackgroundColor',[.94 .94 .94]);
             
             exp_mod     = 0;
+            
+            set(warn_me,'String','All Settings are good','BackgroundColor',ColorIt('g'));
         end
         
     end
@@ -272,7 +278,9 @@ end
         if ~strcmp(get(source,'tag'),'cond_repeats')
             set(warn_me,'String','Conditions changed, Rename exp','BackgroundColor',ColorIt('r'));
         else
-            set(warn_me,'String','Conditions changed, but Okay to run','BackgroundColor',ColorIt('p'));
+            if ~exp_mod
+                set(warn_me,'String','Conditions changed, but Okay to run','BackgroundColor',ColorIt('p'));
+            end
         end
         
         
@@ -294,7 +302,9 @@ end
         
         update_num_trials(1)
         
-        set(warn_me,'String','Conditions changed, but Okay to run','BackgroundColor',ColorIt(5));
+        if ~exp_mod
+            set(warn_me,'String','Conditions changed, but Okay to run','BackgroundColor',ColorIt('p'));
+        end
     end
 
 
@@ -314,7 +324,9 @@ end
         
         update_num_trials(1)
         
-        set(warn_me,'String','Conditions changed, but Okay to run','BackgroundColor',ColorIt(5));
+        if ~exp_mod
+            set(warn_me,'String','Conditions changed, but Okay to run','BackgroundColor',ColorIt('p'));
+        end
     end
 
 
@@ -333,7 +345,9 @@ end
         
         update_num_trials(1)
         
-        set(warn_me,'String','Conditions changed, but Okay to run','BackgroundColor',ColorIt(5));
+        if ~exp_mod
+            set(warn_me,'String','Conditions changed, but Okay to run','BackgroundColor',ColorIt('p'));
+        end
     end
 
     function  update_num_trials(flag)
