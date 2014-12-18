@@ -8,6 +8,7 @@ function dat = ASCfullcue_lateral
 dat.display         = 'planar';      % display
 dat.recording       = 1;      % using eyelink to record (1) or not (0)
 dat.training        = 0;      % providing training feedback noises (1) or not(0)
+dat.nonius          = 0;      % nonius on during trial (1) or not(0)
 
 % dot field properties
 dat.stimRadDeg      = 18;      % stimulus field radius

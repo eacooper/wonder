@@ -8,6 +8,7 @@ function dat = tmpfile
 dat.display         = 'LG3DRB';      % display
 dat.recording       = 0;      % using eyelink to record (1) or not (0)
 dat.training        = 1;      % providing training feedback noises (1) or not(0)
+dat.nonius          = 0;      % nonius on during trial (1) or not(0)
 
 % dot field properties
 dat.stimRadDeg      = 10;      % stimulus field radius

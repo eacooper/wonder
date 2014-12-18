@@ -8,6 +8,7 @@ function dat = test
 dat.display         = 'LG3DRB';      % display
 dat.recording       = 0;      % using eyelink to record (1) or not (0)
 dat.training        = 1;      % providing training feedback noises (1) or not(0)
+dat.nonius          = 0;      % nonius on during trial (1) or not(0)
 
 % dot field properties
 dat.stimRadDeg      = 10;      % stimulus field radius
@@ -21,7 +22,7 @@ dat.preludeSec      = 0.25;      % delay before motion onset
 dat.cycleSec        = 2;      % duration of stimulus after prelude
 
 % conditions
-dat.conditions      = {'SingleDot'};      % dot conditions, IOVD, CDOT, etc
+dat.conditions      = {'SingleDot','FullCue'};      % dot conditions, IOVD, CDOT, etc
 dat.cond_repeats    = 5;      % number of repeats per condition
 dat.dynamics        = {'stepramp'};      % steps, ramps, etc
 dat.directions      = C_d;      % initial motion direction

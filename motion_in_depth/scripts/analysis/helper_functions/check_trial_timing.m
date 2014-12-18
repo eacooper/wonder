@@ -5,8 +5,8 @@ function res     = check_trial_timing(res)
 
 timingThreshold     = 0.025;     % threshold for discarding due to timing
 goodStimulusTiming  = ...       % allow stimulus an extra few ms to display over requested timing
-    res.trials.durationSecR - (res.trials.preludeSec + res.trials.cycleSec) < timingThreshold;
+    abs(res.trials.durationSecR - (res.trials.preludeSec + res.trials.cycleSec)) < timingThreshold;
 goodTrackingTiming  = ...       % allow recording an extra few ms to display over requested timing
-    res.trials.recordingDurationSec - (res.trials.preludeSec + res.trials.cycleSec) < timingThreshold;
+    abs(res.trials.recordingDurationSec - (res.trials.preludeSec + res.trials.cycleSec)) < timingThreshold;
 
 res.trials.goodTiming = goodStimulusTiming & goodTrackingTiming;

@@ -1,4 +1,4 @@
-function stimulus_draw_fixation(w,scr,dat,stm)
+function stimulus_draw_fixation(w,scr,dat,stm,flipIt)
 %
 % draws binocular fixation nonius to the screen but doesn't flip it
 
@@ -72,16 +72,7 @@ Screen('DrawLine', w, stm.LEwhite, scr.x_center_pix_left - (fixationRadiusXPix2)
     scr.x_center_pix_left + (fixationRadiusXPix2), ...
     scr.y_center_pix_left  - (fixationRadiusYPix2) , 2);
 
-Screen('Flip', w);
+if flipIt
+    Screen('Flip', w);
+end
 
-
-% % vertical eye alignment lines
-% Screen('DrawLine', w, stm.REwhite, scr.x_center_pix_right - (scr.signRight*stm.stimRadPix), ...
-%     scr.y_center_pix_right, ...
-%     scr.x_center_pix_right + (scr.signRight*stm.stimRadPix), ...
-%     scr.y_center_pix_right , 2);
-% 
-% Screen('DrawLine', w, stm.LEwhite, scr.x_center_pix_left - (stm.stimRadPix), ...
-%     scr.y_center_pix_left, ...
-%     scr.x_center_pix_left + (stm.stimRadPix), ...
-%     scr.y_center_pix_left , 2);

@@ -10,9 +10,9 @@ Experiment:
 
 		-"Settings changed" warning is okay if you just changed the repeats
 
-		-Once a new value is entered, click in another field to see the update.
+		-Once a new value is changed, press enter to update GUI info
 
-		-IPDS: you can enter a subject's initials and IPD in the options ipd script to make it autoload when you click the IPD field
+		-IPDS: you can enter a subject's initials and IPD in the options ipd script to make it autoload when you click enter
 
 
 

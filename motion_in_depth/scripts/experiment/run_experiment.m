@@ -61,7 +61,7 @@ for t = 1:length(dat.trials.trialnum)                   % for each trial
     
     
     % initialize trial
-    stimulus_draw_fixation(w,scr,dat,stm);                  % static fixation pattern before stimulus
+    stimulus_draw_fixation(w,scr,dat,stm,1);                % static fixation pattern before stimulus
     keys_wait(keys,dat)                                     % subject starts trials
     if dat.recording; Eyelink('StartRecording');  end       % start recording eye position
 

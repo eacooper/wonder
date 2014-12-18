@@ -52,7 +52,7 @@ box1 = [marg 1-marg-text_ht 0.5 0.81]; % left top right bottom box coords
 
 % Recording and feedback options box
 box2 = [box1(1) box1(4)-box_sp 0.5 0.725]; % left top right bottom box coords
-[rradio,fradio] = draw_recording_options_box(box2);
+[rradio,fradio,nradio] = draw_recording_options_box(box2);
 
 
 % Dot options box
@@ -121,6 +121,7 @@ end
         set(dpopup,'Value',find(strcmp({dspl(:).name},dat.display)));
         set(rradio,'Value',dat.recording);
         set(fradio,'Value',dat.training);
+        set(nradio,'Value',dat.nonius);
         
         set(d1box,'String',num2str(dat.dispArcmin));
         set(d8box,'String',num2str(dat.rampSpeedDegSec));
@@ -174,7 +175,7 @@ end
         scr			= dspl(find(strcmp({dspl(:).name},dat.display)));
         exp_mod     = 1;
         
-        set(warn_me,'String','Conditions changed, rename exp','BackgroundColor',ColorIt(5));
+        set(warn_me,'String','Conditions changed, rename exp','BackgroundColor',ColorIt('r'));
     end
 
 
@@ -193,6 +194,15 @@ end
         dat.training = val;
         
         set(warn_me,'String','Conditions changed, but Okay to run','BackgroundColor',ColorIt(5));
+    end
+
+    function nonius_Callback(source,eventdata)
+        
+        val = get(source,'Value');
+        dat.nonius = val;
+        exp_mod     = 1;
+        
+        set(warn_me,'String','Conditions changed, rename exp','BackgroundColor',ColorIt('r'));
     end
 
 
@@ -411,14 +421,14 @@ end
 
 
 
-    function [rradio,fradio] = draw_recording_options_box(box)
+    function [rradio,fradio,nradio] = draw_recording_options_box(box)
         
         % recording options
         rradio = uicontrol('Style', 'radiobutton', ...
             'Units','normalized', ...
             'String',   'record', ...
             'Callback', @recording_Callback, ...
-            'Position',[box(1),box(2),text_sz*2,text_ht],...
+            'Position',[box(1),box(2),text_sz*1.5,text_ht],...
             'Value',    dat.recording);
         
         % feedback options
@@ -426,8 +436,16 @@ end
             'Units','normalized', ...
             'String',   'provide feedback', ...
             'Callback', @feedback_Callback, ...
-            'Position',[box(1)+text_sz*2,box(2),text_sz*2,text_ht],...
+            'Position',[box(1)+text_sz*1.5,box(2),text_sz*1.5,text_ht],...
             'Value',    dat.training);
+        
+        % nonius options
+        nradio = uicontrol('Style', 'radiobutton', ...
+            'Units','normalized', ...
+            'String',   'nonius on', ...
+            'Callback', @nonius_Callback, ...
+            'Position',[box(1)+text_sz*3.3,box(2),text_sz*1.2,text_ht],...
+            'Value',    dat.nonius);
         
         rectangle('Position',[box(1)-0.01,box(4),box(3) - box(1),box(2) + text_ht + 0.01 - box(4)])
         

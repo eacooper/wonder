@@ -10,6 +10,7 @@ replaceinfile('template',dat.exp_name,['./settings/' dat.exp_name '.m']);
 replaceinfile('X_d',['''' dat.display ''''],['./settings/' dat.exp_name '.m']);
 replaceinfile('X_r',num2str(dat.recording),['./settings/' dat.exp_name '.m']);
 replaceinfile('X_t',num2str(dat.training),['./settings/' dat.exp_name '.m']);
+replaceinfile('X_n',num2str(dat.nonius),['./settings/' dat.exp_name '.m']);
 
 % dot properties
 replaceinfile('N_r',num2str(dat.stimRadDeg),['./settings/' dat.exp_name '.m']);

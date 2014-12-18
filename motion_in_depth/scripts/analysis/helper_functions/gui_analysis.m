@@ -190,14 +190,14 @@ set(a, 'Xlim', [0, 1], 'YLim', [0, 1]);
 
 %# Draw!
 hold on;
-text(0.05,0.66,'Stimulus Properties');
+text(0.05,0.66,'Stimulus Properties','fontweight','bold','fontsize',14);
 %rectangle('Position',[0.05,0.45,0.49,0.2])
-text(0.05,0.345,'Motion Directions');
-rectangle('Position',[0.05,0.22,0.33,0.11])
-text(0.65,0.77,'Cue Properties');
-rectangle('Position',[0.65,0.39,0.2,0.365])
-text(0.65,0.34,'Dynamics');
-rectangle('Position',[0.65,0.15,0.2,0.175])
+text(0.05,0.345,'Motion Directions','fontweight','bold','fontsize',14);
+%rectangle('Position',[0.05,0.22,0.33,0.11])
+text(0.65,0.77,'Cue Properties','fontweight','bold','fontsize',14);
+%rectangle('Position',[0.65,0.39,0.2,0.365])
+text(0.65,0.34,'Dynamics','fontweight','bold','fontsize',14);
+%rectangle('Position',[0.65,0.15,0.2,0.175])
 
 hold off
 
@@ -311,12 +311,13 @@ waitfor(f);                         % Exit if Gui is closed
     function load_Callback(source,~)
         
         set(source, 'String', 'Working...','BackgroundColor',ColorIt('r'));
+        drawnow;
+        
         res = load_data(1);
         exp_names   = unique(res.trials.exp_name);
         set_experiment;
         
         set(epopup,'String',exp_names,'Value',1);
-        
         set(source, 'String', 'Reprocess All','BackgroundColor',ColorIt('g'));
         
     end
@@ -325,12 +326,13 @@ waitfor(f);                         % Exit if Gui is closed
     function loadSingle_Callback(source,~)
         
         set(source, 'String', 'Working...','BackgroundColor',ColorIt('r'));
+        drawnow;
+        
         res = load_data(2);
         exp_names   = unique(res.trials.exp_name);
         set_experiment;
         
         set(epopup,'String',exp_names,'Value',1);
-        
         set(source, 'String', 'Process New Session','BackgroundColor',ColorIt('y'));
         
     end
