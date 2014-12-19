@@ -6,8 +6,6 @@ for x = 1:length(res.trials.subj)
 
     spacing = 1/res.el.sampleRate;
     
-    keyboard
-    
     % monocular angular velocity
     res.trials.LExAngVelo{x} = to_velocity(res.trials.LExAng{x},spacing);
     res.trials.LEyAngVelo{x} = to_velocity(res.trials.LEyAng{x},spacing);
@@ -20,8 +18,8 @@ for x = 1:length(res.trials.subj)
     res.trials.versionHVelo{x} = to_velocity(res.trials.versionH{x},spacing);
     
     % predictions (just horizontal)
-    res.trials.predictionLEVelo{x} = to_velocity(res.trials.predictionLE{x},spacing);
-    res.trials.predictionREVelo{x} = to_velocity(res.trials.predictionRE{x},spacing);
+    res.trials.predictionLEVelo{x} = res.trials.predictionLEVelo{x};
+    res.trials.predictionREVelo{x} = res.trials.predictionREVelo{x};
 
 end
 
