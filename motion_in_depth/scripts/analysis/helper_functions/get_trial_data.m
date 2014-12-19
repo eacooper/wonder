@@ -19,6 +19,14 @@ for f = 1:length(res.fullpath)
     % experiment and response data
     load(res.fullpath{f});
     
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % hack to enable loading of data ramp speed specification
+    if ~isfield(dat,'rampSpeedDegSec')
+        dat.rampSpeedDegSec = (dat.dispArcmin/60/2)/dat.cycleSec;
+    end
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    
     % fill in each field with experiment data
     for i = 1:numel(fields)
         

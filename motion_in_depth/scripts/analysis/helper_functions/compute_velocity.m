@@ -4,10 +4,29 @@ function res = compute_velocity(res)
 
 for x = 1:length(res.trials.subj)
 
-    res.trials.LExAngVelo{x} = diff(res.trials.LExAng{x});
-    res.trials.LEyAngVelo{x} = diff(res.trials.LEyAng{x});
+    spacing = 1/res.el.sampleRate;
     
-    res.trials.RExAngVelo{x} = diff(res.trials.RExAng{x});
-    res.trials.REyAngVelo{x} = diff(res.trials.REyAng{x});
+    keyboard
+    
+    % monocular angular velocity
+    res.trials.LExAngVelo{x} = to_velocity(res.trials.LExAng{x},spacing);
+    res.trials.LEyAngVelo{x} = to_velocity(res.trials.LEyAng{x},spacing);
+    
+    res.trials.RExAngVelo{x} = to_velocity(res.trials.RExAng{x},spacing);
+    res.trials.REyAngVelo{x} = to_velocity(res.trials.REyAng{x},spacing);
+    
+    % binocular angular velocity
+    res.trials.vergenceHVelo{x} = to_velocity(res.trials.vergenceH{x},spacing);
+    res.trials.versionHVelo{x} = to_velocity(res.trials.versionH{x},spacing);
+    
+    % predictions (just horizontal)
+    res.trials.predictionLEVelo{x} = to_velocity(res.trials.predictionLE{x},spacing);
+    res.trials.predictionREVelo{x} = to_velocity(res.trials.predictionRE{x},spacing);
 
 end
+
+function velo = to_velocity(x,spacing)
+%
+%
+
+velo = gradient(x,spacing);

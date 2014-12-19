@@ -2,13 +2,13 @@ Experiment:
 
 	-If the experiment crashes, you will need to press command+c twice(?) to get the keyboard control back
 
+	-Note the differences between specifying a *step* (in arcminutes of disparity) versus a ramp (in monocular degrees per second). So the ending disparity of a 3D ramp will be 2x the number you input, in degrees. The magnitude of a 2D step will be 1/2x the number you input, in arcminutes. During analysis everything is converted to degrees
+
 
 	GUI:
 		-You can't record and provide feedback at the same time
 
-		-Expected duration is based on some assumed inter-trial break duration
-
-		-"Settings changed" warning is okay if you just changed the repeats
+		-Expected duration is based on some assumed inter-trial break duration, around 5 seconds
 
 		-Once a new value is changed, press enter to update GUI info
 

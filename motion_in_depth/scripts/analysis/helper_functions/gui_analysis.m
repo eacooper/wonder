@@ -232,12 +232,7 @@ waitfor(f);                         % Exit if Gui is closed
         dotDensity  = unique(res.trials.dotDensity(exp_inds));
         preludeSec  = unique(res.trials.preludeSec(exp_inds));
         cycleSec    = unique(res.trials.cycleSec(exp_inds));
-        
-        if isfield(res.trials,'rampSpeedDegSec')
-            rampSpeedDegSec = unique(res.trials.rampSpeedDegSec(exp_inds));
-        else
-            rampSpeedDegSec = NaN;
-        end
+        rampSpeedDegSec = unique(res.trials.rampSpeedDegSec(exp_inds));
         
         subj       = subjs(end);
         cond       = unique(res.trials.condition(exp_inds));
@@ -285,6 +280,7 @@ waitfor(f);                         % Exit if Gui is closed
         set(d4text,'String',['Density (d/deg2): ' num2str(dotDensity)]);
         set(d5text,'String',['Prelude (sec):' num2str(preludeSec)]);
         set(d6text,'String',['Stim (sec) (one ramp): ' num2str(cycleSec)]);
+        set(d7text,'String',['Mono Velo (deg/sec): ' num2str(rampSpeedDegSec)]);
         
     end
 

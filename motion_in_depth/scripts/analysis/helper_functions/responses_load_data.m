@@ -6,12 +6,11 @@ function [res,dcnt] = responses_load_data(dcnt,dat,res,file)
 % trial-specific
 fields_exp    = {'subj','exp_name','ipd','training','dispArcmin',...
     'stimRadDeg','dotSizeDeg','dotDensity',...
-    'preludeSec','cycleSec'};
+    'preludeSec','cycleSec','rampSpeedDegSec'};
 fields_trial     = {'condition','dynamics','direction','repeat',...
     'trialnum','resp','respCode','isCorrect','delayTimeSec','durationSec'};
 
 num_trials = length(dat.trials.condition);
-
 
 % experiment-specific info
 for f = 1:length(fields_exp)
