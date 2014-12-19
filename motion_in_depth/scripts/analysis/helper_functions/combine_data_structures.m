@@ -50,10 +50,12 @@ for f = 1:length(fields)
                 if isfield(res_new.predictions(x),pr_fields{h})
                     
                     tmp.predictions(x).(pr_fields{h}) = [res_new.predictions(x).(pr_fields{h})];
+                    tmp.predictionsVelo(x).(pr_fields{h}) = [res_new.predictionsVelo(x).(pr_fields{h})];
                     
                 else
                     
                     tmp.predictions(x).(pr_fields{h}) = [];
+                    tmp.predictionsVelo(x).(pr_fields{h}) = [];
                     
                 end
                 
@@ -62,6 +64,7 @@ for f = 1:length(fields)
         end
         
         res.predictions = [res_old.predictions tmp.predictions];
+        res.predictionsVelo = [res_old.predictionsVelo tmp.predictions];
     
         
     % otherwise just combine fields    
