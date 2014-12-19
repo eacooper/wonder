@@ -16,3 +16,4 @@ for d = 1:length(dat.dynamics)
     
 end
 
+res.predictions(f).time_points = et_times;      % store timepoints in seconds

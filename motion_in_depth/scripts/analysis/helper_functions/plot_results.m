@@ -75,6 +75,9 @@ for p = 1:length(plt)
                         res.trials.isGood == 1 & ...
                         res.trials.goodTiming);
                     
+                    % get time points
+                    time_points = res.trials.recordingTimePointsSec{inds(1)};
+                    
                     display(['plotting data for ' num2str(numel(inds)) ' good trials out of ' num2str(sum(inds_all)) ' total']);
                     
                     % for each trials
@@ -85,31 +88,34 @@ for p = 1:length(plt)
                             
                             case 'monocular'
                                 
-                                [ax,h1,h2] = plotyy(1:length(res.trials.(LE){inds(t)}),res.trials.(LE){inds(t)},...
-                                    1:length(res.trials.(RE){inds(t)}),res.trials.(RE){inds(t)});
+                                [ax,h1,h2] = plotyy(time_points,res.trials.(LE){inds(t)},...
+                                    time_points,res.trials.(RE){inds(t)});
                                 color_yy(ax,h1,h2,0,1);
                                 
-                                set(ax(1),'YLabel',[])
-                                set(ax(2),'YLabel',[])
+                                set(ax,'Xlim',[0 res.trials.prediction_time_points{inds(1)}(end)])
                                 
                             case 'binocular'
                                 
-                                [ax,h1,h2] = plotyy(1:length(res.trials.vergenceH{inds(t)}),res.trials.vergenceH{inds(t)},...
-                                    1:length(res.trials.versionH{inds(t)}),res.trials.versionH{inds(t)});
+                                [ax,h1,h2] = plotyy(time_points,res.trials.vergenceH{inds(t)},...
+                                    time_points,res.trials.versionH{inds(t)});
                                 color_yy(ax,h1,h2,0,0);
                                 
-                                set(ax(1),'YLabel',[])
-                                set(ax(2),'YLabel',[])
+                                set(ax,'Xlim',[0 res.trials.prediction_time_points{inds(1)}(end)])
                                 
                             case 'vergence'
                                 
-                                plot(1:length(res.trials.vergenceH{inds(t)}),res.trials.vergenceH{inds(t)},'color',ColorIt(3).^0.1);
+                                plot(time_points,res.trials.vergenceH{inds(t)},'color',ColorIt(3).^0.1);
+                                
+                                xlim([0 res.trials.prediction_time_points{inds(1)}(end)]);
                                 
                             case 'version'
                                 
-                                plot(1:length(res.trials.versionH{inds(t)}),res.trials.versionH{inds(t)},'color',ColorIt(4).^0.1);
+                                plot(time_points,res.trials.versionH{inds(t)},'color',ColorIt(4).^0.1);
+                                
+                                xlim([0 res.trials.prediction_time_points{inds(1)}(end)]);
                                 
                         end
+                        
                         
                     end
                     
@@ -118,24 +124,33 @@ for p = 1:length(plt)
                         
                         case 'monocular'
                             
-                            [ax,h1,h2] = plotyy(1:length(mean(cell2mat(res.trials.LExAng(inds)),2)),mean(cell2mat(res.trials.LExAng(inds)),2),...
-                                1:length(mean(cell2mat(res.trials.RExAng(inds)),2)),mean(cell2mat(res.trials.RExAng(inds)),2));
+                            [ax,h1,h2] = plotyy(time_points,mean(cell2mat(res.trials.LExAng(inds)),2),...
+                                time_points,mean(cell2mat(res.trials.RExAng(inds)),2));
                             color_yy(ax,h1,h2,1,1);
+                            
+                            set(ax,'Xlim',[0 res.trials.prediction_time_points{inds(1)}(end)])
                             
                         case 'binocular'
                             
-                            [ax,h1,h2] = plotyy(1:length(mean(cell2mat(res.trials.vergenceH(inds)),2)),mean(cell2mat(res.trials.vergenceH(inds)),2),...
-                                1:length(mean(cell2mat(res.trials.versionH(inds)),2)),mean(cell2mat(res.trials.versionH(inds)),2));
+                            [ax,h1,h2] = plotyy(time_points,mean(cell2mat(res.trials.vergenceH(inds)),2),...
+                                time_points,mean(cell2mat(res.trials.versionH(inds)),2));
                             color_yy(ax,h1,h2,1,0);
+                            
+                            set(ax,'Xlim',[0 res.trials.prediction_time_points{inds(1)}(end)])
                             
                         case 'vergence'
                             
-                            plot(1:length(mean(cell2mat(res.trials.vergenceH(inds)),2)),mean(cell2mat(res.trials.vergenceH(inds)),2),'color',ColorIt(3));
+                            plot(time_points,mean(cell2mat(res.trials.vergenceH(inds)),2),'color',ColorIt(3));
+                            
+                            xlim([0 res.trials.prediction_time_points{inds(1)}(end)]);
                             
                         case 'version'
                             
-                            plot(1:length(mean(cell2mat(res.trials.versionH(inds)),2)),mean(cell2mat(res.trials.versionH(inds)),2),'color',ColorIt(4));
+                            plot(time_points,mean(cell2mat(res.trials.versionH(inds)),2),'color',ColorIt(4));
+                            
+                            xlim([0 res.trials.prediction_time_points{inds(1)}(end)]);
                     end
+                    
                     
                     % ...and prediction
                     if length(inds) > 0
@@ -144,30 +159,66 @@ for p = 1:length(plt)
                             
                             case 'monocular'
                                 
-                                [ax,h1,h2] = plotyy(1:length(res.trials.predictionLE{inds(1)}),res.trials.predictionLE{inds(1)},...
-                                    1:length(res.trials.predictionRE{inds(1)}),res.trials.predictionRE{inds(1)});
+                                [ax,h1,h2] = plotyy(res.trials.prediction_time_points{inds(1)},res.trials.predictionLE{inds(1)},...
+                                    res.trials.prediction_time_points{inds(1)},res.trials.predictionRE{inds(1)});
                                 
                                 color_yy(ax,h1,h2,1,1);
                                 
+                                set(ax(1),'YLim',[0 9],'Ytick',0:9)
+                                set(ax(2),'YLim',[-7 2],'Ytick',-7:2)
+                                
+                                set(get(ax(1),'Ylabel'),'String','Left Eye Position (deg)')
+                                set(get(ax(2),'Ylabel'),'String','Right Eye Position (deg)')
+                                
+                                set(ax,'Xlim',[0 res.trials.prediction_time_points{inds(1)}(end)])
+                                
+                                set(get(ax(1),'Xlabel'),'String','Seconds')
+                                set(get(ax(2),'Xlabel'),'String','Seconds')
+                                
                             case 'binocular'
                                 
-                                [ax,h1,h2] = plotyy(1:length(res.trials.predictionLE{inds(1)}),res.trials.predictionLE{inds(1)}...
+                                [ax,h1,h2] = plotyy(res.trials.prediction_time_points{inds(1)},res.trials.predictionLE{inds(1)}...
                                     -res.trials.predictionRE{inds(1)},...
-                                    1:length(res.trials.predictionLE{inds(1)}),mean([res.trials.predictionLE{inds(1)} ; res.trials.predictionRE{inds(1)}]));
+                                    res.trials.prediction_time_points{inds(1)},mean([res.trials.predictionLE{inds(1)} ; res.trials.predictionRE{inds(1)}]));
                                 
                                 color_yy(ax,h1,h2,1,0);
                                 
+                                set(ax(1),'YLim',[6 8],'Ytick',6:8)
+                                set(ax(2),'YLim',[-1 1],'Ytick',-1:1)
+                                
+                                set(get(ax(1),'Ylabel'),'String','Vergence (deg)')
+                                set(get(ax(2),'Ylabel'),'String','Version (deg)')
+                                
+                                set(ax,'Xlim',[0 res.trials.prediction_time_points{inds(1)}(end)])
+                                
+                                set(get(ax(1),'Xlabel'),'String','Seconds')
+                                set(get(ax(2),'Xlabel'),'String','Seconds')
+                                
                             case 'vergence'
                                 
-                                plot(1:length(res.trials.predictionLE{inds(1)}),res.trials.predictionLE{inds(1)}...
+                                h = plot(res.trials.prediction_time_points{inds(1)},res.trials.predictionLE{inds(1)}...
                                     -res.trials.predictionRE{inds(1)},'color',ColorIt(3));
+                                
+                                %NEEDS TO BE SET
+                                %set(h,'YLim',[6 8],'Ytick',6:8)
+                                ylabel('Vergence (deg)');
+                                xlim([0 res.trials.prediction_time_points{inds(1)}(end)]);
+                                xlabel('Seconds')
                                 
                             case 'version'
                                 
-                                plot(1:length(res.trials.predictionLE{inds(1)}),...
-                                    mean([res.trials.predictionLE{inds(1)} ; res.trials.predictionRE{inds(1)}]),'color',ColorIt(4));    
+                                h = plot(res.trials.prediction_time_points{inds(1)},...
+                                    mean([res.trials.predictionLE{inds(1)} ; res.trials.predictionRE{inds(1)}]),'color',ColorIt(4));
+                                
+                                %NEEDS TO BE SET
+                                %set(h,'YLim',[6 8],'Ytick',6:8)
+                                ylabel('Version (deg)');
+                                xlim([0 res.trials.prediction_time_points{inds(1)}(end)]);
+                                xlabel('Seconds')
                                 
                         end
+                        
+                        
                         
                         
                     end
@@ -206,18 +257,13 @@ if(flag2)
     % set(ax(1),'YLim',[0 5],'Ytick',0:5)
     % set(ax(2),'YLim',[-5 0],'Ytick',-5:0)
     
-    set(ax(1),'YLim',[0 9],'Ytick',0:9)
-    set(ax(2),'YLim',[-7 2],'Ytick',-7:2)
+    set(ax(1),'YLim',[0 9],'Ytick',[])
+    set(ax(2),'YLim',[-7 2],'Ytick',[])
     
-    set(get(ax(1),'Ylabel'),'String','Left Eye Position (deg)')
-    set(get(ax(2),'Ylabel'),'String','Right Eye Position (deg)')
     
 else
     
-    set(ax(1),'YLim',[6 8],'Ytick',6:8)
-    set(ax(2),'YLim',[-1 1],'Ytick',-1:1)
-    
-    set(get(ax(1),'Ylabel'),'String','Vergence (deg)')
-    set(get(ax(2),'Ylabel'),'String','Version (deg)')
+    set(ax(1),'YLim',[6 8],'Ytick',[])
+    set(ax(2),'YLim',[-1 1],'Ytick',[])
     
 end

@@ -65,6 +65,9 @@ for t = dcnt:dcnt-1+num_trials
             
     end
     
+    % store timepoints of predictions
+    res.trials.prediction_time_points{dcnt-1+cntr} = res.predictions(file).time_points;
+    
     cntr = cntr + 1;
 
 end
