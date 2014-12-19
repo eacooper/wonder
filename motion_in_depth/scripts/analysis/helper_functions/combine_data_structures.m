@@ -50,13 +50,11 @@ for f = 1:length(fields)
                 if isfield(res_new.predictions(x),pr_fields{h})
                     
                     tmp.predictions(x).(pr_fields{h}) = [res_new.predictions(x).(pr_fields{h})];
-                    tmp.predictionsVelo(x).(pr_fields{h}) = [res_new.predictionsVelo(x).(pr_fields{h})];
                     
                 else
                     
                     tmp.predictions(x).(pr_fields{h}) = [];
-                    tmp.predictionsVelo(x).(pr_fields{h}) = [];
-                    
+
                 end
                 
             end
@@ -66,6 +64,31 @@ for f = 1:length(fields)
         res.predictions = [res_old.predictions tmp.predictions];
         res.predictionsVelo = [res_old.predictionsVelo tmp.predictions];
     
+    % predictions fill in empty subfields
+    elseif strcmp(fields{f},'predictionsVelo')
+        
+        pr_fields = fieldnames(res_old.predictionsVelo);
+        
+        for h = 1:length(pr_fields)
+            
+            for x = 1:length(res_new.predictionsVelo)
+                
+                if isfield(res_new.predictionsVelo(x),pr_fields{h})
+
+                    tmp.predictionsVelo(x).(pr_fields{h}) = [res_new.predictionsVelo(x).(pr_fields{h})];
+                    
+                else
+
+                    tmp.predictionsVelo(x).(pr_fields{h}) = [];
+                    
+                end
+                
+            end
+ 
+        end
+        
+        res.predictionsVelo = [res_old.predictionsVelo tmp.predictions];
+        
         
     % otherwise just combine fields    
     else
