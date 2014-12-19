@@ -89,11 +89,17 @@ for p = 1:length(plt)
                                     1:length(res.trials.(RE){inds(t)}),res.trials.(RE){inds(t)});
                                 color_yy(ax,h1,h2,0,1);
                                 
+                                set(ax(1),'YLabel',[])
+                                set(ax(2),'YLabel',[])
+                                
                             case 'binocular'
                                 
                                 [ax,h1,h2] = plotyy(1:length(res.trials.vergenceH{inds(t)}),res.trials.vergenceH{inds(t)},...
                                     1:length(res.trials.versionH{inds(t)}),res.trials.versionH{inds(t)});
                                 color_yy(ax,h1,h2,0,0);
+                                
+                                set(ax(1),'YLabel',[])
+                                set(ax(2),'YLabel',[])
                                 
                             case 'vergence'
                                 

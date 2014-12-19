@@ -24,7 +24,7 @@ datatype    = datatypes{1};
 set_experiment;
 
 %  Create and then hide the GUI as it is being constructed
-sz      = [360,500,500,600];
+sz      = [360,500,500,500];
 marg    = 30;
 f       = figure('Visible','off','Position',sz);
 

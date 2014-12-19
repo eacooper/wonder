@@ -34,5 +34,4 @@ Analysis:
 
 	Plots:
 
-		-Plotted prediction lines always return to zero at the end of the trial, this is incorrect
 
