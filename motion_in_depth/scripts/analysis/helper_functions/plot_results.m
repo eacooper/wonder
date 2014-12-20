@@ -52,7 +52,7 @@ for p = 1:length(plt)
                 
                 % open a new figure
                 f(d) = figure; hold on; setupfig(10,10,10);
-                suptitle([subjs{s} ' ' dyn{d} ' ' plt{p} ' ( L err ' num2str(cali_LE_mean,2) 'deg R err ' num2str(cali_RE_mean,2) 'deg )']);
+                suptitle([subjs{s} ' ' dyn{d} ' ' datatype ' ' plt{p} ' ( L err ' num2str(cali_LE_mean,2) 'deg R err ' num2str(cali_RE_mean,2) 'deg )']);
                 cnt = 1;     % subplot counter
                 
                 
