@@ -4,6 +4,7 @@ Experiment:
 
 	-Note the differences between specifying a *step* (in arcminutes of disparity) versus a ramp (in monocular degrees per second). So the ending disparity of a 3D ramp will be 2x the number you input, in degrees. The magnitude of a 2D step will be 1/2x the number you input, in arcminutes. During analysis everything is converted to degrees
 
+	-In the MixedIncons condition, the CDOT dots do what is asked, the IOVD dots do the reverse
 
 	GUI:
 		-You can't record and provide feedback at the same time
