@@ -52,7 +52,7 @@ for p = 1:length(plt)
                 
                 % open a new figure
                 f(d) = figure; hold on; setupfig(10,10,10);
-                suptitle([subjs{s} ' ' dyn{d} ' ' plt{p} ' ( L err ' num2str(cali_LE_mean,2) 'deg R err ' num2str(cali_RE_mean,2) 'deg )']);
+                suptitle([subjs{s} ' ' dyn{d} ' ' datatype ' ' plt{p} ' ( L err ' num2str(cali_LE_mean,2) 'deg R err ' num2str(cali_RE_mean,2) 'deg )']);
                 cnt = 1;     % subplot counter
                 
                 
@@ -85,7 +85,7 @@ for p = 1:length(plt)
                     
                     % draw the plots for this trial, depending on
                     % requested plot type
-                    make_plots(plt{p},res,inds,predLE,predRE,LE,RE,Verg,Vers,time_points,time_points_pred);
+                    make_plots(datatype,plt{p},res,inds,predLE,predRE,LE,RE,Verg,Vers,time_points,time_points_pred);
                     
                     cnt = cnt + 1;      % increment subplot counter
                     

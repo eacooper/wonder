@@ -239,7 +239,7 @@ waitfor(f);                         % Exit if Gui is closed
         dyn        = unique(res.trials.dynamics(exp_inds));
         dir        = unique(res.trials.direction(exp_inds));
         
-        datatype   = datatypes{1};
+        %datatype   = datatypes{1};
         
         if numel(dispArcmin) > 1 || numel(stimRadDeg) > 1 || numel(dotSizeDeg) > 1 ||...
                 numel(dotDensity) > 1 || numel(preludeSec) > 1 || numel(cycleSec) > 1 || numel(rampSpeedDegSec) > 1
