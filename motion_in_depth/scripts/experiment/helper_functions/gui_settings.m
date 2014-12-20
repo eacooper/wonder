@@ -34,7 +34,7 @@ update_num_trials(0);
 
 
 %  Create and then hide the GUI as it is being constructed
-sz      = [0,0,800,800];
+sz      = [0,0,1000,1000];
 marg    = 0.02;
 text_sz = 0.1;
 text_ht = 0.04;
