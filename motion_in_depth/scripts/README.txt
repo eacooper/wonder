@@ -34,4 +34,6 @@ Analysis:
 
 	Plots:
 
+		-We compute velocity using an sgolay filter and then averaging trials
+
 

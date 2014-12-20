@@ -85,7 +85,7 @@ for p = 1:length(plt)
                     
                     % draw the plots for this trial, depending on
                     % requested plot type
-                    make_plots(plt{p},res,inds,predLE,predRE,LE,RE,Verg,Vers,time_points,time_points_pred);
+                    make_plots(datatype,plt{p},res,inds,predLE,predRE,LE,RE,Verg,Vers,time_points,time_points_pred);
                     
                     cnt = cnt + 1;      % increment subplot counter
                     
