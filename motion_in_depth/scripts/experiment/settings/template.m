@@ -8,7 +8,6 @@ function dat = template
 dat.display         = X_d;      % display
 dat.recording       = X_r;      % using eyelink to record (1) or not (0)
 dat.training        = X_t;      % providing training feedback noises (1) or not(0)
-dat.nonius          = X_n;      % nonius on during trial (1) or not(0)
 
 % dot field properties
 dat.stimRadDeg      = N_r;      % stimulus field radius

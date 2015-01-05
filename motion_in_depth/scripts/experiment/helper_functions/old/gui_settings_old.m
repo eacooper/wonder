@@ -1,4 +1,4 @@
-function [dat,scr] = gui_settings_old(settings)
+function [dat,scr] = gui_settings(settings)
 %
 % gui for loading and setting motion in depth experiment
 
@@ -6,7 +6,6 @@ function [dat,scr] = gui_settings_old(settings)
 dspl        = displays;
 conds       = conditions;
 dyn         = dynamics;
-ipdmat      = ipds;
 dirs        = {'away','towards','left','right'};
 exp         = gui_load_experiments;
 
@@ -28,8 +27,6 @@ end
 go      = 0;
 subj    = 'XX';
 ipd     = 0;
-exp_mod = 0;
-num_trials = 0; update_num_trials(0);
 
 
 %  Create and then hide the GUI as it is being constructed
@@ -124,11 +121,12 @@ align([store,zbox],'None','Top');
 
 
 
+
 % dot options
 
 
 % disparity magnitude
-d1text = uicontrol('Style','text','String','Step Disp (am)',...
+d1text = uicontrol('Style','text','String','Disparity (am)',...
     'Position',[marg,sz(2) - marg*7,60,30]);
 d1box = uicontrol('Style','edit',...
     'String',dat.dispArcmin,...
@@ -139,24 +137,12 @@ d1box = uicontrol('Style','edit',...
 
 align([d1text,d1box],'None','Center');
 
-% ramp velocity
-d8text = uicontrol('Style','text','String','Speed (deg/sec)',...
-    'Position',[marg + 150,sz(2) - marg*7,60,30]);
-d8box = uicontrol('Style','edit',...
-    'String',dat.rampSpeedDegSec,...
-    'Position',[marg + 210,sz(2) - marg*7,50,31],...
-    'BackgroundColor',ColorIt(3), ...
-    'Tag','rampSpeedDegSec', ...
-    'Callback',{@text_Callback});
-
-align([d8text,d8box],'None','Center');
-
 % stimulus radius
 d2text = uicontrol('Style','text','String','Stim Radius (deg)',...
-    'Position',[marg + 150,sz(2) - marg*8,60,30]);
+    'Position',[marg + 150,sz(2) - marg*7,60,30]);
 d2box = uicontrol('Style','edit',...
     'String',dat.stimRadDeg,...
-    'Position',[marg + 210,sz(2) - marg*8,50,31],...
+    'Position',[marg + 210,sz(2) - marg*7,50,31],...
     'Tag','stimRadDeg', ...
     'Callback',{@text_Callback});
 
@@ -175,10 +161,10 @@ align([d3text,d3box],'None','Center');
 
 % dot density
 d4text = uicontrol('Style','text','String','Density (d/deg2)',...
-    'Position',[marg + 150,sz(2) - marg*9,60,30]);
+    'Position',[marg + 150,sz(2) - marg*8,60,30]);
 d4box = uicontrol('Style','edit',...
     'String',dat.dotDensity,...
-    'Position',[marg + 210,sz(2) - marg*9,50,31],...
+    'Position',[marg + 210,sz(2) - marg*8,50,31],...
     'Tag','dotDensity', ...
     'Callback',{@text_Callback});
 
@@ -187,6 +173,7 @@ align([d4text,d4box],'None','Center');
 
 
 % timing
+
 
 
 % prelude time
@@ -202,10 +189,10 @@ align([d5text,d5box],'None','Center');
 
 % stim time
 d6text = uicontrol('Style','text','String','Stim (sec) (one ramp)',...
-    'Position',[marg + 150,sz(2) - marg*10,60,30]);
+    'Position',[marg + 150,sz(2) - marg*9,60,30]);
 d6box = uicontrol('Style','edit',...
     'String',dat.cycleSec,...
-    'Position',[marg + 210,sz(2) - marg*10,50,31],...
+    'Position',[marg + 210,sz(2) - marg*9,50,31],...
     'Tag','cycleSec', ...
     'Callback',{@text_Callback});
 
@@ -222,14 +209,6 @@ d7box = uicontrol('Style','edit',...
 
 align([d7text,d7box],'None','Center');
 
-
-numtext = uicontrol('Style','text','String',...
-    ['Num Trials: ' num2str(num_trials)],...
-    'Position',[marg,sz(2) - marg*12,60,30]);
-
-durtext = uicontrol('Style','text','String',...
-    ['Duration: ' num2str((num_trials*(5+dat.preludeSec+dat.cycleSec))/60) ' Min'],...
-    'Position',[marg,sz(2) - marg*13,60,30]);
 
 
 % condition options
@@ -292,12 +271,10 @@ hold off
 
 % Run the GUI
 
-set(f,'Name','MID Experiment Settings') %GUI title
+set(f,'Name',[dat.exp_name ' MID Experiment Settings']) %GUI title
 movegui(f,'center');             % Move the GUI to the center of the screen
 set(f,'Visible','on');              % Make the GUI visible
 waitfor(f);                         % Exit if Gui is closed
-
-gui_store_ipd(dat,ipds)                  % store initials/IPD pair for this session
 
 if(~go)
     error('GUI exited without pressing Start');
@@ -318,14 +295,12 @@ end
         dat.exp_name    = str{val};
         scr				= dspl(find(strcmp({dspl(:).name},dat.display)));
         
-        update_num_trials(1)
-        
+        %set(sbox,'String',subj);
         set(dpopup,'Value',find(strcmp({dspl(:).name},dat.display)));
         set(rradio,'Value',dat.recording);
         set(fradio,'Value',dat.training);
         
         set(d1box,'String',num2str(dat.dispArcmin));
-        set(d8box,'String',num2str(dat.rampSpeedDegSec));
         set(d2box,'String',num2str(dat.stimRadDeg));
         set(d3box,'String',num2str(dat.dotSizeDeg));
         set(d4box,'String',num2str(dat.dotDensity));
@@ -354,11 +329,6 @@ end
         
         str = get(source, 'String');
         subj = str;
-        
-        if sum(ismember(ipdmat.subj,subj)) > 0
-            ipd = ipdmat.ipd(ismember(ipdmat.subj,subj));
-            set(pbox,'String',ipd);
-        end
     end
 
     function ipd_Callback(source,eventdata)
@@ -374,9 +344,8 @@ end
         val			= get(source,'Value');
         dat.display = str{val};
         scr			= dspl(find(strcmp({dspl(:).name},dat.display)));
-        exp_mod     = 1;
         
-        set(warn_me,'String','ALERT: Conditions changed','BackgroundColor',ColorIt(5));
+        set(warn_me,'String','WARNING: Settings changed','BackgroundColor',get_color(1));
     end
 
 
@@ -385,7 +354,7 @@ end
         val = get(source,'Value');
         dat.recording = val;
         
-        set(warn_me,'String','ALERT: Conditions changed','BackgroundColor',ColorIt(5));
+        set(warn_me,'String','WARNING: Settings changed','BackgroundColor',get_color(1));
     end
 
 
@@ -394,7 +363,7 @@ end
         val = get(source,'Value');
         dat.training = val;
         
-        set(warn_me,'String','ALERT: Conditions changed','BackgroundColor',ColorIt(5));
+        set(warn_me,'String','WARNING: Settings changed','BackgroundColor',ColorIt(1));
     end
 
 
@@ -405,13 +374,8 @@ end
         dat.ipd     = ipd;
         
         if ipd == 0
-            set(warn_me,'String','WARNING: IPD cannot be zero','BackgroundColor',ColorIt(1));
+            set(warn_me,'String','WARNING: IPD cannot be zero','BackgroundColor',ColorIt(4));
             error('cannot run experiment without IPD filled in')
-        end
-        
-        if exp_mod == 1
-            set(warn_me,'String','WARNING: Experiment modified and must be renamed','BackgroundColor',ColorIt(1));
-            error('cannot run experiment without changing name')
         end
         
         close all;
@@ -433,7 +397,7 @@ end
     function storeExp_Callback(source,eventdata)
         
         if strcmp(dat.exp_name,'tmpfile')
-            set(warn_me,'String','WARNING: Filename cannot start with a number','BackgroundColor',ColorIt(1));
+            set(warn_me,'String','WARNING: Filename cannot start with a number','BackgroundColor',ColorIt(2));
             error('Filename cannot start with a number');
         else
             gui_create_new_experiment(dat)
@@ -442,8 +406,6 @@ end
             set(epopup,'String',{exp(:).name}, ...
                 'Value',find(strcmp({exp(:).name},dat.exp_name)));
             set(warn_me,'String','','BackgroundColor',[.94 .94 .94]);
-            
-            exp_mod     = 0;
         end
         
     end
@@ -455,16 +417,67 @@ end
         str = get(source, 'String');
         dat.(get(source,'tag')) = str2num(str);
         
-        if ~strcmp(get(source,'tag'),'cond_repeats')
-            exp_mod     = 1;
-        else
-            update_num_trials(1)
-        end
-        
-        set(warn_me,'String','ALERT: Conditions changed','BackgroundColor',ColorIt(5));
-        
-        
+        set(warn_me,'String','WARNING: Settings changed','BackgroundColor',get_color(1));
     end
+
+
+    function disp_Callback(source,eventdata)
+        
+        str = get(source, 'String');
+        dat.dispArcmin = str2num(str);
+        
+        set(warn_me,'String','WARNING: Settings changed','BackgroundColor',get_color(1));
+    end
+
+
+    function radius_Callback(source,eventdata)
+        
+        str = get(source, 'String');
+        dat.stimRadDeg = str2num(str);
+        
+        set(warn_me,'String','WARNING: Settings changed','BackgroundColor',get_color(1));
+    end
+
+    function size_Callback(source,eventdata)
+        
+        str = get(source, 'String');
+        dat.dotSizeDeg = str2num(str);
+        
+        set(warn_me,'String','WARNING: Settings changed','BackgroundColor',get_color(1));
+    end
+
+    function density_Callback(source,eventdata)
+        
+        str = get(source, 'String');
+        dat.dotDensity = str2num(str);
+        
+        set(warn_me,'String','WARNING: Settings changed','BackgroundColor',get_color(1));
+    end
+
+    function prelude_Callback(source,eventdata)
+        
+        str = get(source, 'String');
+        dat.preludeSec = str2num(str);
+        
+        set(warn_me,'String','WARNING: Settings changed','BackgroundColor',get_color(1));
+    end
+
+    function cycle_Callback(source,eventdata)
+        
+        str = get(source, 'String');
+        dat.cycleSec = str2num(str);
+        
+        set(warn_me,'String','WARNING: Settings changed','BackgroundColor',get_color(1));
+    end
+
+    function repeat_Callback(source,eventdata)
+        
+        str = get(source, 'String');
+        dat.cond_repeats = str2num(str);
+        
+        set(warn_me,'String','WARNING: Settings changed','BackgroundColor',get_color(1));
+    end
+
 
 
     function condition_Callback(source,eventdata)
@@ -480,9 +493,7 @@ end
             dat.conditions(ind) = [];
         end
         
-        update_num_trials(1)
-        
-        set(warn_me,'String','ALERT: Conditions changed','BackgroundColor',ColorIt(5));
+        set(warn_me,'String','WARNING: Settings changed','BackgroundColor',get_color(1));
     end
 
 
@@ -500,9 +511,7 @@ end
             dat.dynamics(ind) = [];
         end
         
-        update_num_trials(1)
-        
-        set(warn_me,'String','ALERT: Conditions changed','BackgroundColor',ColorIt(5));
+        set(warn_me,'String','WARNING: Settings changed','BackgroundColor',get_color(1));
     end
 
 
@@ -519,22 +528,7 @@ end
             dat.directions(ind) = [];
         end
         
-        update_num_trials(1)
-        
-        set(warn_me,'String','ALERT: Conditions changed','BackgroundColor',ColorIt(5));
-    end
-
-    function  update_num_trials(flag)
-        
-        num_trials  = (dat.cond_repeats...
-            *length(dat.directions)*length(dat.dynamics)...
-            *length(dat.conditions));
-        
-        if(flag)
-            set(numtext,'String',['Num Trials: ' num2str(num_trials)]);
-            set(durtext,'String',['Duration: ' num2str((num_trials*(5+dat.preludeSec+dat.cycleSec))/60) ' Min']);
-        end
-        
+        set(warn_me,'String','WARNING: Settings changed','BackgroundColor',get_color(1));
     end
 
 

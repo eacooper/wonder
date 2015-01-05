@@ -7,9 +7,7 @@ function [dat,scr,stm] = stimulus_setup(dat,scr)
 
 scr.cm2pix              = scr.width_pix/scr.width_cm;                           % conversion for cm to pixels
 scr.pix2arcmin          = 2*60*atand(0.5/(scr.viewDistCm*scr.cm2pix));          % conversion from pixels to arcminutes
-
 display(['1 pixel = ' num2str(scr.pix2arcmin,2) ' arcmin']);
-if dat.dispArcmin < scr.pix2arcmin; error('disparity requested is less than 1 pixel'); end
 
 scr.x_center_pix        = scr.width_pix/2;                                      % l/r screen center
 scr.y_center_pix        = scr.height_pix/2 - (scr.stimCenterYCm*scr.cm2pix);    % u/d screen center
@@ -20,17 +18,10 @@ scr.y_center_pix_right  = scr.y_center_pix;
 scr.x_center_pix_left   = scr.x_center_pix - (scr.prismShiftCm*scr.cm2pix);
 scr.x_center_pix_right  = scr.x_center_pix + (scr.prismShiftCm*scr.cm2pix);
 
-% handle calibration screen brightness
-if sum(ismember(dat.conditions,'SingleDot')) > 0        % if there is a single dot condition      
-   
-    if numel(dat.conditions) == 1                       % if this is the only condition
-        scr.calicolor = [0 0 0];                        % make the calibration screen black
-    else
-        scr.calicolor = [26 26 26];                     % otherwise just a little brighter as a compromise
-    end
-    
-else                                                    % if there is no single dot condition
-	scr.calicolor = [52 52 52];                         % brighten the screen to try to match multidot display
+if ~strcmp(cell2mat(dat.conditions),'SingleDot')                                % if there are multidot conditions included...      
+   scr.calicolor = [52 52 52];                                                 % make the calibration screen a little brighter
+else
+	scr.calicolor = [0 0 0];
 end
 
 scr.caliRadiusDeg		= 8;			% this is the region of the screen that will be covered by calibration dots
@@ -82,8 +73,8 @@ stm.stimRadPix      = round((60*dat.stimRadDeg)/scr.pix2arcmin);    % dot field 
 stm.stimRadSqPix    = stm.stimRadPix^2;                             % square it now to save time later
 stm.dotSizePix      = (dat.dotSizeDeg*60)/scr.pix2arcmin;           % dot diameter in pixels
 
-stm.xmax            = 4*max([stm.stimRadPix stm.rampEndDispPix]);   % full x field of dots before circle crop
-stm.ymax            = stm.xmax;                                         % fill y field of dots before circle crop
+stm.xmax            = 4*stm.stimRadPix;                             % full x field of dots before circle crop
+stm.ymax            = 4*stm.stimRadPix;                             % fill y field of dots before circle crop
 
 stm.numDots = round( dat.dotDensity*(  stm.xmax*(scr.pix2arcmin/60) * ...  % convert dot density to number of dots for PTB
     stm.ymax*(scr.pix2arcmin/60) ) );

@@ -16,6 +16,3 @@ ipd.ipd(4)  = 6.7;
 
 ipd.subj{5} = 'KYD'; 
 ipd.ipd(5)  = 6.2;
-
-ipd.subj{6} = 'CXA'; 
-ipd.ipd(6)  = 6.2;

@@ -43,7 +43,7 @@ for x = 1:length(disparities)
 			
 		case {'Mixed','MixedIncons','MixedCons'}
 			
-			[dots] = stimulus_make_random_dots(stm.xmax,stm.ymax,round(stm.numDots/2));
+			[dots] = stimulus_make_random_dots(stm.dotSizePix,stm.xmax,stm.ymax,round(stm.numDots/2));
 			
 			dotsLE(:,1:round(stm.numDots/2))      = dots;
 			dotsRE(:,1:round(stm.numDots/2))      = dots;
