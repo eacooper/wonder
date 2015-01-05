@@ -1,5 +1,6 @@
-function [dots] = stimulus_make_random_dots(dotsSize,xmax,ymax,numDots)
-
+function [dots] = stimulus_make_random_dots(xmax,ymax,numDots)
+%
+% make coordinates 
 % Stimulus settings:
 dots = zeros(2, numDots);
 

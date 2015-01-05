@@ -10,22 +10,22 @@ switch condition
         
     case 'IOVD'         % for IOVD, two eyes are uncorrelated
         
-        [dotsLE] = stimulus_make_random_dots(stm.dotSizePix,stm.xmax,stm.ymax,stm.numDots);
-        [dotsRE] = stimulus_make_random_dots(stm.dotSizePix,stm.xmax,stm.ymax,stm.numDots);
+        [dotsLE] = stimulus_make_random_dots(stm.xmax,stm.ymax,stm.numDots);
+        [dotsRE] = stimulus_make_random_dots(stm.xmax,stm.ymax,stm.numDots);
         
     case {'Mixed','MixedCons','MixedIncons'}  % for Mixed, first 1/2 are correlated, 2nd half uncorrelated
         
-        [dots1]     = stimulus_make_random_dots(stm.dotSizePix,stm.xmax,stm.ymax,round(stm.numDots/2));
+        [dots1]     = stimulus_make_random_dots(stm.xmax,stm.ymax,round(stm.numDots/2));
         
-        [dotsLE2]   = stimulus_make_random_dots(stm.dotSizePix,stm.xmax,stm.ymax,round(stm.numDots/2));
-        [dotsRE2]   = stimulus_make_random_dots(stm.dotSizePix,stm.xmax,stm.ymax,round(stm.numDots/2));
+        [dotsLE2]   = stimulus_make_random_dots(stm.xmax,stm.ymax,round(stm.numDots/2));
+        [dotsRE2]   = stimulus_make_random_dots(stm.xmax,stm.ymax,round(stm.numDots/2));
         
         dotsLE      = [dots1 dotsLE2];
         dotsRE      = [dots1 dotsRE2];
         
     case {'CDOT','FullCue'}           % otherwise, same dots in both eyes
         
-        [dots] = stimulus_make_random_dots(stm.dotSizePix,stm.xmax,stm.ymax,stm.numDots);
+        [dots] = stimulus_make_random_dots(stm.xmax,stm.ymax,stm.numDots);
         
         dotsLE = dots;
         dotsRE = dots;

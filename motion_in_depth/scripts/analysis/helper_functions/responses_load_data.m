@@ -6,12 +6,11 @@ function [res,dcnt] = responses_load_data(dcnt,dat,res,file)
 % trial-specific
 fields_exp    = {'subj','exp_name','ipd','training','dispArcmin',...
     'stimRadDeg','dotSizeDeg','dotDensity',...
-    'preludeSec','cycleSec'};
+    'preludeSec','cycleSec','rampSpeedDegSec'};
 fields_trial     = {'condition','dynamics','direction','repeat',...
-    'trialnum','resp','respCode','isCorrect','delayTimeSec'};
+    'trialnum','resp','respCode','isCorrect','delayTimeSec','durationSec'};
 
 num_trials = length(dat.trials.condition);
-
 
 % experiment-specific info
 for f = 1:length(fields_exp)
@@ -48,22 +47,37 @@ for t = dcnt:dcnt-1+num_trials
             res.trials.predictionLE{dcnt-1+cntr} = v_half_angle - res.predictions(file).(res.trials.dynamicsR{t});
             res.trials.predictionRE{dcnt-1+cntr} = -v_half_angle - res.predictions(file).(res.trials.dynamicsR{t});
             
+            res.trials.predictionLEVelo{dcnt-1+cntr} = -res.predictionsVelo(file).(res.trials.dynamicsR{t});
+            res.trials.predictionREVelo{dcnt-1+cntr} = -res.predictionsVelo(file).(res.trials.dynamicsR{t});
+            
         case 'right'
             
             res.trials.predictionLE{dcnt-1+cntr} = v_half_angle + res.predictions(file).(res.trials.dynamicsR{t});
             res.trials.predictionRE{dcnt-1+cntr} = -v_half_angle + res.predictions(file).(res.trials.dynamicsR{t});
+            
+            res.trials.predictionLEVelo{dcnt-1+cntr} = res.predictionsVelo(file).(res.trials.dynamicsR{t});
+            res.trials.predictionREVelo{dcnt-1+cntr} = res.predictionsVelo(file).(res.trials.dynamicsR{t});
             
         case 'towards'
             
             res.trials.predictionLE{dcnt-1+cntr} = v_half_angle + res.predictions(file).(res.trials.dynamicsR{t});
             res.trials.predictionRE{dcnt-1+cntr} = -v_half_angle - res.predictions(file).(res.trials.dynamicsR{t});
             
+            res.trials.predictionLEVelo{dcnt-1+cntr} = res.predictionsVelo(file).(res.trials.dynamicsR{t});
+            res.trials.predictionREVelo{dcnt-1+cntr} = -res.predictionsVelo(file).(res.trials.dynamicsR{t});
+            
         case 'away'
             
             res.trials.predictionLE{dcnt-1+cntr} = v_half_angle - res.predictions(file).(res.trials.dynamicsR{t});
             res.trials.predictionRE{dcnt-1+cntr} = -v_half_angle + res.predictions(file).(res.trials.dynamicsR{t});
             
+            res.trials.predictionLEVelo{dcnt-1+cntr} = -res.predictionsVelo(file).(res.trials.dynamicsR{t});
+            res.trials.predictionREVelo{dcnt-1+cntr} = res.predictionsVelo(file).(res.trials.dynamicsR{t});
+            
     end
+    
+    % store timepoints of predictions
+    res.trials.prediction_time_points{dcnt-1+cntr} = res.predictions(file).time_points;
     
     cntr = cntr + 1;
 

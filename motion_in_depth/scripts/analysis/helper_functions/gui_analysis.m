@@ -42,15 +42,23 @@ epopup = uicontrol('Style', 'popupmenu',...
     'Value',    1);
 
 
-% reload data
-
+% reload all data
 loadit = uicontrol('Style', 'pushbutton', ...
-    'String',           'Reprocess', ...
+    'String',           'Reprocess All', ...
     'Callback',         @load_Callback, ...
-    'BackgroundColor',  ColorIt(4), ...
-    'Position',         [marg + 300,sz(2) - marg,100,25]);
+    'BackgroundColor',  ColorIt('g'), ...
+    'Position',         [marg + 300,sz(2) - marg,120,25]);
 
 align([etext,epopup,loadit],'None','Top');
+
+
+% reload specific data
+loadit = uicontrol('Style', 'pushbutton', ...
+    'String',           'Process New Session', ...
+    'Callback',         @loadSingle_Callback, ...
+    'BackgroundColor',  ColorIt('y'), ...
+    'Position',         [marg + 300,sz(2) - marg*2,120,25]);
+
 
 
 % subject initials
@@ -78,27 +86,12 @@ align([dttext,dtpopup],'None','Top');
 
 
 
-% start experiment
+% start plotting
 plotit = uicontrol('Style', 'pushbutton', ...
     'String',   'Plot It', ...
     'Callback', @plotit_Callback, ...
-    'BackgroundColor',ColorIt(4), ...
+    'BackgroundColor',ColorIt('b'), ...
     'Position',[marg + 60,sz(2) - marg*14.5,200,25]);
-
-
-% save as new experiment
-zbox = uicontrol('Style','edit',...
-    'String','NewName',...
-    'Position',[marg + 60,marg,200,25],...
-    'Callback',{@newName_Callback});
-
-store = uicontrol('Style', 'pushbutton', ...
-    'String',   'Store Settings', ...
-    'Callback', @storeExp_Callback, ...
-    'Position',[marg + 275,marg,100,25]);
-
-align([store,zbox],'None','Top');
-
 
 
 
@@ -114,11 +107,15 @@ d2text = uicontrol('Style','text','String',['Stim Radius (deg): ' num2str(stimRa
 
 % dot diameter
 d3text = uicontrol('Style','text','String',['Dot Diam (deg): ' num2str(dotSizeDeg)],...
-    'Position',[marg,sz(2) - marg*8,90,30]);
+    'Position',[marg + 150,sz(2) - marg*9,90,30]);
 
 % dot density
 d4text = uicontrol('Style','text','String',['Density (d/deg2): ' num2str(dotDensity)],...
     'Position',[marg + 150,sz(2) - marg*8,90,30]);
+
+% prelude time
+d7text = uicontrol('Style','text','String',['Mono Velo (deg/sec):' num2str(rampSpeedDegSec)],...
+    'Position',[marg,sz(2) - marg*8,90,30]);
 
 % timing
 
@@ -128,8 +125,7 @@ d5text = uicontrol('Style','text','String',['Prelude (sec):' num2str(preludeSec)
 
 % stim time
 d6text = uicontrol('Style','text','String',['Stim (sec) (one ramp): ' num2str(cycleSec)],...
-    'Position',[marg + 150,sz(2) - marg*9,90,30]);
-
+    'Position',[marg,sz(2) - marg*10,90,30]);
 
 
 
@@ -194,14 +190,14 @@ set(a, 'Xlim', [0, 1], 'YLim', [0, 1]);
 
 %# Draw!
 hold on;
-text(0.05,0.66,'Stimulus Properties');
-rectangle('Position',[0.05,0.45,0.49,0.2])
-text(0.05,0.345,'Motion Directions');
-rectangle('Position',[0.05,0.22,0.33,0.11])
-text(0.65,0.77,'Cue Properties');
-rectangle('Position',[0.65,0.39,0.2,0.365])
-text(0.65,0.34,'Dynamics');
-rectangle('Position',[0.65,0.15,0.2,0.175])
+text(0.05,0.66,'Stimulus Properties','fontweight','bold','fontsize',14);
+%rectangle('Position',[0.05,0.45,0.49,0.2])
+text(0.05,0.345,'Motion Directions','fontweight','bold','fontsize',14);
+%rectangle('Position',[0.05,0.22,0.33,0.11])
+text(0.65,0.77,'Cue Properties','fontweight','bold','fontsize',14);
+%rectangle('Position',[0.65,0.39,0.2,0.365])
+text(0.65,0.34,'Dynamics','fontweight','bold','fontsize',14);
+%rectangle('Position',[0.65,0.15,0.2,0.175])
 
 hold off
 
@@ -236,13 +232,19 @@ waitfor(f);                         % Exit if Gui is closed
         dotDensity  = unique(res.trials.dotDensity(exp_inds));
         preludeSec  = unique(res.trials.preludeSec(exp_inds));
         cycleSec    = unique(res.trials.cycleSec(exp_inds));
+        rampSpeedDegSec = unique(res.trials.rampSpeedDegSec(exp_inds));
         
         subj       = subjs(end);
         cond       = unique(res.trials.condition(exp_inds));
         dyn        = unique(res.trials.dynamics(exp_inds));
         dir        = unique(res.trials.direction(exp_inds));
         
-        datatype   = datatypes{1};
+        %datatype   = datatypes{1};
+        
+        if numel(dispArcmin) > 1 || numel(stimRadDeg) > 1 || numel(dotSizeDeg) > 1 ||...
+                numel(dotDensity) > 1 || numel(preludeSec) > 1 || numel(cycleSec) > 1 || numel(rampSpeedDegSec) > 1
+            error('Experiment has multiple protocols, need to manually delete conflicting data sets')
+        end
         
     end
 
@@ -278,6 +280,7 @@ waitfor(f);                         % Exit if Gui is closed
         set(d4text,'String',['Density (d/deg2): ' num2str(dotDensity)]);
         set(d5text,'String',['Prelude (sec):' num2str(preludeSec)]);
         set(d6text,'String',['Stim (sec) (one ramp): ' num2str(cycleSec)]);
+        set(d7text,'String',['Mono Velo (deg/sec): ' num2str(rampSpeedDegSec)]);
         
     end
 
@@ -303,10 +306,30 @@ waitfor(f);                         % Exit if Gui is closed
 
     function load_Callback(source,~)
         
+        set(source, 'String', 'Working...','BackgroundColor',ColorIt('r'));
+        drawnow;
+        
         res = load_data(1);
-        set(source, 'String', 'Done','BackgroundColor',ColorIt(1));
         exp_names   = unique(res.trials.exp_name);
         set_experiment;
+        
+        set(epopup,'String',exp_names,'Value',1);
+        set(source, 'String', 'Reprocess All','BackgroundColor',ColorIt('g'));
+        
+    end
+
+
+    function loadSingle_Callback(source,~)
+        
+        set(source, 'String', 'Working...','BackgroundColor',ColorIt('r'));
+        drawnow;
+        
+        res = load_data(2);
+        exp_names   = unique(res.trials.exp_name);
+        set_experiment;
+        
+        set(epopup,'String',exp_names,'Value',1);
+        set(source, 'String', 'Process New Session','BackgroundColor',ColorIt('y'));
         
     end
 

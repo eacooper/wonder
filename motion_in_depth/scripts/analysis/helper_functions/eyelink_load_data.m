@@ -30,7 +30,7 @@ for s = 1:length(starts)
         data_clean{d}(~GoodQuallines) = {'1e100'};                              % replace NaNs with very small value
         data_clean{d} = data_clean{d}(Datalines);                               % remove indices that a meta lines
         data_clean{d} = data_clean{d}...                                        % omit a few extra measurements
-            (1:round(el.sampleRate*(res.preludeSec(f)+res.cycleSec(f))));
+            (1:round(el.sampleRate*(res.preludeSec(f)+res.cycleSec(f)))+1);
         
         %data_nums = cellfun(@str2double,data_clean{d});                            % convert data to numbers
         data_nums = sscanf(sprintf('%s ',data_clean{d}{:}),'%f');
@@ -51,9 +51,12 @@ for s = 1:length(starts)
     res.trials.trialnum(tcnt)   = trialnum;
     res.trials.isGood(tcnt)     = isGood;
     
-    res.trials.extra_time(tcnt) = length(data{1}(Datalines)) - ...          % number of extra EL samples for diagnostics
-            round(el.sampleRate*(res.preludeSec(f)+res.cycleSec(f)));
+    %res.trials.extra_time(tcnt) = length(data{1}(Datalines)) - ...          % number of extra EL samples for diagnostics
+    %        round(el.sampleRate*(res.preludeSec(f)+res.cycleSec(f)));
     
+    res.trials.recordingDurationSec(tcnt) = length(data{1}(Datalines))./el.sampleRate;  % duration of recording for this trial  
+    res.trials.recordingTimePointsSec{tcnt} = 0:1/res.el.sampleRate:res.preludeSec(f)+res.cycleSec(f);  % timepoints of recording for this trial
+        
     tcnt = tcnt + 1;
     
 end
