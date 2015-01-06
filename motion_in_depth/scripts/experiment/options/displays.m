@@ -175,7 +175,7 @@ dspl(8).signRight = 1;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-dspl(9).name  =            'CinemaDisplay';
+dspl(9).name  =            'CinemaDisplayRB';
 
 dspl(9).viewDistCm        = 80;
 
