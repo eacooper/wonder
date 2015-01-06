@@ -175,12 +175,12 @@ dspl(8).signRight = 1;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-dspl(9).name  =            'CinemaDisplay';
+dspl(9).name  =            'CinemaDisplayRB';
 
-dspl(9).viewDistCm        = 80;
+dspl(9).viewDistCm        = 60;
 
-dspl(9).width_cm     = 50.92;
-dspl(9).height_cm    = 28.64;
+dspl(9).width_cm     = 60;
+dspl(9).height_cm    = 33.5;
 
 dspl(9).loadDistortion    = 0;
 dspl(9).snellShiftPix     = 0;
