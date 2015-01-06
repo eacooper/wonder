@@ -39,13 +39,21 @@ stm.blevel          = 0;         % black
 
 switch scr.name
     
-    case {'planar','laptopRB','LG3DRB','CinemaDisplayRB'}       % planar uses blue-left, red-right
+    case {'planar','laptopRB','LG3DRB'}       % planar uses blue-left, red-right
         
         stm.LEwhite = [stm.glevel stm.glevel stm.wlevel];
         stm.LEblack = [stm.glevel stm.glevel stm.blevel];
         
         stm.REwhite = [stm.wlevel stm.glevel stm.glevel];
         stm.REblack = [stm.blevel stm.glevel stm.glevel];
+    
+    case 'CinemaDisplayRB'                                      % blue-right, red-left like anaglyph glasses in lab
+        
+        stm.LEwhite = [stm.wlevel stm.glevel stm.glevel];
+        stm.LEblack = [stm.blevel stm.glevel stm.glevel];
+        
+        stm.REwhite = [stm.glevel stm.glevel stm.wlevel];
+        stm.REblack = [stm.glevel stm.glevel stm.blevel];
         
     otherwise                                                   % other displays just use white/black
         

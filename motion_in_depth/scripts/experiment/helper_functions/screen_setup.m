@@ -26,9 +26,9 @@ Screen('Flip', w);
 scr.frameRate   = Screen('NominalFrameRate',w);
 
 % PTB can't seem to get the frame rate of this display
-if strcmp(scr.name,'CinemaDisplay');
+if strcmp(scr.name,'CinemaDisplayRB');
     scr.frameRate = 60;
-    warning('Set CinemaDisplay true frame rate');
+    warning('Note: CinemaDisplay true frame rate is 59.95 Hz but is being set as 60.');
 end
 
 scr.width_pix   = RectWidth(Screen('Rect', scr.screenNumber));
